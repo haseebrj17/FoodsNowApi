@@ -8,10 +8,7 @@
         public required string ContactNumber { get; set; }
         public required string OpeningTime { get; set; }
         public required string ClosingTime { get; set; }
-        public bool IsActive { get; set; }
-        public bool IsOffToday { get; set; }
-        public DateTime? OffFrom { get; set; }
-        public DateTime? OffTo { get; set; }
+        public bool IsActive { get; set; }        
         public Guid StateId { get; set; }
         public required State State { get; set; }
         public Guid CountryId { get; set; }

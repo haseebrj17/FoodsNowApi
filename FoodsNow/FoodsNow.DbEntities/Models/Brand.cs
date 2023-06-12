@@ -1,6 +1,6 @@
 ﻿namespace FoodsNow.DbEntities.Models
 {
-    public class Brands : BaseEntity
+    public class Brand : BaseEntity
     {
         public required string Name { get; set; }
         public required string AppLogo { get; set; }
