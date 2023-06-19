@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodsNow.DbEntities", "FoodsNow.DbEntities\FoodsNow.DbEntities.csproj", "{6C7FDF07-C790-4A05-8E48-306AE8052008}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodsNow.DbEntities", "FoodsNow.DbEntities\FoodsNow.DbEntities.csproj", "{6C7FDF07-C790-4A05-8E48-306AE8052008}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodsNow.DataManagementTool", "FoodsNow.DataManagementTool\FoodsNow.DataManagementTool.csproj", "{454963B5-CF47-4DB1-B5F8-C40C5BF955F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{6C7FDF07-C790-4A05-8E48-306AE8052008}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C7FDF07-C790-4A05-8E48-306AE8052008}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C7FDF07-C790-4A05-8E48-306AE8052008}.Release|Any CPU.Build.0 = Release|Any CPU
+		{454963B5-CF47-4DB1-B5F8-C40C5BF955F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{454963B5-CF47-4DB1-B5F8-C40C5BF955F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{454963B5-CF47-4DB1-B5F8-C40C5BF955F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{454963B5-CF47-4DB1-B5F8-C40C5BF955F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,6 @@
 ﻿namespace FoodsNow.DbEntities.Models
 {
-    public class FranchiseTimings : BaseEntity
+    public class FranchiseTiming : BaseEntity
     {
         public int Day { get; set; }
         public DateTime OpeningTime { get; set; }
