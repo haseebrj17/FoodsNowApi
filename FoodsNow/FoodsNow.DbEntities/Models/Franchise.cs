@@ -11,11 +11,7 @@
         public required decimal Latitude { get; set; }
         public required decimal Longitude { get; set; }
         public required float CoverageAreaInMeters { get; set; }
-        public bool IsActive { get; set; }        
-        public Guid StateId { get; set; }
-        public required State State { get; set; }
-        public Guid CountryId { get; set; }
-        public required Country Country { get; set; }
+        public bool IsActive { get; set; }                
         public Guid CityId { get; set; }
         public required City City { get; set; }
     }

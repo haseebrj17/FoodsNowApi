@@ -10,7 +10,5 @@
         public bool showExtraTropping { get; set; }
         public Guid BrandId { get; set; }
         public required Brand Brand { get; set; }
-        public Guid FranchiseId { get; set; }
-        public required Franchise Franchise { get; set; }
     }
 }

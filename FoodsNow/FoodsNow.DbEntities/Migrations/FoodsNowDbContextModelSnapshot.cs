@@ -190,9 +190,6 @@ namespace FoodsNow.DbEntities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("CountryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("CreatedById")
                         .HasColumnType("uniqueidentifier");
 
@@ -228,9 +225,6 @@ namespace FoodsNow.DbEntities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("StateId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
@@ -248,10 +242,6 @@ namespace FoodsNow.DbEntities.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("StateId");
 
                     b.ToTable("Clients");
                 });
@@ -340,9 +330,6 @@ namespace FoodsNow.DbEntities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("CountryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<float>("CoverageAreaInMeters")
                         .HasColumnType("real");
 
@@ -356,17 +343,16 @@ namespace FoodsNow.DbEntities.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("Latitude")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Longitude")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("OpeningTime")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("StateId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -385,10 +371,6 @@ namespace FoodsNow.DbEntities.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("StateId");
 
                     b.ToTable("Franchises");
                 });
@@ -483,9 +465,6 @@ namespace FoodsNow.DbEntities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("FranchiseId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -498,6 +477,7 @@ namespace FoodsNow.DbEntities.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("UpdatedById")
@@ -512,8 +492,6 @@ namespace FoodsNow.DbEntities.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
-
-                    b.HasIndex("FranchiseId");
 
                     b.ToTable("Products");
                 });
@@ -570,14 +548,12 @@ namespace FoodsNow.DbEntities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("FranchiseId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("UpdatedById")
@@ -589,8 +565,6 @@ namespace FoodsNow.DbEntities.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
-
-                    b.HasIndex("FranchiseId");
 
                     b.ToTable("ProductExtraToppings");
                 });
@@ -696,23 +670,7 @@ namespace FoodsNow.DbEntities.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodsNow.DbEntities.Models.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FoodsNow.DbEntities.Models.State", "State")
-                        .WithMany()
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("City");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.Franchise", b =>
@@ -723,23 +681,7 @@ namespace FoodsNow.DbEntities.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodsNow.DbEntities.Models.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FoodsNow.DbEntities.Models.State", "State")
-                        .WithMany()
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("City");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.FranchiseHoliday", b =>
@@ -772,15 +714,7 @@ namespace FoodsNow.DbEntities.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodsNow.DbEntities.Models.Franchise", "Franchise")
-                        .WithMany()
-                        .HasForeignKey("FranchiseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Brand");
-
-                    b.Navigation("Franchise");
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.ProductCategory", b =>
@@ -810,15 +744,7 @@ namespace FoodsNow.DbEntities.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodsNow.DbEntities.Models.Franchise", "Franchise")
-                        .WithMany()
-                        .HasForeignKey("FranchiseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Brand");
-
-                    b.Navigation("Franchise");
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.State", b =>

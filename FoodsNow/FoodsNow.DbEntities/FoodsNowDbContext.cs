@@ -25,5 +25,16 @@ namespace FoodsNow.DbEntities
         public DbSet<ProductExtraTopping> ProductExtraToppings { get; set; } = null!;
         public DbSet<State> States { get; set; } = null!;
         public DbSet<SuperAdmin> SuperAdmins { get; set; } = null!;
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Franchise>().Property(x => x.Latitude).HasPrecision(18,2);
+            modelBuilder.Entity<Franchise>().Property(x => x.Longitude).HasPrecision(18,2);
+            modelBuilder.Entity<Product>().Property(x => x.Price).HasPrecision(18,2);
+            modelBuilder.Entity<ProductExtraTopping>().Property(x => x.Price).HasPrecision(18,2);
+        }
     }
+
+
 }
