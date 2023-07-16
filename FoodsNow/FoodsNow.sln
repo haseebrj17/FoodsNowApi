@@ -5,7 +5,13 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodsNow.DbEntities", "FoodsNow.DbEntities\FoodsNow.DbEntities.csproj", "{6C7FDF07-C790-4A05-8E48-306AE8052008}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodsNow.DataManagementTool", "FoodsNow.DataManagementTool\FoodsNow.DataManagementTool.csproj", "{454963B5-CF47-4DB1-B5F8-C40C5BF955F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodsNow.DataManagementTool", "FoodsNow.DataManagementTool\FoodsNow.DataManagementTool.csproj", "{454963B5-CF47-4DB1-B5F8-C40C5BF955F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodsNow.Core", "FoodsNow.Core\FoodsNow.Core.csproj", "{10A5F2FF-209D-4AE5-AA54-79E48BBEBC9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodsNow.Services", "FoodsNow.Services\FoodsNow.Services.csproj", "{C427DEE3-CC75-4F49-B79A-1A73460C0FDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodsNow.App", "FoodsNow.App\FoodsNow.App.csproj", "{14984704-D898-4FA7-B869-E3522847FECB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{454963B5-CF47-4DB1-B5F8-C40C5BF955F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{454963B5-CF47-4DB1-B5F8-C40C5BF955F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{454963B5-CF47-4DB1-B5F8-C40C5BF955F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10A5F2FF-209D-4AE5-AA54-79E48BBEBC9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10A5F2FF-209D-4AE5-AA54-79E48BBEBC9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10A5F2FF-209D-4AE5-AA54-79E48BBEBC9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10A5F2FF-209D-4AE5-AA54-79E48BBEBC9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C427DEE3-CC75-4F49-B79A-1A73460C0FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C427DEE3-CC75-4F49-B79A-1A73460C0FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C427DEE3-CC75-4F49-B79A-1A73460C0FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C427DEE3-CC75-4F49-B79A-1A73460C0FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14984704-D898-4FA7-B869-E3522847FECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14984704-D898-4FA7-B869-E3522847FECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14984704-D898-4FA7-B869-E3522847FECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14984704-D898-4FA7-B869-E3522847FECB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
