@@ -13,3 +13,10 @@
 /FoodsNow/FoodsNow.Core/obj
 /FoodsNow/FoodsNow.Services/bin/Debug/net7.0
 /FoodsNow/FoodsNow.Services/obj
+/FoodsNow/FoodsNow.App/Properties/PublishProfiles/FoodsNowDevApi - Zip Deploy.pubxml
+/FoodsNow/FoodsNow.App/Properties/ServiceDependencies/FoodsNowDevApi - Zip Deploy
+/FoodsNow/FoodsNow.App/Properties/serviceDependencies.FoodsNowDevApi - Zip Deploy.json
+/FoodsNow/FoodsNow.Core/bin/Release/net7.0
+/FoodsNow/FoodsNow.DbEntities/bin/Release/net7.0
+/FoodsNow/FoodsNow.Services/bin/Release/net7.0
+/FoodsNow/FoodsNow.App/Properties/serviceDependencies.json
