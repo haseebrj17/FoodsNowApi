@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FoodsNow.Services.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FoodsNow.Services
@@ -10,7 +11,7 @@ namespace FoodsNow.Services
             if (serviceCollection == null) throw new ArgumentNullException(nameof(serviceCollection));
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-            //serviceCollection.AddTransient<IClientRepository, ClientRepository>();
+            serviceCollection.AddTransient<IAppService, AppService>();
 
             return serviceCollection;
         }
