@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "FoodsNow.App": {
+    "FoodsNow.MobApi": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7046",
+      "commandLineArgs": "--port 7147",
       "launchBrowser": false
     }
   }

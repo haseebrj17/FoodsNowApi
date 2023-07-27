@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodsNow.DbEntities", "Food
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodsNow.DataManagementTool", "FoodsNow.DataManagementTool\FoodsNow.DataManagementTool.csproj", "{454963B5-CF47-4DB1-B5F8-C40C5BF955F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodsNow.Core", "FoodsNow.Core\FoodsNow.Core.csproj", "{10A5F2FF-209D-4AE5-AA54-79E48BBEBC9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodsNow.Core", "FoodsNow.Core\FoodsNow.Core.csproj", "{10A5F2FF-209D-4AE5-AA54-79E48BBEBC9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodsNow.Services", "FoodsNow.Services\FoodsNow.Services.csproj", "{C427DEE3-CC75-4F49-B79A-1A73460C0FDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodsNow.Services", "FoodsNow.Services\FoodsNow.Services.csproj", "{C427DEE3-CC75-4F49-B79A-1A73460C0FDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodsNow.App", "FoodsNow.App\FoodsNow.App.csproj", "{14984704-D898-4FA7-B869-E3522847FECB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodsNow.MobApi", "FoodsNow.MobApi\FoodsNow.MobApi.csproj", "{77F5516B-0B02-41AA-ACB6-C90B21AAE0DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{C427DEE3-CC75-4F49-B79A-1A73460C0FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C427DEE3-CC75-4F49-B79A-1A73460C0FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C427DEE3-CC75-4F49-B79A-1A73460C0FDA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14984704-D898-4FA7-B869-E3522847FECB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14984704-D898-4FA7-B869-E3522847FECB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14984704-D898-4FA7-B869-E3522847FECB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14984704-D898-4FA7-B869-E3522847FECB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77F5516B-0B02-41AA-ACB6-C90B21AAE0DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77F5516B-0B02-41AA-ACB6-C90B21AAE0DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77F5516B-0B02-41AA-ACB6-C90B21AAE0DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77F5516B-0B02-41AA-ACB6-C90B21AAE0DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
