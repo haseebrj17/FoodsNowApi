@@ -1,4 +1,4 @@
-﻿namespace FoodsNow.DbEntities.Models
+namespace FoodsNow.DbEntities.Models
 {
     public class ProductOptions : BaseEntity
     {
