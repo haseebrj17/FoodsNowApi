@@ -1,4 +1,5 @@
 ﻿using FoodsNow.Services.Interfaces;
+using FoodsNow.Services.MappingConfigurations;
 using FoodsNow.Services.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,8 @@ namespace FoodsNow.Services
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
             serviceCollection.AddTransient<IAppService, AppService>();
+
+            serviceCollection.AddAutoMapper(typeof(AutoMapperProfiles));
 
             return serviceCollection;
         }

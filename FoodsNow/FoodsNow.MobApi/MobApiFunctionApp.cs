@@ -22,7 +22,7 @@ namespace FoodsNow.MobApi
         {
             _logger.LogInformation("Calling GetAppDashboardData funtion");
 
-            var data = await _appService.GetHomeData(0, 0);
+            var data = await _appService.GetAppHomeData(0, 0);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 

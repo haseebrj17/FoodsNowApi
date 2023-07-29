@@ -20,6 +20,7 @@ var host = new HostBuilder()
 
         services.AddRepositories(config);
         services.AddServices(config);
+        services.AddAutoMapper(typeof(Program));
 
     }).ConfigureFunctionsWorkerDefaults()
     .Build();
