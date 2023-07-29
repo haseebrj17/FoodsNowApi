@@ -21,17 +21,20 @@ namespace FoodsNow.DbEntities
         public DbSet<FranchiseHoliday> FranchiseHolidays { get; set; } = null!;
         public DbSet<FranchiseTiming> FranchiseTimings { get; set; } = null!;
         public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<ProductPrice> ProductPrices { get; set; } = null!;
         public DbSet<ProductCategory> ProductCategories { get; set; } = null!;
         public DbSet<ProductExtraTopping> ProductExtraToppings { get; set; } = null!;
         public DbSet<State> States { get; set; } = null!;
         public DbSet<SuperAdmin> SuperAdmins { get; set; } = null!;
+        public DbSet<Allergy> Allergies { get; set; } = null!;
+        public DbSet<ProductAllergy> ProductAllergies { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Franchise>().Property(x => x.Latitude).HasPrecision(18,2);
             modelBuilder.Entity<Franchise>().Property(x => x.Longitude).HasPrecision(18,2);
-            modelBuilder.Entity<Product>().Property(x => x.Price).HasPrecision(18,2);
+            modelBuilder.Entity<ProductPrice>().Property(x => x.Price).HasPrecision(18,2);
             modelBuilder.Entity<ProductExtraTopping>().Property(x => x.Price).HasPrecision(18,2);
         }
     }
