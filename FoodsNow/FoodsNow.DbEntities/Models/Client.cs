@@ -14,8 +14,6 @@
         public required string ContactNumber { get; set; }
         public bool IsActive { get; set; }
         public DateTime MembershipValidityDate { get; set; }
-        public int NumberOfFranchisesAllowed { get; set; }        
-        public Guid CityId { get; set; }
-        public required City City { get; set; }
+        public int NumberOfFranchisesAllowed { get; set; }
     }
 }

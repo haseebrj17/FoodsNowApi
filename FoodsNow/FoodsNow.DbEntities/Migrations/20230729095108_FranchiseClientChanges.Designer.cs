@@ -4,6 +4,7 @@ using FoodsNow.DbEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodsNow.DbEntities.Migrations
 {
     [DbContext(typeof(FoodsNowDbContext))]
-    partial class FoodsNowDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230729095108_FranchiseClientChanges")]
+    partial class FranchiseClientChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -344,9 +347,6 @@ namespace FoodsNow.DbEntities.Migrations
                     b.Property<Guid>("CityId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ClosingTime")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -396,8 +396,6 @@ namespace FoodsNow.DbEntities.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CityId");
-
-                    b.HasIndex("ClientId");
 
                     b.ToTable("Franchises");
                 });
@@ -770,15 +768,7 @@ namespace FoodsNow.DbEntities.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FoodsNow.DbEntities.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("City");
-
-                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.FranchiseHoliday", b =>

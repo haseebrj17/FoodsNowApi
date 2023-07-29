@@ -4,6 +4,7 @@ using FoodsNow.DbEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodsNow.DbEntities.Migrations
 {
     [DbContext(typeof(FoodsNowDbContext))]
-    partial class FoodsNowDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230729095455_FranchiseClientChange")]
+    partial class FranchiseClientChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -344,7 +347,7 @@ namespace FoodsNow.DbEntities.Migrations
                     b.Property<Guid>("CityId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ClientId")
+                    b.Property<Guid?>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ClosingTime")
@@ -772,9 +775,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasOne("FoodsNow.DbEntities.Models.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientId");
 
                     b.Navigation("City");
 

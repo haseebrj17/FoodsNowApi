@@ -11,7 +11,9 @@
         public required decimal Latitude { get; set; }
         public required decimal Longitude { get; set; }
         public required float CoverageAreaInMeters { get; set; }
-        public bool IsActive { get; set; }                
+        public bool IsActive { get; set; }
+        public Guid ClientId { get; set; }
+        public required Client Client { get; set; }
         public Guid CityId { get; set; }
         public required City City { get; set; }
     }
