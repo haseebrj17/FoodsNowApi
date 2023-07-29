@@ -9,12 +9,12 @@ namespace FoodsNow.MobApi
     public class MobApiFunctionApp
     {
         private readonly ILogger _logger;
-        //private readonly IAppService _appService;
+        private readonly IAppService _appService;
 
-        public MobApiFunctionApp(ILoggerFactory loggerFactory)//, IAppService appService)
+        public MobApiFunctionApp(ILoggerFactory loggerFactory, IAppService appService)
         {
             _logger = loggerFactory.CreateLogger<MobApiFunctionApp>();
-            //_appService = appService;
+            _appService = appService;
         }
 
         [Function(nameof(GetAppDashboardData))]
@@ -22,7 +22,7 @@ namespace FoodsNow.MobApi
         {
             _logger.LogInformation("Calling GetAppDashboardData funtion");
 
-            var data = new List<string> {"a","b" };// await _appService.GetHomeData(0, 0);
+            var data = await _appService.GetHomeData(0, 0);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
