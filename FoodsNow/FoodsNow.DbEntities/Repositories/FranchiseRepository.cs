@@ -1,5 +1,5 @@
 ﻿using FoodsNow.DbEntities.Models;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodsNow.DbEntities.Repositories
 {
