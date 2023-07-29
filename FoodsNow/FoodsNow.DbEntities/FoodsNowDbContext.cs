@@ -32,10 +32,30 @@ namespace FoodsNow.DbEntities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Franchise>().Property(x => x.Latitude).HasPrecision(18,2);
-            modelBuilder.Entity<Franchise>().Property(x => x.Longitude).HasPrecision(18,2);
-            modelBuilder.Entity<ProductPrice>().Property(x => x.Price).HasPrecision(18,2);
-            modelBuilder.Entity<ProductExtraTopping>().Property(x => x.Price).HasPrecision(18,2);
+            modelBuilder.Entity<Franchise>().Property(x => x.Latitude).HasPrecision(18, 2);
+            modelBuilder.Entity<Franchise>().Property(x => x.Longitude).HasPrecision(18, 2);
+            modelBuilder.Entity<ProductPrice>().Property(x => x.Price).HasPrecision(18, 2);
+            modelBuilder.Entity<ProductExtraTopping>().Property(x => x.Price).HasPrecision(18, 2);
+
+            modelBuilder.Entity<Category>()
+            .HasOne(e => e.Franchise)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<DishOfDay>()
+            .HasOne(e => e.Franchise)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Allergy>()
+            .HasOne(e => e.Franchise)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Banner>()
+            .HasOne(e => e.Franchise)
+            .WithMany()
+            .OnDelete(DeleteBehavior.Restrict);
         }
     }
 

@@ -20,6 +20,10 @@ namespace FoodsNow.Services.Services
             if (franchise != null)
             {
                 homeData.FranchiseId = franchise.Id;
+
+                homeData.ClientId = franchise.ClientId;
+
+
             }
 
             return homeData;

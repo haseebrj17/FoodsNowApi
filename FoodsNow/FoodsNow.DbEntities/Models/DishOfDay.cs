@@ -6,5 +6,7 @@
         public bool IsActive { get; set; }
         public DateTime Validity { get; set; }
         public Guid? ProductId { get; set; }
+        public Guid FranchiseId { get; set; }
+        public required Franchise Franchise { get; set; }
     }
 }

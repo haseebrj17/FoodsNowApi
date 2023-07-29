@@ -8,5 +8,7 @@
         public Guid? BrandId { get; set; }
         public Guid? ProductId { get; set; }
         public Guid? CategoryId { get; set; }
+        public Guid FranchiseId { get; set; }
+        public required Franchise Franchise { get; set; }
     }
 }

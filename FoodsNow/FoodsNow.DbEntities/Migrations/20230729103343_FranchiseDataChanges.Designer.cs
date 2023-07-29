@@ -4,6 +4,7 @@ using FoodsNow.DbEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodsNow.DbEntities.Migrations
 {
     [DbContext(typeof(FoodsNowDbContext))]
-    partial class FoodsNowDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230729103343_FranchiseDataChanges")]
+    partial class FranchiseDataChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,7 +41,7 @@ namespace FoodsNow.DbEntities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("FranchiseId")
+                    b.Property<Guid?>("FranchiseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UpdatedById")
@@ -72,7 +75,7 @@ namespace FoodsNow.DbEntities.Migrations
                     b.Property<DateTime>("CreatedDateTimeUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("FranchiseId")
+                    b.Property<Guid?>("FranchiseId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ImageUrl")
@@ -764,9 +767,7 @@ namespace FoodsNow.DbEntities.Migrations
                 {
                     b.HasOne("FoodsNow.DbEntities.Models.Franchise", "Franchise")
                         .WithMany()
-                        .HasForeignKey("FranchiseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("FranchiseId");
 
                     b.Navigation("Franchise");
                 });
@@ -775,9 +776,7 @@ namespace FoodsNow.DbEntities.Migrations
                 {
                     b.HasOne("FoodsNow.DbEntities.Models.Franchise", "Franchise")
                         .WithMany()
-                        .HasForeignKey("FranchiseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("FranchiseId");
 
                     b.Navigation("Franchise");
                 });
