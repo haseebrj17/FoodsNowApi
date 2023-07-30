@@ -20,3 +20,6 @@
 /FoodsNow/FoodsNow.DbEntities/bin/Release/net7.0
 /FoodsNow/FoodsNow.Services/bin/Release/net7.0
 /FoodsNow/FoodsNow.App/Properties/serviceDependencies.json
+/FoodsNow/FoodsNow.MobApi/Properties/PublishProfiles
+/FoodsNow/FoodsNow.MobApi/Properties/ServiceDependencies/FoodsNowDevApi - Zip Deploy
+/FoodsNow/FoodsNow.MobApi/Properties/serviceDependencies.FoodsNowDevApi - Zip Deploy.json
