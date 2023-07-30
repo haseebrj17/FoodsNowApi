@@ -10,7 +10,7 @@ namespace FoodsNow.Services.MappingConfigurations
         {
             CreateMap<Banner, BannerDto>();
 
-            CreateMap<Brand, BrandDto>();
+            CreateMap<Category, CategoryDto>();
         }
 
     }

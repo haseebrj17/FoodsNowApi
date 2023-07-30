@@ -16,7 +16,7 @@ namespace FoodsNow.DbEntities.Repositories
         }
         public List<Banner> GetFranchiseBanners(Guid FranchiseId)
         {
-            return _foodsNowDbContext.Banners.Where(b => b.FranchiseId == FranchiseId).ToList();
+            return _foodsNowDbContext.Banners.Where(b => b.FranchiseId == FranchiseId && b.IsActive).ToList();
         }
     }
 }

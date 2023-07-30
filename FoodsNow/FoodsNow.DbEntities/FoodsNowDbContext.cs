@@ -11,7 +11,6 @@ namespace FoodsNow.DbEntities
         }
 
         public DbSet<Banner> Banners { get; set; } = null!;
-        public DbSet<Brand> Brands { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<City> Cities { get; set; } = null!;
         public DbSet<Client> Clients { get; set; } = null!;

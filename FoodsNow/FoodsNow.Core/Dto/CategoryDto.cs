@@ -1,6 +1,6 @@
 ﻿namespace FoodsNow.Core.Dto
 {
-    public class BrandDto
+    public class CategoryDto
     {
         public required Guid Id { get; set; }
         public required string Name { get; set; }

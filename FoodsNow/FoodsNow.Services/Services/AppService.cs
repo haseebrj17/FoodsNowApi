@@ -10,16 +10,16 @@ namespace FoodsNow.Services.Services
     {
         private readonly IFranchiseRepository _franchiseRepository;
         private readonly IBannerRepository _bannerRepository;
-        private readonly IBrandRepository _brandRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
         public AppService(IFranchiseRepository franchiseRepository, IBannerRepository bannerRepository, IMapper mapper,
-            IBrandRepository brandRepository)
+            ICategoryRepository categoryRepository)
         {
             _mapper = mapper;
             _franchiseRepository = franchiseRepository;
             _bannerRepository = bannerRepository;
-            _brandRepository = brandRepository;
+            _categoryRepository = categoryRepository;
         }
         public async Task<HomeDataDto> GetAppHomeData(decimal latitude, decimal longitude)
         {
@@ -35,7 +35,7 @@ namespace FoodsNow.Services.Services
 
                 homeData.Banners = _mapper.Map<List<Banner>, List<BannerDto>>(_bannerRepository.GetFranchiseBanners(franchise.Id));
 
-                homeData.Brands = _mapper.Map<List<Brand>, List<BrandDto>>(_brandRepository.GetFranchiseBrands(franchise.Id));
+                homeData.Categories = _mapper.Map<List<Category>, List<CategoryDto>>(_categoryRepository.GetFranchiseBrands(franchise.Id));
 
             }
 
