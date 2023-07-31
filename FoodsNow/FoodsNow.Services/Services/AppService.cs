@@ -35,7 +35,7 @@ namespace FoodsNow.Services.Services
 
                 homeData.Banners = _mapper.Map<List<Banner>, List<BannerDto>>(_bannerRepository.GetFranchiseBanners(franchise.Id));
 
-                homeData.Categories = _mapper.Map<List<Category>, List<CategoryDto>>(_categoryRepository.GetFranchiseBrands(franchise.Id));
+                homeData.Brands = _mapper.Map<List<Category>, List<CategoryDto>>(_categoryRepository.GetFranchiseBrands(franchise.Id));
 
             }
 

@@ -15,7 +15,7 @@ namespace FoodsNow.DbEntities.Repositories
         }
         public List<Category> GetFranchiseBrands(Guid FranchiseId)
         {
-            return _foodsNowDbContext.Categories.Where(b => b.FranchiseId == FranchiseId && b.IsActive && b.IsVisibleOnDashboard).ToList();
+            return _foodsNowDbContext.Categories.Where(b => b.FranchiseId == FranchiseId && b.IsActive && b.IsBrand).ToList();
         }
     }
 }
