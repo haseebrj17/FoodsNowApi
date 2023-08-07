@@ -11,6 +11,10 @@ namespace FoodsNow.Services.MappingConfigurations
             CreateMap<Banner, BannerDto>();
 
             CreateMap<Category, CategoryDto>();
+
+            CreateMap<Franchise, FranchiseDto>();
+
+            CreateMap<Product, ProductDto>();
         }
 
     }

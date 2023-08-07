@@ -6,6 +6,7 @@ namespace FoodsNow.DbEntities.Repositories
     public interface IFranchiseRepository
     {
         Task<Franchise> GetFranchiseDetail(decimal latidude, decimal longitude);
+        Task<List<Franchise>> GetClientFranchises(Guid clientId);
     }
     public class FranchiseRepository : IFranchiseRepository
     {
@@ -13,6 +14,11 @@ namespace FoodsNow.DbEntities.Repositories
         public FranchiseRepository(FoodsNowDbContext foodsNowDbContext)
         {
             _foodsNowDbContext = foodsNowDbContext;
+        }
+
+        public async Task<List<Franchise>> GetClientFranchises(Guid clientId)
+        {
+            return await _foodsNowDbContext.Franchises.Where(f => f.ClientId == clientId && f.IsActive).ToListAsync();
         }
 
         public async Task<Franchise> GetFranchiseDetail(decimal latidude, decimal longitude)

@@ -4,6 +4,8 @@ namespace FoodsNow.Services.Interfaces
 {
     public interface IAppService
     {
-        Task<HomeDataDto> GetAppHomeData(decimal latitude, decimal longitude);
+        Task<List<FranchiseDto>> GetClientFranchises(Guid clientId);
+        Task<HomeDataDto> GetAppHomeData(Guid franchiseId);
+        Task<List<ProductDto>> GetProducts(Guid categoryId); 
     }
 }

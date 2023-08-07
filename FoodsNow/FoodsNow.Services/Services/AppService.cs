@@ -9,37 +9,46 @@ namespace FoodsNow.Services.Services
     public class AppService : IAppService
     {
         private readonly IFranchiseRepository _franchiseRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IBannerRepository _bannerRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
         public AppService(IFranchiseRepository franchiseRepository, IBannerRepository bannerRepository, IMapper mapper,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository, IProductRepository productRepository)
         {
             _mapper = mapper;
             _franchiseRepository = franchiseRepository;
             _bannerRepository = bannerRepository;
             _categoryRepository = categoryRepository;
+            _productRepository = productRepository;
         }
-        public async Task<HomeDataDto> GetAppHomeData(decimal latitude, decimal longitude)
+        public async Task<List<FranchiseDto>> GetClientFranchises(Guid clientId)
+        {
+            return _mapper.Map<List<Franchise>, List<FranchiseDto>>(await _franchiseRepository.GetClientFranchises(clientId));
+        }
+
+        public async Task<HomeDataDto> GetAppHomeData(Guid franchiseId)
         {
             var homeData = new HomeDataDto();
 
-            var franchise = await _franchiseRepository.GetFranchiseDetail(latitude, longitude);
+            var franchise = await _franchiseRepository.GetClientFranchises(franchiseId);
 
             if (franchise != null)
             {
-                homeData.FranchiseId = franchise.Id;
+                homeData.FranchiseId = franchiseId;
 
-                homeData.ClientId = franchise.ClientId;
+                homeData.Banners = _mapper.Map<List<Banner>, List<BannerDto>>(_bannerRepository.GetFranchiseBanners(franchiseId));
 
-                homeData.Banners = _mapper.Map<List<Banner>, List<BannerDto>>(_bannerRepository.GetFranchiseBanners(franchise.Id));
-
-                homeData.Brands = _mapper.Map<List<Category>, List<CategoryDto>>(_categoryRepository.GetFranchiseBrands(franchise.Id));
-
+                homeData.Brands = _mapper.Map<List<Category>, List<CategoryDto>>(_categoryRepository.GetFranchiseBrands(franchiseId));
             }
 
             return homeData;
+        }
+
+        public async Task<List<ProductDto>> GetProducts(Guid categoryId)
+        {
+            return _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsByCategoryId(categoryId));
         }
     }
 }
