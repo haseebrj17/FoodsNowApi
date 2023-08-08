@@ -31,10 +31,10 @@ namespace FoodsNow.DbEntities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Franchise>().Property(x => x.Latitude).HasPrecision(18, 2);
-            modelBuilder.Entity<Franchise>().Property(x => x.Longitude).HasPrecision(18, 2);
-            modelBuilder.Entity<ProductPrice>().Property(x => x.Price).HasPrecision(18, 2);
-            modelBuilder.Entity<ProductExtraTopping>().Property(x => x.Price).HasPrecision(18, 2);
+            modelBuilder.Entity<Franchise>().Property(x => x.Latitude).HasPrecision(18, 7);
+            modelBuilder.Entity<Franchise>().Property(x => x.Longitude).HasPrecision(18, 7);
+            modelBuilder.Entity<ProductPrice>().Property(x => x.Price).HasPrecision(18, 7);
+            modelBuilder.Entity<ProductExtraTopping>().Property(x => x.Price).HasPrecision(18, 7);
 
             modelBuilder.Entity<Category>()
             .HasOne(e => e.Franchise)
