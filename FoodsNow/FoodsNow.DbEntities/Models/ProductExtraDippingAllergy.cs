@@ -4,7 +4,7 @@
     {
         public Guid AllergyId { get; set; }
         public required Allergy Allergy { get; set; }
-        public Guid ProductId { get; set; }
-        public required Product Product { get; set; }
+        public Guid ProductExtraDippingId { get; set; }
+        public required ProductExtraDipping ProductExtraDipping { get; set; }
     }
 }
