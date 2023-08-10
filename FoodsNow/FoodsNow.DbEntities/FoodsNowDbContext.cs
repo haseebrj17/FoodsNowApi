@@ -23,6 +23,9 @@ namespace FoodsNow.DbEntities
         public DbSet<ProductPrice> ProductPrices { get; set; } = null!;
         public DbSet<ProductCategory> ProductCategories { get; set; } = null!;
         public DbSet<ProductExtraTopping> ProductExtraToppings { get; set; } = null!;
+        public DbSet<ProductExtraToppingPrice> ProductExtraToppingPrices { get; set; } = null!;
+        public DbSet<ProductExtraDipping> ProductExtraDippings { get; set; } = null!;
+        public DbSet<ProductExtraDippingPrice> ProductExtraDippingPrices { get; set; } = null!;
         public DbSet<State> States { get; set; } = null!;
         public DbSet<SuperAdmin> SuperAdmins { get; set; } = null!;
         public DbSet<Allergy> Allergies { get; set; } = null!;
@@ -34,7 +37,8 @@ namespace FoodsNow.DbEntities
             modelBuilder.Entity<Franchise>().Property(x => x.Latitude).HasPrecision(18, 7);
             modelBuilder.Entity<Franchise>().Property(x => x.Longitude).HasPrecision(18, 7);
             modelBuilder.Entity<ProductPrice>().Property(x => x.Price).HasPrecision(18, 7);
-            modelBuilder.Entity<ProductExtraTopping>().Property(x => x.Price).HasPrecision(18, 7);
+            modelBuilder.Entity<ProductExtraToppingPrice>().Property(x => x.Price).HasPrecision(18, 7);
+            modelBuilder.Entity<ProductExtraDippingPrice>().Property(x => x.Price).HasPrecision(18, 7);
 
             modelBuilder.Entity<Category>()
             .HasOne(e => e.Franchise)

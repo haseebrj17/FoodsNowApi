@@ -46,9 +46,13 @@ namespace FoodsNow.Services.Services
             return homeData;
         }
 
-        public async Task<List<ProductDto>> GetProducts(Guid categoryId)
+        public async Task<ProductDataDto> GetProducts(Guid categoryId)
         {
-            return _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsByCategoryId(categoryId));
+            var productsData = new ProductDataDto();
+
+            productsData.Products = _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsByCategoryId(categoryId));            
+
+            return productsData;
         }
     }
 }

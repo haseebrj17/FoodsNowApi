@@ -11,5 +11,15 @@
         public required string IngredientDetail { get; set; }
         public required string Image { get; set; }
         public bool showExtraTropping { get; set; }
+        public bool showExtraDipping { get; set; }
+        public List<ProductPriceDto> Prices { get; set; } = new List<ProductPriceDto>();
+    }
+
+    public class ProductPriceDto
+    {
+        public required decimal Price { get; set; }
+        public required string Description { get; set; }
+        public Guid ProductId { get; set; }
+
     }
 }

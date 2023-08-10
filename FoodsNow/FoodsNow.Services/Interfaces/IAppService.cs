@@ -6,6 +6,6 @@ namespace FoodsNow.Services.Interfaces
     {
         Task<List<FranchiseDto>> GetClientFranchises(Guid clientId);
         Task<HomeDataDto> GetAppHomeData(Guid franchiseId);
-        Task<List<ProductDto>> GetProducts(Guid categoryId); 
+        Task<ProductDataDto> GetProducts(Guid categoryId); 
     }
 }
