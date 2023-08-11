@@ -25,6 +25,10 @@ namespace FoodsNow.Services.MappingConfigurations
             CreateMap<ProductExtraToppingPrice, ProductExtraToppingPriceDto>();
 
             CreateMap<ProductExtraDippingPrice, ProductExtraDippingPriceDto>();
+
+            CreateMap<Allergy, AllergyDto>();
+
+            CreateMap<ProductAllergy, ProductAllergyDto>();
         }
 
     }

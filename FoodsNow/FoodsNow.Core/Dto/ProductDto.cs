@@ -13,6 +13,7 @@
         public bool showExtraTropping { get; set; }
         public bool showExtraDipping { get; set; }
         public List<ProductPriceDto> Prices { get; set; } = new List<ProductPriceDto>();
+        public List<ProductAllergyDto> Allergies { get; set; } = new List<ProductAllergyDto>();
     }
 
     public class ProductPriceDto
@@ -21,5 +22,10 @@
         public required string Description { get; set; }
         public Guid ProductId { get; set; }
 
+    }
+
+    public class ProductAllergyDto
+    {
+        public required AllergyDto Allergy { get; set; }
     }
 }

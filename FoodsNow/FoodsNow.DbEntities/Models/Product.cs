@@ -12,7 +12,7 @@
         public bool IsActive { get; set; }
         public bool showExtraTropping { get; set; }
         public bool showExtraDipping { get; set; }
-        public List<ProductAllergy>? ProductAllergies { get; set; }        
+        public List<ProductAllergy>? Allergies { get; set; }        
         public List<ProductPrice>? Prices { get; set; }
 
     }

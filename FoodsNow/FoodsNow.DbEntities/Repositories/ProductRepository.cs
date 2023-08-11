@@ -17,7 +17,7 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<List<Product>> GetProductsByCategoryId(Guid categoryId)
         {
-            var products = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.ProductAllergies).ThenInclude(a => a.Allergy)
+            var products = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.Allergies).ThenInclude(a => a.Allergy)
                     .Join(_foodsNowDbContext.ProductCategories,
                 p => p.Id, c => c.ProductId, (p, c) =>
                     new { Products = p, Category = c }).Where(p => p.Category.CategoryId == categoryId).Select(p => p.Products).ToListAsync();
