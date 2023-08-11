@@ -12,8 +12,8 @@
         public bool IsActive { get; set; }
         public bool showExtraTropping { get; set; }
         public bool showExtraDipping { get; set; }
-        public ICollection<ProductAllergy>? Allergies { get; set; }
-        public ICollection<ProductPrice>? Prices { get; set; }
+        public List<ProductAllergy>? ProductAllergies { get; set; }        
+        public List<ProductPrice>? Prices { get; set; }
 
     }
 }

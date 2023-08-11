@@ -4,6 +4,7 @@ using FoodsNow.DbEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodsNow.DbEntities.Migrations
 {
     [DbContext(typeof(FoodsNowDbContext))]
-    partial class FoodsNowDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230811104544_AllergyChange")]
+    partial class AllergyChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,6 +44,13 @@ namespace FoodsNow.DbEntities.Migrations
                     b.Property<Guid>("FranchiseId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("ProductId1")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
@@ -50,6 +60,8 @@ namespace FoodsNow.DbEntities.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FranchiseId");
+
+                    b.HasIndex("ProductId1");
 
                     b.ToTable("Allergies");
                 });
@@ -888,6 +900,10 @@ namespace FoodsNow.DbEntities.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("FoodsNow.DbEntities.Models.Product", null)
+                        .WithMany("Allergies")
+                        .HasForeignKey("ProductId1");
+
                     b.Navigation("Franchise");
                 });
 
@@ -1079,6 +1095,8 @@ namespace FoodsNow.DbEntities.Migrations
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.Product", b =>
                 {
+                    b.Navigation("Allergies");
+
                     b.Navigation("Prices");
 
                     b.Navigation("ProductAllergies");
