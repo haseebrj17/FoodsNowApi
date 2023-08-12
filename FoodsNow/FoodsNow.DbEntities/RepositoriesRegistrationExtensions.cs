@@ -16,6 +16,8 @@ namespace FoodsNow.DbEntities
             serviceCollection.AddTransient<IBannerRepository, BannerRepository>();
             serviceCollection.AddTransient<ICategoryRepository, CategoryRepository>();
             serviceCollection.AddTransient<IProductRepository, ProductRepository>();
+            serviceCollection.AddTransient<IProductExtraDippingRepository, ProductExtraDippingRepository>();
+            serviceCollection.AddTransient<IProductExtraToppingRepository, ProductExtraToppingRepository>();
 
             return serviceCollection;
         }

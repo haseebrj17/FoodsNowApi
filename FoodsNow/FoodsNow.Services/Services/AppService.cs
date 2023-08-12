@@ -12,16 +12,21 @@ namespace FoodsNow.Services.Services
         private readonly IProductRepository _productRepository;
         private readonly IBannerRepository _bannerRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IProductExtraToppingRepository _productExtraToppingRepository;
+        private readonly IProductExtraDippingRepository _productExtraDippingRepository;
+
         private readonly IMapper _mapper;
 
         public AppService(IFranchiseRepository franchiseRepository, IBannerRepository bannerRepository, IMapper mapper,
-            ICategoryRepository categoryRepository, IProductRepository productRepository)
+            ICategoryRepository categoryRepository, IProductRepository productRepository, IProductExtraToppingRepository productExtraToppingRepository, IProductExtraDippingRepository productExtraDippingRepository)
         {
             _mapper = mapper;
             _franchiseRepository = franchiseRepository;
             _bannerRepository = bannerRepository;
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
+            _productExtraToppingRepository = productExtraToppingRepository;
+            _productExtraDippingRepository = productExtraDippingRepository;
         }
         public async Task<List<FranchiseDto>> GetClientFranchises(Guid clientId)
         {
@@ -48,9 +53,12 @@ namespace FoodsNow.Services.Services
 
         public async Task<ProductDataDto> GetProducts(Guid categoryId)
         {
-            var productsData = new ProductDataDto();
-
-            productsData.Products = _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsByCategoryId(categoryId));            
+            var productsData = new ProductDataDto
+            {
+                Products = _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsByCategoryId(categoryId)),
+                ProductExtraDippings = _mapper.Map<List<ProductExtraDipping>, List<ProductExtraDippingDto>>(await _productExtraDippingRepository.GetProductExtraDippings()),
+                ProductExtraTroppings = _mapper.Map<List<ProductExtraTopping>, List<ProductExtraToppingDto>>(await _productExtraToppingRepository.GetProductExtraToppings())
+            };
 
             return productsData;
         }

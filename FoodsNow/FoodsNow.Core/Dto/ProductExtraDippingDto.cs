@@ -5,6 +5,8 @@
         public required string Name { get; set; }
         public required string Detail { get; set; }
         public List<ProductExtraDippingPriceDto> Prices { get; set; } = new List<ProductExtraDippingPriceDto>();
+
+        public List<ProductAllergyDto> Allergies { get; set; } = new List<ProductAllergyDto>();
     }
 
     public class ProductExtraDippingPriceDto

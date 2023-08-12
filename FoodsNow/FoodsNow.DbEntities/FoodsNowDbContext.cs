@@ -31,6 +31,7 @@ namespace FoodsNow.DbEntities
         public DbSet<Allergy> Allergies { get; set; } = null!;
         public DbSet<ProductAllergy> ProductAllergies { get; set; } = null!;
         public DbSet<ProductExtraDippingAllergy> ProductExtraDippingAllergies { get; set; } = null!;
+        public DbSet<ProductExtraToppingAllergy> ProductExtraToppingAllergies { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
