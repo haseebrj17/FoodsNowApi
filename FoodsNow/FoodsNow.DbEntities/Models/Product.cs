@@ -5,6 +5,7 @@
         public required string Name { get; set; }
         public required string Detail { get; set; }
         public string? EstimatedDeliveryTime { get; set; }
+        public int Sequence { get; set; } = 0;
         public int? SpiceLevel { get; set; }
         public required string IngredientSummary { get; set; }
         public required string IngredientDetail { get; set; }
