@@ -4,6 +4,7 @@
     {
         public required string ImageUrl { get; set; }
         public bool IsActive { get; set; }
+        public int Sequence { get; set; } = 0;
         public DateTime Validity { get; set; }
         public Guid? BrandId { get; set; }
         public Guid? ProductId { get; set; }

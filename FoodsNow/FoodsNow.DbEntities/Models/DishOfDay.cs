@@ -7,6 +7,7 @@
         public DateTime Validity { get; set; }
         public Guid? ProductId { get; set; }
         public Guid FranchiseId { get; set; }
+        public int Sequence { get; set; } = 0;
         public required Franchise Franchise { get; set; }
     }
 }

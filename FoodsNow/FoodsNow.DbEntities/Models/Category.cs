@@ -5,6 +5,7 @@
         public required string Name { get; set; }
         public required string Cover { get; set; }
         public required string Thumbnail { get; set; }
+        public int Sequence { get; set; } = 0;
         public string? Logo { get; set; }
         public string? Description { get; set; }
         public string? Color { get; set; }
