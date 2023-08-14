@@ -20,7 +20,7 @@ namespace FoodsNow.DbEntities.Repositories
             var products = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.Allergies).ThenInclude(a => a.Allergy)
                     .Join(_foodsNowDbContext.ProductCategories,
                 p => p.Id, c => c.ProductId, (p, c) =>
-                    new { Products = p, Category = c }).Where(p => p.Category.CategoryId == categoryId).Select(p => p.Products).ToListAsync();
+                    new { Products = p, Category = c }).Where(p => p.Category.CategoryId == categoryId).Select(p => p.Products).OrderBy(p => p.Name).ToListAsync();
 
             return products;
         }
