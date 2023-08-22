@@ -6,6 +6,7 @@ namespace FoodsNow.DbEntities.Repositories
     public interface IProductRepository
     {
         Task<List<Product>> GetProductsByCategoryId(Guid categoryId);
+        Task<Product> GetProductsById(Guid productId);
     }
     public class ProductRepository : IProductRepository
     {
@@ -23,6 +24,13 @@ namespace FoodsNow.DbEntities.Repositories
                     new { Products = p, Category = c }).Where(p => p.Category.CategoryId == categoryId).Select(p => p.Products).OrderBy(p => p.Sequence).ToListAsync();
 
             return products;
+        }
+
+        public async Task<Product> GetProductsById(Guid productId)
+        {
+            var product = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.Allergies).ThenInclude(a => a.Allergy)
+                    .Where(p => p.Id == productId).OrderBy(p => p.Sequence).FirstAsync();
+            return product;
         }
     }
 }

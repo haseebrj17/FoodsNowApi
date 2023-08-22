@@ -100,5 +100,32 @@ namespace FoodsNow.MobApi
 
             return response;
         }
+
+        [Function(nameof(GetProduct))]
+        public async Task<HttpResponseData> GetProduct([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+        {
+            _logger.LogInformation("Calling GetProduct funtion");
+
+            var content = await new StreamReader(req.Body).ReadToEndAsync();
+
+            if (content == null)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            var request = JsonConvert.DeserializeObject<CommonRequest>(content);
+
+            if (request == null)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            if (request.Id == Guid.Empty)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            var data = await _appService.GetProduct(request.Id);
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+
+            await response.WriteAsJsonAsync(data);
+
+            return response;
+        }
     }
 }
