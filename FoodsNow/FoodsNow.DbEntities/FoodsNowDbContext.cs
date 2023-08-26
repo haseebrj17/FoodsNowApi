@@ -32,6 +32,12 @@ namespace FoodsNow.DbEntities
         public DbSet<ProductAllergy> ProductAllergies { get; set; } = null!;
         public DbSet<ProductExtraDippingAllergy> ProductExtraDippingAllergies { get; set; } = null!;
         public DbSet<ProductExtraToppingAllergy> ProductExtraToppingAllergies { get; set; } = null!;
+        public DbSet<Customer> Customers { get; set; } = null!;
+        public DbSet<CustomerAdress> CustomerAdresses { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<OrderProduct> OrderProducts { get; set; } = null!;
+        public DbSet<OrderProductExtraDipping> OrderProductExtraDippings { get; set; } = null!;
+        public DbSet<OrderProductExtraTopping> OrderProductExtraToppings { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,6 +47,12 @@ namespace FoodsNow.DbEntities
             modelBuilder.Entity<ProductPrice>().Property(x => x.Price).HasPrecision(18, 7);
             modelBuilder.Entity<ProductExtraToppingPrice>().Property(x => x.Price).HasPrecision(18, 7);
             modelBuilder.Entity<ProductExtraDippingPrice>().Property(x => x.Price).HasPrecision(18, 7);
+            modelBuilder.Entity<CustomerAdress>().Property(x => x.Latitude).HasPrecision(18, 7);
+            modelBuilder.Entity<CustomerAdress>().Property(x => x.Longitude).HasPrecision(18, 7);
+            modelBuilder.Entity<Order>().Property(x => x.TotalBill).HasPrecision(18, 7);
+            modelBuilder.Entity<OrderProduct>().Property(x => x.UnitPrice).HasPrecision(18, 7);
+            modelBuilder.Entity<OrderProductExtraDipping>().Property(x => x.UnitPrice).HasPrecision(18, 7);
+            modelBuilder.Entity<OrderProductExtraTopping>().Property(x => x.UnitPrice).HasPrecision(18, 7);
 
             modelBuilder.Entity<Category>()
             .HasOne(e => e.Franchise)
@@ -61,6 +73,11 @@ namespace FoodsNow.DbEntities
             .HasOne(e => e.Franchise)
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Order>()
+           .HasOne(e => e.Franchise)
+           .WithMany()
+           .OnDelete(DeleteBehavior.Restrict);
         }
     }
 
