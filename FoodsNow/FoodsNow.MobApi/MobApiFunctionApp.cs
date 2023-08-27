@@ -38,7 +38,7 @@ namespace FoodsNow.MobApi
             if (request.Id == Guid.Empty)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            var data = await _appService.GetClientFranchises(request.Id);
+            var data = await _appService.GetClientFranchises(request.Id.Value);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
@@ -65,7 +65,7 @@ namespace FoodsNow.MobApi
             if (request.Id == Guid.Empty)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            var data = await _appService.GetAppHomeData(request.Id);
+            var data = await _appService.GetAppHomeData(request.Id.Value);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
@@ -92,7 +92,7 @@ namespace FoodsNow.MobApi
             if (request.Id == Guid.Empty)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            var data = await _appService.GetProducts(request.Id);
+            var data = await _appService.GetProducts(request.Id.Value);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
@@ -119,7 +119,34 @@ namespace FoodsNow.MobApi
             if (request.Id == Guid.Empty)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            var data = await _appService.GetProduct(request.Id);
+            var data = await _appService.GetProductById(request.Id.Value);
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+
+            await response.WriteAsJsonAsync(data);
+
+            return response;
+        }
+
+        [Function(nameof(GetProductsById))]
+        public async Task<HttpResponseData> GetProductsById([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+        {
+            _logger.LogInformation("Calling GetProductsById funtion");
+
+            var content = await new StreamReader(req.Body).ReadToEndAsync();
+
+            if (content == null)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            var request = JsonConvert.DeserializeObject<CommonRequest>(content);
+
+            if (request == null)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            if (request.Ids == null)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            var data = await _appService.GetProductsById(request.Ids);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 

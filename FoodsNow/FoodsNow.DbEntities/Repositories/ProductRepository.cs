@@ -6,7 +6,8 @@ namespace FoodsNow.DbEntities.Repositories
     public interface IProductRepository
     {
         Task<List<Product>> GetProductsByCategoryId(Guid categoryId);
-        Task<Product> GetProductsById(Guid productId);
+        Task<List<Product>> GetProductsById(List<Guid> productIds);
+        Task<Product> GetProductById(Guid productId);
     }
     public class ProductRepository : IProductRepository
     {
@@ -14,6 +15,14 @@ namespace FoodsNow.DbEntities.Repositories
         public ProductRepository(FoodsNowDbContext foodsNowDbContext)
         {
             _foodsNowDbContext = foodsNowDbContext;
+        }
+
+        public async Task<List<Product>> GetProductsById(List<Guid> productIds)
+        {
+            var products = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.Allergies).ThenInclude(a => a.Allergy)
+                    .Where(p => productIds.Contains(p.Id)).ToListAsync();
+
+            return products;
         }
 
         public async Task<List<Product>> GetProductsByCategoryId(Guid categoryId)
@@ -26,7 +35,7 @@ namespace FoodsNow.DbEntities.Repositories
             return products;
         }
 
-        public async Task<Product> GetProductsById(Guid productId)
+        public async Task<Product> GetProductById(Guid productId)
         {
             var product = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.Allergies).ThenInclude(a => a.Allergy)
                     .Where(p => p.Id == productId).OrderBy(p => p.Sequence).FirstAsync();

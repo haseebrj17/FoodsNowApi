@@ -63,11 +63,11 @@ namespace FoodsNow.Services.Services
             return productsData;
         }
 
-        public async Task<ProductDataDto> GetProduct(Guid productId)
+        public async Task<ProductDataDto> GetProductById(Guid productId)
         {
             var productData = new ProductDataDto
             {
-                Product = _mapper.Map<Product, ProductDto>(await _productRepository.GetProductsById(productId))
+                Product = _mapper.Map<Product, ProductDto>(await _productRepository.GetProductById(productId))
             };
 
             if (productData.Product.showExtraDipping)
@@ -83,6 +83,18 @@ namespace FoodsNow.Services.Services
             }
 
             return productData;
+        }
+
+        public async Task<ProductsDataDto> GetProductsById(List<Guid> productIds)
+        {
+            var productsData = new ProductsDataDto
+            {
+                Products = _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsById(productIds)),
+                ProductExtraDippings = _mapper.Map<List<ProductExtraDipping>, List<ProductExtraDippingDto>>(await _productExtraDippingRepository.GetProductExtraDippings()),
+                ProductExtraTroppings = _mapper.Map<List<ProductExtraTopping>, List<ProductExtraToppingDto>>(await _productExtraToppingRepository.GetProductExtraToppings())
+            };
+
+            return productsData;
         }
     }
 }
