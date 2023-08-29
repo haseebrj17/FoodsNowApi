@@ -8,5 +8,7 @@
         public required string Password { get; set; }
         public required string ContactNumber { get; set; }
         public bool IsActive { get; set; }
+        public bool IsNumberVerified { get; set; }
+        public bool IsEmailVerified { get; set; }
     }
 }

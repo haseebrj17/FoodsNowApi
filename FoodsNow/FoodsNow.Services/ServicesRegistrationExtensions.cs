@@ -14,6 +14,7 @@ namespace FoodsNow.Services
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
             serviceCollection.AddTransient<IAppService, AppService>();
+            serviceCollection.AddTransient<ICustomerService, CustomerService>();
 
             serviceCollection.AddAutoMapper(typeof(AutoMapperProfiles));
 

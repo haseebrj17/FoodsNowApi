@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodsNow.Core", "FoodsNow.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodsNow.Services", "FoodsNow.Services\FoodsNow.Services.csproj", "{C427DEE3-CC75-4F49-B79A-1A73460C0FDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodsNow.MobApi", "FoodsNow.MobApi\FoodsNow.MobApi.csproj", "{77F5516B-0B02-41AA-ACB6-C90B21AAE0DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodsNow.Api", "FoodsNow.MobApi\FoodsNow.Api.csproj", "{77F5516B-0B02-41AA-ACB6-C90B21AAE0DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
