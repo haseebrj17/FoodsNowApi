@@ -8,6 +8,6 @@
         public required string EmailAdress { get; set; }
         public required string Password { get; set; }
         public required string ContactNumber { get; set; }
-        public required string VerificationCode { get; set; }
+        public string? VerificationCode { get; set; }
     }
 }

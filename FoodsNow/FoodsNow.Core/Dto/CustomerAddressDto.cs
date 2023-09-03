@@ -10,6 +10,7 @@
         public string? FloorNumber { get; set; }
         public string? Notes { get; set; }
         public string? Tag { get; set; }
+        public bool IsDefault { get; set; }
         public required decimal Latitude { get; set; }
         public required decimal Longitude { get; set; }
         public Guid CityId { get; set; }
