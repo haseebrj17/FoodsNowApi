@@ -4,6 +4,7 @@ using FoodsNow.DbEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodsNow.DbEntities.Migrations
 {
     [DbContext(typeof(FoodsNowDbContext))]
-    partial class FoodsNowDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230903140004_VerificationPinChanges")]
+    partial class VerificationPinChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -382,13 +385,6 @@ namespace FoodsNow.DbEntities.Migrations
                     b.Property<string>("FloorNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("House")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
                     b.Property<decimal>("Latitude")
                         .HasPrecision(18, 7)
                         .HasColumnType("decimal(18,7)");
@@ -415,6 +411,10 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.Property<DateTime?>("UpdatedDateTimeUtc")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("house")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

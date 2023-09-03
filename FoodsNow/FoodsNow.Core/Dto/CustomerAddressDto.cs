@@ -1,9 +1,10 @@
-﻿namespace FoodsNow.DbEntities.Models
+﻿namespace FoodsNow.Core.Dto
 {
-    public class CustomerAdress : BaseEntity
+    public class CustomerAddressDto
     {
+        public Guid? Id { get; set; }
         public required string StreetAddress { get; set; }
-        public required string house { get; set; }
+        public required string House { get; set; }
         public string? District { get; set; }
         public string? UnitNumber { get; set; }
         public string? FloorNumber { get; set; }
@@ -12,6 +13,5 @@
         public required decimal Latitude { get; set; }
         public required decimal Longitude { get; set; }
         public Guid CityId { get; set; }
-        public required City City { get; set; }
     }
 }
