@@ -30,8 +30,9 @@ namespace FoodsNow.DbEntities.Repositories
             customerAddress.CreatedById = Guid.NewGuid();//Todo: replace
             customerAddress.UpdatedById = Guid.NewGuid();//Todo: replace
 
-
             await _foodsNowDbContext.CustomerAdresses.AddAsync(customerAddress);
+
+            await _foodsNowDbContext.SaveChangesAsync();
 
             return customerAddress;
         }
@@ -61,6 +62,8 @@ namespace FoodsNow.DbEntities.Repositories
 
 
             _foodsNowDbContext.CustomerAdresses.Update(customerAddress);
+
+            await _foodsNowDbContext.SaveChangesAsync();
 
             return true;
         }
