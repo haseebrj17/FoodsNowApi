@@ -56,7 +56,7 @@ namespace FoodsNow.Api
         [Function(nameof(VerifyPin))]
         public async Task<HttpResponseData> VerifyPin([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {
-            _logger.LogInformation("Calling Register funtion");
+            _logger.LogInformation("Calling Verifiy pin funtion");
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
 
@@ -86,7 +86,7 @@ namespace FoodsNow.Api
         [Function(nameof(CustomerLogin))]
         public async Task<HttpResponseData> CustomerLogin([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {
-            _logger.LogInformation("Calling Register funtion");
+            _logger.LogInformation("Calling Cutomer Login funtion");
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
 
@@ -116,7 +116,7 @@ namespace FoodsNow.Api
         [Function(nameof(CustomerAddAddress))]
         public async Task<HttpResponseData> CustomerAddAddress([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {
-            _logger.LogInformation("Calling Register funtion");
+            _logger.LogInformation("Calling Customer Add Address funtion");
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
 
@@ -128,11 +128,14 @@ namespace FoodsNow.Api
             if (request == null)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
+            if (string.IsNullOrWhiteSpace(request.CityName))
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
             var data = await _customerService.AddAddress(request);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
-            await response.WriteAsJsonAsync(new { isSuccess = data != null, ErrorMessage = data != null ?  "" : "Adding address failed" });
+            await response.WriteAsJsonAsync(new { isSuccess = data != null, ErrorMessage = data != null ? "" : "Adding address failed" });
 
             return response;
         }
@@ -150,6 +153,9 @@ namespace FoodsNow.Api
             var request = JsonConvert.DeserializeObject<CustomerAddressDto>(content);
 
             if (request == null)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            if (string.IsNullOrWhiteSpace(request.CityName))
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
             var data = await _customerService.UpdateAddress(request);

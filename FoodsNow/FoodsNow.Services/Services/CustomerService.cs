@@ -11,12 +11,14 @@ namespace FoodsNow.Services.Services
         private readonly ICustomerRepository _customerRepository;
         private readonly ICustomerAddressRepository _customerAddressRepository;
         private readonly IMapper _mapper;
+        private readonly ICityRepository _cityRepository;
 
-        public CustomerService(IMapper mapper, ICustomerRepository customerRepository, ICustomerAddressRepository customerAddressRepository)
+        public CustomerService(IMapper mapper, ICustomerRepository customerRepository, ICustomerAddressRepository customerAddressRepository, ICityRepository cityRepository)
         {
             _mapper = mapper;
             _customerRepository = customerRepository;
             _customerAddressRepository = customerAddressRepository;
+            _cityRepository = cityRepository;
         }
 
         public async Task<CustomerDto> AddCustomer(CustomerDto customerDto)
@@ -38,6 +40,15 @@ namespace FoodsNow.Services.Services
 
             if (address == null) { return null; }
 
+            var cityId = _cityRepository.GetCityIdByName(addressDto.CityName);
+
+            if (cityId == Guid.Empty)
+            {
+                return null;
+            }
+
+            address.CityId = cityId.Value;
+
             var newAddress = await _customerAddressRepository.AddAddress(address);
 
             if (newAddress == null) { return null; }
@@ -53,6 +64,15 @@ namespace FoodsNow.Services.Services
         public async Task<bool> UpdateAddress(CustomerAddressDto addressDto)
         {
             var address = _mapper.Map<CustomerAddressDto, CustomerAddress>(addressDto);
+
+            var cityId = _cityRepository.GetCityIdByName(addressDto.CityName);
+
+            if (cityId == Guid.Empty)
+            {
+                return false;
+            }
+
+            address.CityId = cityId.Value;
 
             if (address == null) { return false; }
 

@@ -13,7 +13,7 @@
         public bool IsDefault { get; set; }
         public required decimal Latitude { get; set; }
         public required decimal Longitude { get; set; }
-        public Guid CityId { get; set; }
+        public required string CityName { get; set; }
         public Guid CustomerId { get; set; }
     }
 }
