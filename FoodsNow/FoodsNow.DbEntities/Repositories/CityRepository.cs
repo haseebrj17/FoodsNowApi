@@ -14,7 +14,7 @@
 
         public Guid? GetCityIdByName(string name)
         {
-            return _foodsNowDbContext.Cities.FirstOrDefault(c => c.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))?.Id;
+            return _foodsNowDbContext.Cities.FirstOrDefault(c => c.Name.ToLower() == name.ToLower())?.Id;
         }
     }
 }
