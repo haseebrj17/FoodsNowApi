@@ -4,6 +4,7 @@
     {
         public required string StreetAddress { get; set; }
         public required string House { get; set; }
+        public required string PostalCode { get; set; }
         public string? District { get; set; }
         public string? UnitNumber { get; set; }
         public string? FloorNumber { get; set; }

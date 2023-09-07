@@ -3,6 +3,7 @@ using FoodsNow.Core.Dto;
 using FoodsNow.DbEntities.Models;
 using FoodsNow.DbEntities.Repositories;
 using FoodsNow.Services.Interfaces;
+using System.Net.NetworkInformation;
 
 namespace FoodsNow.Services.Services
 {
@@ -84,5 +85,9 @@ namespace FoodsNow.Services.Services
             return await _customerRepository.VerifyPin(pin, customerId);
         }
 
+        public async Task<List<CustomerAddress>> GetAllAddresses(Guid customerId)
+        {
+            return await _customerAddressRepository.GetAllAddresses(customerId);
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace FoodsNow.Services.Interfaces
         Task<bool> VerifyPin(string pin, Guid customerId);
         Task<bool> CustomerLogin(CustomerDto customer);
         Task<CustomerAddressDto?> AddAddress(CustomerAddressDto customer);
+        Task<List<CustomerAddress>> GetAllAddresses(Guid customerId);
         Task<bool> UpdateAddress(CustomerAddressDto customer);
 
     }

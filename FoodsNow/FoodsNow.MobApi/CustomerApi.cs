@@ -1,4 +1,5 @@
 ﻿using FoodsNow.Core.Dto;
+using FoodsNow.Core.RequestModels;
 using FoodsNow.Services.Interfaces;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
@@ -163,6 +164,33 @@ namespace FoodsNow.Api
             var response = req.CreateResponse(HttpStatusCode.OK);
 
             await response.WriteAsJsonAsync(new { isSuccess = data != null, ErrorMessage = data != null ? "" : "Updating address failed" });
+
+            return response;
+        }
+
+        [Function(nameof(GetCustomerAddresses))]
+        public async Task<HttpResponseData> GetCustomerAddresses([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+        {
+            _logger.LogInformation("Calling GetCustomerAddresses funtion");
+
+            var content = await new StreamReader(req.Body).ReadToEndAsync();
+
+            if (content == null)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            var request = JsonConvert.DeserializeObject<CommonRequest>(content);
+
+            if (request == null)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            if (request.Id == Guid.Empty)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            var data = await _customerService.GetAllAddresses(request.Id.Value);
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+
+            await response.WriteAsJsonAsync(new { isSuccess = data != null, ErrorMessage = data != null ? "" : "Adding address failed" });
 
             return response;
         }

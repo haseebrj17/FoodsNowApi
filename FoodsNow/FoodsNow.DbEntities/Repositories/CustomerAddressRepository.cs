@@ -7,6 +7,7 @@ namespace FoodsNow.DbEntities.Repositories
     {
         Task<CustomerAddress?> AddAddress(CustomerAddress customer);
         Task<bool> UpdateAddress(CustomerAddress customer);
+        Task<List<CustomerAddress>> GetAllAddresses(Guid customerId);
     }
     public class CustomerAddressRepository : ICustomerAddressRepository
     {
@@ -23,7 +24,7 @@ namespace FoodsNow.DbEntities.Repositories
 
             if (await _foodsNowDbContext.CustomerAdresses.AnyAsync(c => c.StreetAddress == customerAddress.StreetAddress && c.House == customerAddress.House
                     && c.CityId == customerAddress.CityId))
-                return null;            
+                return null;
 
             customerAddress.CreatedDateTimeUtc = DateTime.UtcNow;
             customerAddress.UpdatedDateTimeUtc = DateTime.UtcNow;
@@ -35,6 +36,11 @@ namespace FoodsNow.DbEntities.Repositories
             await _foodsNowDbContext.SaveChangesAsync();
 
             return customerAddress;
+        }
+
+        public async Task<List<CustomerAddress>> GetAllAddresses(Guid customerId)
+        {
+            return await _foodsNowDbContext.CustomerAdresses.Where(a => a.CustomerId == customerId).ToListAsync();
         }
 
         public async Task<bool> UpdateAddress(CustomerAddress customerAddress)
