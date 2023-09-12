@@ -3,7 +3,6 @@ using FoodsNow.Core.Dto;
 using FoodsNow.DbEntities.Models;
 using FoodsNow.DbEntities.Repositories;
 using FoodsNow.Services.Interfaces;
-using System.Net.NetworkInformation;
 
 namespace FoodsNow.Services.Services
 {

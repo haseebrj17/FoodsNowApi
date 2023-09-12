@@ -8,5 +8,7 @@
         public required Order Order { get; set; }
         public Guid ProductId { get; set; }
         public required Product Product { get; set; }
+        public Guid ProductPriceId { get; set; }
+        public required ProductPrice ProductPrice { get; set; }
     }
 }

@@ -83,6 +83,11 @@ namespace FoodsNow.DbEntities
            .HasOne(e => e.CustomerAdress)
            .WithMany()
            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OrderProduct>()
+           .HasOne(e => e.ProductPrice)
+           .WithMany()
+           .OnDelete(DeleteBehavior.Restrict);
         }
     }
 

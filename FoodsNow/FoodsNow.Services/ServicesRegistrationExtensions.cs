@@ -15,6 +15,7 @@ namespace FoodsNow.Services
 
             serviceCollection.AddTransient<IAppService, AppService>();
             serviceCollection.AddTransient<ICustomerService, CustomerService>();
+            serviceCollection.AddTransient<IOrderService, OrderService>();
 
             serviceCollection.AddAutoMapper(typeof(AutoMapperProfiles));
 
