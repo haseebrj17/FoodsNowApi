@@ -20,4 +20,8 @@
 	  </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FoodsNow.Core\FoodsNow.Core.csproj" />
+  </ItemGroup>
+
 </Project>

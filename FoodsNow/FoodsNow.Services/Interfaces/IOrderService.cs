@@ -4,6 +4,6 @@ namespace FoodsNow.Services.Interfaces
 {
     public interface IOrderService
     {
-       public Task<Guid> PlaceOrder(OrderDto order);
+       public Task<Guid?> PlaceOrder(OrderDto order);
     }
 }

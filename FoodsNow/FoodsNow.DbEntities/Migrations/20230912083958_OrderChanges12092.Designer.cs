@@ -4,6 +4,7 @@ using FoodsNow.DbEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodsNow.DbEntities.Migrations
 {
     [DbContext(typeof(FoodsNowDbContext))]
-    partial class FoodsNowDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230912083958_OrderChanges12092")]
+    partial class OrderChanges12092
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -635,11 +638,8 @@ namespace FoodsNow.DbEntities.Migrations
                     b.Property<Guid>("FranchiseId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Instructions")
+                    b.Property<string>("Intructions")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrderStatus")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalBill")
                         .HasPrecision(18, 7)

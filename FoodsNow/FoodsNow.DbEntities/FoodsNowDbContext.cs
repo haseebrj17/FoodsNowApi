@@ -54,6 +54,11 @@ namespace FoodsNow.DbEntities
             modelBuilder.Entity<OrderProductExtraDipping>().Property(x => x.UnitPrice).HasPrecision(18, 7);
             modelBuilder.Entity<OrderProductExtraTopping>().Property(x => x.UnitPrice).HasPrecision(18, 7);
 
+
+            modelBuilder.Entity<Order>().Property(x => x.OrderStatus).HasConversion<int>();
+
+
+
             modelBuilder.Entity<Category>()
             .HasOne(e => e.Franchise)
             .WithMany()
