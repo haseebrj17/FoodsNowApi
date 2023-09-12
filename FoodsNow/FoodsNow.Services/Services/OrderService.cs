@@ -37,7 +37,7 @@ namespace FoodsNow.Services.Services
 
                     var newProduct = _mapper.Map<OrderProductDto, OrderProduct>(product);
 
-                    newProduct.UnitPrice = await _orderRepository.GetProductPrice(product.ProductId);
+                    newProduct.UnitPrice = await _orderRepository.GetProductPrice(product.ProductPriceId);
 
                     orderTotal += newProduct.UnitPrice * newProduct.Quantity;
 
@@ -66,7 +66,7 @@ namespace FoodsNow.Services.Services
 
                             var newExtraTopping = _mapper.Map<OrderProductExtraToppingDto, OrderProductExtraTopping>(extraTopping);
 
-                            newExtraTopping.UnitPrice = await _orderRepository.GetProductExtraDippingPrice(extraTopping.ProductExtraToppingPriceId);
+                            newExtraTopping.UnitPrice = await _orderRepository.GetProductExtraToppingPrice(extraTopping.ProductExtraToppingPriceId);
 
                             await _orderRepository.AddProductExtraTopping(newExtraTopping);
 

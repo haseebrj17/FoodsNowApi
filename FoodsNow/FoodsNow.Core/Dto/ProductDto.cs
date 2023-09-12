@@ -18,6 +18,7 @@
 
     public class ProductPriceDto
     {
+        public required Guid Id { get; set; }
         public required decimal Price { get; set; }
         public required string Description { get; set; }
         public Guid ProductId { get; set; }
