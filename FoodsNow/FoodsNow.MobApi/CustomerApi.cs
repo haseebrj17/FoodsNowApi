@@ -79,7 +79,7 @@ namespace FoodsNow.Api
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
-            await response.WriteAsJsonAsync(new { isSuccess = data, ErrorMessage = data ? "" : "Verification failed" });
+            await response.WriteAsJsonAsync(data);
 
             return response;
         }
@@ -109,7 +109,7 @@ namespace FoodsNow.Api
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
-            await response.WriteAsJsonAsync(new { isSuccess = data, ErrorMessage = data ? "" : "Login failed" });
+            await response.WriteAsJsonAsync(data);
 
             return response;
         }

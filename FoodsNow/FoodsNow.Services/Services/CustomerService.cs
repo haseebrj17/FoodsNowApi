@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FoodsNow.Core.Dto;
+using FoodsNow.Core.ResponseModels;
 using FoodsNow.DbEntities.Models;
 using FoodsNow.DbEntities.Repositories;
 using FoodsNow.Services.Interfaces;
@@ -12,13 +13,16 @@ namespace FoodsNow.Services.Services
         private readonly ICustomerAddressRepository _customerAddressRepository;
         private readonly IMapper _mapper;
         private readonly ICityRepository _cityRepository;
+        private readonly IJwtTokenManager _jwtTokenManager;
 
-        public CustomerService(IMapper mapper, ICustomerRepository customerRepository, ICustomerAddressRepository customerAddressRepository, ICityRepository cityRepository)
+        public CustomerService(IMapper mapper, ICustomerRepository customerRepository, ICustomerAddressRepository customerAddressRepository,
+                ICityRepository cityRepository, IJwtTokenManager jwtTokenManager)
         {
             _mapper = mapper;
             _customerRepository = customerRepository;
             _customerAddressRepository = customerAddressRepository;
             _cityRepository = cityRepository;
+            _jwtTokenManager = jwtTokenManager;
         }
 
         public async Task<CustomerDto> AddCustomer(CustomerDto customerDto)
@@ -56,9 +60,16 @@ namespace FoodsNow.Services.Services
             return _mapper.Map<CustomerAddress, CustomerAddressDto>(newAddress);
         }
 
-        public async Task<bool> CustomerLogin(CustomerDto customer)
+        public async Task<LoginResponse> CustomerLogin(CustomerDto customer)
         {
-            return await _customerRepository.CustomerLogin(customer.EmailAdress, customer.Password);
+            var customerDetails = await _customerRepository.CustomerLogin(customer.EmailAdress, customer.Password);
+
+            if (customerDetails == null) { return new LoginResponse() { IsLoggedIn = false }; }
+
+            var token = _jwtTokenManager.GenerateToken(_mapper.Map<Customer, CustomerDto>(customerDetails));
+
+            return new LoginResponse() { IsLoggedIn = true, Token = token, IsNumberVerified = customerDetails.IsNumberVerified };
+
         }
 
         public async Task<bool> UpdateAddress(CustomerAddressDto addressDto)
@@ -79,9 +90,20 @@ namespace FoodsNow.Services.Services
             return await _customerAddressRepository.UpdateAddress(address);
         }
 
-        public async Task<bool> VerifyPin(string pin, Guid customerId)
+        public async Task<LoginResponse> VerifyPin(string pin, Guid customerId)
         {
-            return await _customerRepository.VerifyPin(pin, customerId);
+            var isVerified = await _customerRepository.VerifyPin(pin, customerId);
+
+            if (!isVerified)
+            {
+                return new LoginResponse() { IsLoggedIn = false, IsNumberVerified = false };
+            }
+
+            var customer = await _customerRepository.GetById(customerId);
+
+            var token = _jwtTokenManager.GenerateToken(_mapper.Map<Customer, CustomerDto>(customer));
+
+            return new LoginResponse() { IsLoggedIn = true, Token = token, IsNumberVerified = customer.IsNumberVerified };
         }
 
         public async Task<List<CustomerAddress>> GetAllAddresses(Guid customerId)
