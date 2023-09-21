@@ -1,5 +1,7 @@
-﻿using FoodsNow.Core.Dto;
+﻿using Azure.Core;
+using FoodsNow.Core.Dto;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,7 +14,7 @@ namespace FoodsNow.Services
     {
         public string GenerateToken(CustomerDto customer);
         public CustomerDto? ValidateToken(string token);
-        public CustomerDto GetCustomer(IHttpContextAccessor httpContextAccessor);
+        public CustomerDto? GetCustomer(HttpRequestData httpRequest);
     }
     public class JwtTokenManager : IJwtTokenManager
     {
@@ -39,29 +41,45 @@ namespace FoodsNow.Services
         }
 
 
-        public CustomerDto GetCustomer(IHttpContextAccessor httpContextAccessor)
+        public CustomerDto? GetCustomer(HttpRequestData request)
         {
-            if (httpContextAccessor.HttpContext == null) throw new UnAuthrozedException();
+            if (!request.Headers.ContainsKey("Authorization"))
+            {                
+                return null;
+            }
 
-            if (!httpContextAccessor.HttpContext.User.Claims.Any()) throw new UnAuthrozedException();
+            string authorizationHeader = request.Headers["Authorization"].ToString();
 
-            var customer = httpContextAccessor.HttpContext.User.Claims.First(c => c.Type == "Customer");
+            // Check if the value is empty.
+            if (string.IsNullOrEmpty(authorizationHeader))
+            {
+                return null;
+            }
 
-            if (customer == null) throw new UnAuthrozedException();
+            //if (httpContextAccessor.HttpContext == null) throw new UnAuthrozedException();
 
-            var claim = customer.Value;
+            //if (!httpContextAccessor.HttpContext.User.Claims.Any()) throw new UnAuthrozedException();
 
-            var appUser = JsonConvert.DeserializeObject<CustomerDto>(claim);
+            //var customer = httpContextAccessor.HttpContext.User.Claims.First(c => c.Type == "Customer");
 
-            if (appUser == null) throw new UnAuthrozedException();
+            //if (customer == null) throw new UnAuthrozedException();
 
-            return appUser;
+            //var claim = customer.Value;
+
+            //var appUser = JsonConvert.DeserializeObject<CustomerDto>(claim);
+
+            //if (appUser == null) throw new UnAuthrozedException();
+
+            //return appUser;
+            return null;
         }
 
         public CustomerDto? ValidateToken(string token)
         {
             if (token == null)
                 return null;
+
+            token = token.Replace("Bearer ", "");
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(JwtSecret);

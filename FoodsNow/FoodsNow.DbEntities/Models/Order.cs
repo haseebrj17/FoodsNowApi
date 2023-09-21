@@ -6,6 +6,7 @@ namespace FoodsNow.DbEntities.Models
     {
         public decimal TotalBill { get; set; }
         public int TotalItems { get; set; }
+        public DateTime OrderDeliveryDateTime { get; set; }
         public string? Instructions { get; set; }
         public Guid CustomerId { get; set; }
         public required Customer Customer { get; set; }
