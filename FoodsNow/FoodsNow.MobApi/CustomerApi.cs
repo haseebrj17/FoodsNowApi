@@ -1,11 +1,13 @@
 ﻿using FoodsNow.Core.Dto;
 using FoodsNow.Core.RequestModels;
+using FoodsNow.Services;
 using FoodsNow.Services.Interfaces;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Net;
+using static FoodsNow.Core.Enum.Enums;
 
 namespace FoodsNow.Api
 {
@@ -13,11 +15,13 @@ namespace FoodsNow.Api
     {
         private readonly ILogger _logger;
         private readonly ICustomerService _customerService;
+        private readonly IJwtTokenManager _jwtTokenManager;
 
-        public CustomerApi(ILoggerFactory loggerFactory, ICustomerService customerService)
+        public CustomerApi(ILoggerFactory loggerFactory, ICustomerService customerService, IJwtTokenManager jwtTokenManager)
         {
             _logger = loggerFactory.CreateLogger<CustomerApi>();
             _customerService = customerService;
+            _jwtTokenManager = jwtTokenManager;
         }
 
         [Function(nameof(Register))]
@@ -119,6 +123,11 @@ namespace FoodsNow.Api
         {
             _logger.LogInformation("Calling Customer Add Address funtion");
 
+            var customer = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
+
+            if (customer == null)
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+
             var content = await new StreamReader(req.Body).ReadToEndAsync();
 
             if (content == null)
@@ -146,6 +155,11 @@ namespace FoodsNow.Api
         {
             _logger.LogInformation("Calling Register funtion");
 
+            var customer = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
+
+            if (customer == null)
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+
             var content = await new StreamReader(req.Body).ReadToEndAsync();
 
             if (content == null)
@@ -172,6 +186,11 @@ namespace FoodsNow.Api
         public async Task<HttpResponseData> GetCustomerAddresses([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {
             _logger.LogInformation("Calling GetCustomerAddresses funtion");
+
+            var customer = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
+
+            if (customer == null)
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
 

@@ -1,20 +1,17 @@
-﻿using Azure.Core;
-using FoodsNow.Core.Dto;
-using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Protocols;
+﻿using FoodsNow.Core.Dto;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.Azure.Functions.Worker.Http;
+using static FoodsNow.Core.Enum.Enums;
 
 namespace FoodsNow.Services
 {
     public interface IJwtTokenManager
     {
         public string GenerateToken(CustomerDto customer);
-        public CustomerDto? ValidateToken(string token);
-        public CustomerDto? GetCustomer(HttpRequestData httpRequest);
+        public CustomerDto? ValidateToken(HttpRequestData req, UserRole requiredRole);
     }
     public class JwtTokenManager : IJwtTokenManager
     {
@@ -33,6 +30,8 @@ namespace FoodsNow.Services
                     new Claim(nameof(customer.FullName), customer.FullName.ToString()),
                     new Claim(nameof(customer.EmailAdress), customer.EmailAdress.ToString()),
                     new Claim(nameof(customer.ContactNumber), customer.ContactNumber.ToString()),
+                    new Claim(nameof(customer.ContactNumber), customer.ContactNumber.ToString()),
+                    new Claim(nameof(customer.UserRole), customer.UserRole.ToString()),
                 },
                 expires: DateTime.Now.AddDays(365),
                 signingCredentials: signinCredentials
@@ -40,42 +39,22 @@ namespace FoodsNow.Services
             return new JwtSecurityTokenHandler().WriteToken(tokeOptions);
         }
 
-
-        public CustomerDto? GetCustomer(HttpRequestData request)
+        public CustomerDto? ValidateToken(HttpRequestData req, UserRole requiredRole)
         {
-            if (!request.Headers.ContainsKey("Authorization"))
-            {                
-                return null;
-            }
-
-            string authorizationHeader = request.Headers["Authorization"].ToString();
+            var authorizationHeader = req.Headers.FirstOrDefault(h => h.Key == "Authorization");
 
             // Check if the value is empty.
-            if (string.IsNullOrEmpty(authorizationHeader))
+            if (authorizationHeader.Equals(default(KeyValuePair<string, IEnumerable<string>>)))
+            {
+                return null;
+            }
+            if (string.IsNullOrEmpty(authorizationHeader.Value.FirstOrDefault()))
             {
                 return null;
             }
 
-            //if (httpContextAccessor.HttpContext == null) throw new UnAuthrozedException();
+            var token = authorizationHeader.Value.First();
 
-            //if (!httpContextAccessor.HttpContext.User.Claims.Any()) throw new UnAuthrozedException();
-
-            //var customer = httpContextAccessor.HttpContext.User.Claims.First(c => c.Type == "Customer");
-
-            //if (customer == null) throw new UnAuthrozedException();
-
-            //var claim = customer.Value;
-
-            //var appUser = JsonConvert.DeserializeObject<CustomerDto>(claim);
-
-            //if (appUser == null) throw new UnAuthrozedException();
-
-            //return appUser;
-            return null;
-        }
-
-        public CustomerDto? ValidateToken(string token)
-        {
             if (token == null)
                 return null;
 
@@ -96,10 +75,17 @@ namespace FoodsNow.Services
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var user = JsonConvert.DeserializeObject<CustomerDto>(jwtToken.Claims.First(x => x.Type == "Customer").Value);
 
-                // return user id from JWT token if validation successful
-                return user;
+                var customer = new CustomerDto()
+                {
+                    Id = new Guid(jwtToken.Claims.First(x => x.Type == nameof(CustomerDto.Id)).Value),
+                    ContactNumber = jwtToken.Claims.First(x => x.Type == nameof(CustomerDto.ContactNumber)).Value,
+                    EmailAdress = jwtToken.Claims.First(x => x.Type == nameof(CustomerDto.EmailAdress)).Value,
+                    UserRole = Enum.Parse<UserRole>(jwtToken.Claims.First(x => x.Type == nameof(CustomerDto.UserRole)).Value),
+                    FullName = jwtToken.Claims.First(x => x.Type == nameof(CustomerDto.FullName)).Value
+                };
+
+                return customer;
             }
             catch
             {

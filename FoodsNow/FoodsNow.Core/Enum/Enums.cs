@@ -10,5 +10,13 @@
             Shipped = 4,
             Delivered = 5,
         }
+
+        public enum UserRole
+        {
+            SuperAdmin = 1,
+            Client = 2,
+            Franchise = 3,
+            Customer = 4
+        }
     }
 }

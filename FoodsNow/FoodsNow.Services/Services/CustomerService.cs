@@ -4,6 +4,7 @@ using FoodsNow.Core.ResponseModels;
 using FoodsNow.DbEntities.Models;
 using FoodsNow.DbEntities.Repositories;
 using FoodsNow.Services.Interfaces;
+using static FoodsNow.Core.Enum.Enums;
 
 namespace FoodsNow.Services.Services
 {
@@ -66,7 +67,11 @@ namespace FoodsNow.Services.Services
 
             if (customerDetails == null) { return new LoginResponse() { IsLoggedIn = false }; }
 
-            var token = _jwtTokenManager.GenerateToken(_mapper.Map<Customer, CustomerDto>(customerDetails));
+            var customerDto = _mapper.Map<Customer, CustomerDto>(customerDetails);
+
+            customerDto.UserRole = UserRole.Customer;
+
+            var token = _jwtTokenManager.GenerateToken(customerDto);
 
             return new LoginResponse() { IsLoggedIn = true, Token = token, IsNumberVerified = customerDetails.IsNumberVerified };
 
@@ -101,7 +106,11 @@ namespace FoodsNow.Services.Services
 
             var customer = await _customerRepository.GetById(customerId);
 
-            var token = _jwtTokenManager.GenerateToken(_mapper.Map<Customer, CustomerDto>(customer));
+            var customerDto = _mapper.Map<Customer, CustomerDto>(customer);
+
+            customerDto.UserRole = UserRole.Customer;
+
+            var token = _jwtTokenManager.GenerateToken(customerDto);
 
             return new LoginResponse() { IsLoggedIn = true, Token = token, IsNumberVerified = customer.IsNumberVerified };
         }
