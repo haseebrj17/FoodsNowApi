@@ -10,7 +10,7 @@ namespace FoodsNow.Services.Interfaces
         Task<LoginResponse> VerifyPin(string pin, Guid customerId);
         Task<LoginResponse> CustomerLogin(CustomerDto customer);
         Task<CustomerAddressDto?> AddAddress(CustomerAddressDto customer);
-        Task<List<CustomerAddress>> GetAllAddresses(Guid customerId);
+        Task<List<CustomerAddressDto>> GetAllAddresses(Guid customerId);
         Task<bool> UpdateAddress(CustomerAddressDto customer);
 
     }

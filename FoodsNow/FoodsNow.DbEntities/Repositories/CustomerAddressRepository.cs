@@ -40,7 +40,7 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<List<CustomerAddress>> GetAllAddresses(Guid customerId)
         {
-            return await _foodsNowDbContext.CustomerAdresses.Where(a => a.CustomerId == customerId).ToListAsync();
+            return await _foodsNowDbContext.CustomerAdresses.Include(c => c.City).Where(a => a.CustomerId == customerId).ToListAsync();
         }
 
         public async Task<bool> UpdateAddress(CustomerAddress customerAddress)

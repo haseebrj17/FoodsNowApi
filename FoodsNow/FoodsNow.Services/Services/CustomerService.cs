@@ -115,9 +115,15 @@ namespace FoodsNow.Services.Services
             return new LoginResponse() { IsLoggedIn = true, Token = token, IsNumberVerified = customer.IsNumberVerified };
         }
 
-        public async Task<List<CustomerAddress>> GetAllAddresses(Guid customerId)
+        public async Task<List<CustomerAddressDto>> GetAllAddresses(Guid customerId)
         {
-            return await _customerAddressRepository.GetAllAddresses(customerId);
+            var addresses = _mapper.Map<List<CustomerAddress>, List<CustomerAddressDto>>(await _customerAddressRepository.GetAllAddresses(customerId));
+
+            foreach (var address in addresses)
+            {
+                address.CityName = address.City.Name;
+            }
+            return addresses;
         }
     }
 }

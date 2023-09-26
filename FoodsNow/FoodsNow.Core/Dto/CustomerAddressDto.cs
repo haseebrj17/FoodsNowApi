@@ -16,5 +16,6 @@
         public required decimal Longitude { get; set; }
         public required string CityName { get; set; }
         public Guid? CustomerId { get; set; }
+        public required CityDto City { get; set; }
     }
 }

@@ -42,14 +42,6 @@ namespace FoodsNow.Services.MappingConfigurations
 
             CreateMap<CustomerAddressDto, CustomerAddress>();
 
-            CreateMap<OrderProductExtraToppingDto, OrderProductExtraTopping>();
-
-            CreateMap<OrderProductExtraTopping, OrderProductExtraToppingDto>();
-
-            CreateMap<OrderProductExtraTopping, OrderProductExtraToppingDto>();
-
-            CreateMap<OrderProductExtraToppingDto, OrderProductExtraTopping>();
-
             CreateMap<OrderProductDto, OrderProduct>();
 
             CreateMap<OrderProduct, OrderProductDto>();
@@ -65,6 +57,10 @@ namespace FoodsNow.Services.MappingConfigurations
             CreateMap<OrderProductExtraToppingDto, OrderProductExtraTopping>();
 
             CreateMap<OrderProductExtraTopping, OrderProductExtraToppingDto>();
+            
+            CreateMap<CityDto, City>();
+
+            CreateMap<City, CityDto>();
 
         }
 
