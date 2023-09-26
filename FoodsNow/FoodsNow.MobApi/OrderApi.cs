@@ -30,9 +30,9 @@ namespace FoodsNow.Api
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
 
-            var customer = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
 
-            if (customer == null)
+            if (loggedInUser == null)
                 return req.CreateResponse(HttpStatusCode.Unauthorized);
 
             if (content == null)
@@ -45,6 +45,8 @@ namespace FoodsNow.Api
 
             if (request.Products == null || !request.Products.Any())
                 return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            request.CustomerId = loggedInUser.Id;
 
             var data = await _orderService.PlaceOrder(request);
 

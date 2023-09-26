@@ -123,9 +123,9 @@ namespace FoodsNow.Api
         {
             _logger.LogInformation("Calling Customer Add Address funtion");
 
-            var customer = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
 
-            if (customer == null)
+            if (loggedInUser == null)
                 return req.CreateResponse(HttpStatusCode.Unauthorized);
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
@@ -140,6 +140,8 @@ namespace FoodsNow.Api
 
             if (string.IsNullOrWhiteSpace(request.CityName))
                 return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            request.CustomerId = loggedInUser.Id;
 
             var data = await _customerService.AddAddress(request);
 
@@ -155,9 +157,9 @@ namespace FoodsNow.Api
         {
             _logger.LogInformation("Calling Register funtion");
 
-            var customer = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
 
-            if (customer == null)
+            if (loggedInUser == null)
                 return req.CreateResponse(HttpStatusCode.Unauthorized);
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
@@ -173,6 +175,8 @@ namespace FoodsNow.Api
             if (string.IsNullOrWhiteSpace(request.CityName))
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
+            request.CustomerId = loggedInUser.Id;
+
             var data = await _customerService.UpdateAddress(request);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
@@ -187,25 +191,12 @@ namespace FoodsNow.Api
         {
             _logger.LogInformation("Calling GetCustomerAddresses funtion");
 
-            var customer = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
 
-            if (customer == null)
+            if (loggedInUser == null)
                 return req.CreateResponse(HttpStatusCode.Unauthorized);
 
-            var content = await new StreamReader(req.Body).ReadToEndAsync();
-
-            if (content == null)
-                return req.CreateResponse(HttpStatusCode.BadRequest);
-
-            var request = JsonConvert.DeserializeObject<CommonRequest>(content);
-
-            if (request == null)
-                return req.CreateResponse(HttpStatusCode.BadRequest);
-
-            if (request.Id == Guid.Empty)
-                return req.CreateResponse(HttpStatusCode.BadRequest);
-
-            var data = await _customerService.GetAllAddresses(request.Id.Value);
+            var data = await _customerService.GetAllAddresses(loggedInUser.Id.Value);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
