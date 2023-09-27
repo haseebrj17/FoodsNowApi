@@ -15,7 +15,8 @@
         {
             SuperAdmin = 1,
             Client = 2,
-            Franchise = 3,
+            FranchiseManager = 3,
+            FranchiseUser = 3,
             Customer = 4
         }
     }

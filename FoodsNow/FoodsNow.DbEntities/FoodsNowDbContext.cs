@@ -38,6 +38,7 @@ namespace FoodsNow.DbEntities
         public DbSet<OrderProduct> OrderProducts { get; set; } = null!;
         public DbSet<OrderProductExtraDipping> OrderProductExtraDippings { get; set; } = null!;
         public DbSet<OrderProductExtraTopping> OrderProductExtraToppings { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
