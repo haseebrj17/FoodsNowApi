@@ -15,5 +15,6 @@ namespace FoodsNow.DbEntities.Models
         public Guid FranchiseId { get; set; }
         public required Franchise Franchise { get; set; }
         public OrderStatus OrderStatus { get; set; }
+        public List<OrderProduct>? OrderProducts { get; set; }
     }
 }

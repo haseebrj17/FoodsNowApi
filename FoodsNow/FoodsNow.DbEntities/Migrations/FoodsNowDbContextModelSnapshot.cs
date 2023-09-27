@@ -51,7 +51,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("FranchiseId");
 
-                    b.ToTable("Allergies");
+                    b.ToTable("Allergies", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.Banner", b =>
@@ -101,7 +101,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("FranchiseId");
 
-                    b.ToTable("Banners");
+                    b.ToTable("Banners", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.Category", b =>
@@ -171,7 +171,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("FranchiseId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.City", b =>
@@ -203,7 +203,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("StateId");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.Client", b =>
@@ -275,7 +275,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.Country", b =>
@@ -302,7 +302,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countries");
+                    b.ToTable("Countries", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.Customer", b =>
@@ -354,7 +354,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.CustomerAddress", b =>
@@ -425,7 +425,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("CustomerAdresses");
+                    b.ToTable("CustomerAdresses", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.DishOfDay", b =>
@@ -469,7 +469,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("FranchiseId");
 
-                    b.ToTable("DishOfDays");
+                    b.ToTable("DishOfDays", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.Franchise", b =>
@@ -540,7 +540,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Franchises");
+                    b.ToTable("Franchises", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.FranchiseHoliday", b =>
@@ -574,7 +574,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("FranchiseId");
 
-                    b.ToTable("FranchiseHolidays");
+                    b.ToTable("FranchiseHolidays", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.FranchiseTiming", b =>
@@ -611,7 +611,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("FranchiseId");
 
-                    b.ToTable("FranchiseTimings");
+                    b.ToTable("FranchiseTimings", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.Order", b =>
@@ -665,7 +665,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("FranchiseId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.OrderProduct", b =>
@@ -710,7 +710,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("ProductPriceId");
 
-                    b.ToTable("OrderProducts");
+                    b.ToTable("OrderProducts", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.OrderProductExtraDipping", b =>
@@ -753,7 +753,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("ProductExtraDippingPriceId");
 
-                    b.ToTable("OrderProductExtraDippings");
+                    b.ToTable("OrderProductExtraDippings", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.OrderProductExtraTopping", b =>
@@ -796,7 +796,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("ProductExtraToppingPriceId");
 
-                    b.ToTable("OrderProductExtraToppings");
+                    b.ToTable("OrderProductExtraToppings", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.Product", b =>
@@ -857,7 +857,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.ProductAllergy", b =>
@@ -890,7 +890,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductAllergies");
+                    b.ToTable("ProductAllergies", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.ProductCategory", b =>
@@ -923,7 +923,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("ProductCategories", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.ProductExtraDipping", b =>
@@ -954,7 +954,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductExtraDippings");
+                    b.ToTable("ProductExtraDippings", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.ProductExtraDippingAllergy", b =>
@@ -987,7 +987,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("ProductExtraDippingId");
 
-                    b.ToTable("ProductExtraDippingAllergies");
+                    b.ToTable("ProductExtraDippingAllergies", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.ProductExtraDippingPrice", b =>
@@ -1023,7 +1023,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("ProductExtraDippingId");
 
-                    b.ToTable("ProductExtraDippingPrices");
+                    b.ToTable("ProductExtraDippingPrices", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.ProductExtraTopping", b =>
@@ -1054,7 +1054,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductExtraToppings");
+                    b.ToTable("ProductExtraToppings", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.ProductExtraToppingAllergy", b =>
@@ -1087,7 +1087,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("ProductExtraToppingId");
 
-                    b.ToTable("ProductExtraToppingAllergies");
+                    b.ToTable("ProductExtraToppingAllergies", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.ProductExtraToppingPrice", b =>
@@ -1123,7 +1123,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("ProductExtraToppingId");
 
-                    b.ToTable("ProductExtraToppingPrices");
+                    b.ToTable("ProductExtraToppingPrices", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.ProductPrice", b =>
@@ -1159,7 +1159,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductPrices");
+                    b.ToTable("ProductPrices", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.State", b =>
@@ -1191,7 +1191,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("States");
+                    b.ToTable("States", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.SuperAdmin", b =>
@@ -1230,7 +1230,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SuperAdmins");
+                    b.ToTable("SuperAdmins", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.User", b =>
@@ -1280,7 +1280,7 @@ namespace FoodsNow.DbEntities.Migrations
 
                     b.HasIndex("FranchiseId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("FoodsNow.DbEntities.Models.Allergy", b =>

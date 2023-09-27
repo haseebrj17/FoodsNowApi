@@ -1,6 +1,6 @@
 ﻿using FoodsNow.Core.Dto;
+using FoodsNow.Core.RequestModels;
 using FoodsNow.Core.ResponseModels;
-using FoodsNow.DbEntities.Models;
 
 namespace FoodsNow.Services.Interfaces
 {
@@ -8,7 +8,7 @@ namespace FoodsNow.Services.Interfaces
     {
         Task<CustomerDto>? AddCustomer(CustomerDto customer);        
         Task<LoginResponse> VerifyPin(string pin, Guid customerId);
-        Task<LoginResponse> CustomerLogin(CustomerDto customer);
+        Task<LoginResponse> CustomerLogin(LoginRequestModel customer);
         Task<CustomerAddressDto?> AddAddress(CustomerAddressDto customer);
         Task<List<CustomerAddressDto>> GetAllAddresses(Guid customerId);
         Task<bool> UpdateAddress(CustomerAddressDto customer);

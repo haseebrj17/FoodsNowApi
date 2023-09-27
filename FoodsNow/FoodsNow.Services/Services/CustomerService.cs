@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using FoodsNow.Core;
 using FoodsNow.Core.Dto;
+using FoodsNow.Core.RequestModels;
 using FoodsNow.Core.ResponseModels;
 using FoodsNow.DbEntities.Models;
 using FoodsNow.DbEntities.Repositories;
@@ -61,17 +63,17 @@ namespace FoodsNow.Services.Services
             return _mapper.Map<CustomerAddress, CustomerAddressDto>(newAddress);
         }
 
-        public async Task<LoginResponse> CustomerLogin(CustomerDto customer)
+        public async Task<LoginResponse> CustomerLogin(LoginRequestModel loginRequest)
         {
-            var customerDetails = await _customerRepository.CustomerLogin(customer.EmailAdress, customer.Password);
+            var customerDetails = await _customerRepository.CustomerLogin(loginRequest.EmailAdress, loginRequest.Password);
 
             if (customerDetails == null) { return new LoginResponse() { IsLoggedIn = false }; }
 
-            var customerDto = _mapper.Map<Customer, CustomerDto>(customerDetails);
+            var currentAppUser = _mapper.Map<Customer, CurrentAppUser>(customerDetails);
 
-            customerDto.UserRole = UserRole.Customer;
+            currentAppUser.UserRole = UserRole.Customer;
 
-            var token = _jwtTokenManager.GenerateToken(customerDto);
+            var token = _jwtTokenManager.GenerateToken(currentAppUser);
 
             return new LoginResponse() { IsLoggedIn = true, Token = token, IsNumberVerified = customerDetails.IsNumberVerified };
 
@@ -106,11 +108,11 @@ namespace FoodsNow.Services.Services
 
             var customer = await _customerRepository.GetById(customerId);
 
-            var customerDto = _mapper.Map<Customer, CustomerDto>(customer);
+            var currentAppUser = _mapper.Map<Customer, CurrentAppUser>(customer);
 
-            customerDto.UserRole = UserRole.Customer;
+            currentAppUser.UserRole = UserRole.Customer;
 
-            var token = _jwtTokenManager.GenerateToken(customerDto);
+            var token = _jwtTokenManager.GenerateToken(currentAppUser);
 
             return new LoginResponse() { IsLoggedIn = true, Token = token, IsNumberVerified = customer.IsNumberVerified };
         }

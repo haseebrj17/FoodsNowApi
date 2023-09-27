@@ -98,7 +98,7 @@ namespace FoodsNow.Api
             if (content == null)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            var request = JsonConvert.DeserializeObject<CustomerDto>(content);
+            var request = JsonConvert.DeserializeObject<LoginRequestModel>(content);
 
             if (request == null)
                 return req.CreateResponse(HttpStatusCode.BadRequest);

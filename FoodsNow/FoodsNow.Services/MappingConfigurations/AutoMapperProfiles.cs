@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using FoodsNow.Core;
 using FoodsNow.Core.Dto;
+using FoodsNow.Core.RequestModels;
 using FoodsNow.DbEntities.Models;
 
 namespace FoodsNow.Services.MappingConfigurations
@@ -61,6 +63,18 @@ namespace FoodsNow.Services.MappingConfigurations
             CreateMap<CityDto, City>();
 
             CreateMap<City, CityDto>();
+
+            CreateMap<CurrentAppUser, Customer>();
+
+            CreateMap<Customer, CurrentAppUser>();
+
+            CreateMap<CurrentAppUser, User>();
+
+            CreateMap<User, CurrentAppUser>();
+
+            CreateMap<CurrentAppUser, Client>();
+
+            CreateMap<Client, CurrentAppUser>();
 
         }
 

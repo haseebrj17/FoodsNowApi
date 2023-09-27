@@ -5,20 +5,21 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Azure.Functions.Worker.Http;
 using static FoodsNow.Core.Enum.Enums;
+using FoodsNow.Core;
 
 namespace FoodsNow.Services
 {
     public interface IJwtTokenManager
     {
-        public string GenerateToken(CustomerDto customer);
-        public CustomerDto? ValidateToken(HttpRequestData req, UserRole requiredRole);
+        public string GenerateToken(CurrentAppUser user);
+        public CurrentAppUser? ValidateToken(HttpRequestData req, UserRole requiredRole);
     }
     public class JwtTokenManager : IJwtTokenManager
     {
         private readonly string JwtValidIssuer = "https://foodsnowdevapi.azurewebsites.net";
         private readonly string JwtValidAudience = "https://foodsnowdevapi.azurewebsites.net";
         private readonly string JwtSecret = "2B757F3F930742D88A220";
-        public string GenerateToken(CustomerDto customer)
+        public string GenerateToken(CurrentAppUser user)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSecret));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -26,12 +27,13 @@ namespace FoodsNow.Services
                 issuer: JwtValidIssuer,
                 audience: JwtValidAudience,
                 claims: new List<Claim>() {
-                    new Claim(nameof(customer.Id), customer.Id.Value.ToString()),
-                    new Claim(nameof(customer.FullName), customer.FullName.ToString()),
-                    new Claim(nameof(customer.EmailAdress), customer.EmailAdress.ToString()),
-                    new Claim(nameof(customer.ContactNumber), customer.ContactNumber.ToString()),
-                    new Claim(nameof(customer.ContactNumber), customer.ContactNumber.ToString()),
-                    new Claim(nameof(customer.UserRole), customer.UserRole.ToString()),
+                    new Claim(nameof(user.Id), (user.Id ?? Guid.NewGuid()).ToString()),
+                    new Claim(nameof(user.FullName), user.FullName.ToString()),
+                    new Claim(nameof(user.EmailAdress), user.EmailAdress.ToString()),
+                    new Claim(nameof(user.ContactNumber), user.ContactNumber.ToString()),
+                    new Claim(nameof(user.ContactNumber), user.ContactNumber.ToString()),
+                    new Claim(nameof(user.UserRole), (user.UserRole ?? UserRole.Customer).ToString()),
+                    new Claim(nameof(user.FranchiseId), (user.FranchiseId ?? Guid.NewGuid()).ToString()),
                 },
                 expires: DateTime.Now.AddDays(365),
                 signingCredentials: signinCredentials
@@ -39,7 +41,7 @@ namespace FoodsNow.Services
             return new JwtSecurityTokenHandler().WriteToken(tokeOptions);
         }
 
-        public CustomerDto? ValidateToken(HttpRequestData req, UserRole requiredRole)
+        public CurrentAppUser? ValidateToken(HttpRequestData req, UserRole requiredRole)
         {
             var authorizationHeader = req.Headers.FirstOrDefault(h => h.Key == "Authorization");
 
@@ -76,16 +78,17 @@ namespace FoodsNow.Services
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
 
-                var customer = new CustomerDto()
+                var currentAppUser = new CurrentAppUser()
                 {
-                    Id = new Guid(jwtToken.Claims.First(x => x.Type == nameof(CustomerDto.Id)).Value),
-                    ContactNumber = jwtToken.Claims.First(x => x.Type == nameof(CustomerDto.ContactNumber)).Value,
-                    EmailAdress = jwtToken.Claims.First(x => x.Type == nameof(CustomerDto.EmailAdress)).Value,
-                    UserRole = Enum.Parse<UserRole>(jwtToken.Claims.First(x => x.Type == nameof(CustomerDto.UserRole)).Value),
-                    FullName = jwtToken.Claims.First(x => x.Type == nameof(CustomerDto.FullName)).Value
+                    Id = new Guid(jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.Id)).Value),
+                    FranchiseId = new Guid(jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.FranchiseId)).Value),
+                    ContactNumber = jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.ContactNumber)).Value,
+                    EmailAdress = jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.EmailAdress)).Value,
+                    UserRole = Enum.Parse<UserRole>(jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.UserRole)).Value),
+                    FullName = jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.FullName)).Value
                 };
 
-                return customer;
+                return currentAppUser;
             }
             catch
             {
