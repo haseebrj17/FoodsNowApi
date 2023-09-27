@@ -28,8 +28,8 @@ namespace FoodsNow.DbEntities.Repositories
 
             customerAddress.CreatedDateTimeUtc = DateTime.UtcNow;
             customerAddress.UpdatedDateTimeUtc = DateTime.UtcNow;
-            customerAddress.CreatedById = Guid.NewGuid();//Todo: replace
-            customerAddress.UpdatedById = Guid.NewGuid();//Todo: replace
+            customerAddress.CreatedById = customerAddress.CustomerId;
+            customerAddress.UpdatedById = customerAddress.CustomerId;
 
             await _foodsNowDbContext.CustomerAdresses.AddAsync(customerAddress);
 
@@ -64,7 +64,7 @@ namespace FoodsNow.DbEntities.Repositories
             customerAddress.Latitude = currentAddress.Latitude;
             customerAddress.Longitude = currentAddress.Longitude;
             customerAddress.UpdatedDateTimeUtc = DateTime.UtcNow;
-            customerAddress.UpdatedById = Guid.NewGuid();//Todo: replace
+            customerAddress.UpdatedById = customerAddress.CustomerId;
 
 
             _foodsNowDbContext.CustomerAdresses.Update(customerAddress);

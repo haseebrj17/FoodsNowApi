@@ -21,7 +21,17 @@ namespace FoodsNow.Services.Services
         {
             try
             {
+                
+
                 var newOrder = _mapper.Map<OrderDto, Order>(order);
+
+                newOrder.CreatedDateTimeUtc = DateTime.UtcNow;
+
+                newOrder.UpdatedDateTimeUtc = DateTime.UtcNow;
+
+                newOrder.CreatedById = newOrder.CustomerId;
+
+                newOrder.UpdatedById = newOrder.CustomerId;
 
                 newOrder.TotalItems = order.Products.Count;
 
@@ -41,6 +51,14 @@ namespace FoodsNow.Services.Services
 
                     orderTotal += newProduct.UnitPrice * newProduct.Quantity;
 
+                    newProduct.CreatedDateTimeUtc = DateTime.UtcNow;
+
+                    newProduct.UpdatedDateTimeUtc = DateTime.UtcNow;
+
+                    newProduct.CreatedById = newOrder.CustomerId;
+
+                    newProduct.UpdatedById = newOrder.CustomerId;
+
                     newProduct = await _orderRepository.AddProduct(newProduct);
 
                     if (product.ProductExtraDippings != null)
@@ -52,6 +70,14 @@ namespace FoodsNow.Services.Services
                             var newExtraDipping = _mapper.Map<OrderProductExtraDippingDto, OrderProductExtraDipping>(extraDipping);
 
                             newExtraDipping.UnitPrice = await _orderRepository.GetProductExtraDippingPrice(extraDipping.ProductExtraDippingPriceId);
+
+                            newExtraDipping.CreatedDateTimeUtc = DateTime.UtcNow;
+
+                            newExtraDipping.UpdatedDateTimeUtc = DateTime.UtcNow;
+
+                            newExtraDipping.CreatedById = newOrder.CustomerId;
+
+                            newExtraDipping.UpdatedById = newOrder.CustomerId;
 
                             await _orderRepository.AddProductExtraDipping(newExtraDipping);
 
@@ -67,6 +93,14 @@ namespace FoodsNow.Services.Services
                             var newExtraTopping = _mapper.Map<OrderProductExtraToppingDto, OrderProductExtraTopping>(extraTopping);
 
                             newExtraTopping.UnitPrice = await _orderRepository.GetProductExtraToppingPrice(extraTopping.ProductExtraToppingPriceId);
+
+                            newExtraTopping.CreatedDateTimeUtc = DateTime.UtcNow;
+
+                            newExtraTopping.UpdatedDateTimeUtc = DateTime.UtcNow;
+
+                            newExtraTopping.CreatedById = newOrder.CustomerId;
+
+                            newExtraTopping.UpdatedById = newOrder.CustomerId;
 
                             await _orderRepository.AddProductExtraTopping(newExtraTopping);
 

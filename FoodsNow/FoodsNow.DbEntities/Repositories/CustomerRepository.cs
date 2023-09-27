@@ -1,6 +1,5 @@
 ﻿using FoodsNow.DbEntities.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Net.Mail;
 
 namespace FoodsNow.DbEntities.Repositories
 {
@@ -30,8 +29,8 @@ namespace FoodsNow.DbEntities.Repositories
             customer.VerificationCode = GeneatePin();
             customer.CreatedDateTimeUtc = DateTime.UtcNow;
             customer.UpdatedDateTimeUtc = DateTime.UtcNow;
-            customer.CreatedById = Guid.NewGuid();//Todo: replace
-            customer.UpdatedById = Guid.NewGuid();//Todo: replace
+            customer.CreatedById = Guid.NewGuid();
+            customer.UpdatedById = Guid.NewGuid();
 
             await _foodsNowDbContext.Customers.AddAsync(customer);
 
@@ -64,7 +63,7 @@ namespace FoodsNow.DbEntities.Repositories
 
             customer.IsNumberVerified = true;
             customer.UpdatedDateTimeUtc = DateTime.UtcNow;
-            customer.UpdatedById = Guid.NewGuid();//Todo: replace
+            customer.UpdatedById = customerId;
 
             _foodsNowDbContext.Customers.Update(customer);
 
