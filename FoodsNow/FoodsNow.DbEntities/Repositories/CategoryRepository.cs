@@ -4,7 +4,8 @@ namespace FoodsNow.DbEntities.Repositories
 {
     public interface ICategoryRepository
     {
-        List<Category> GetFranchiseBrands(Guid FranchiseId);
+        List<Category> GetFranchiseBrands(Guid franchiseId);
+        List<Category> GetChildCategories(Guid categoryId);
     }
     public class CategoryRepository : ICategoryRepository
     {
@@ -13,9 +14,15 @@ namespace FoodsNow.DbEntities.Repositories
         {
             _foodsNowDbContext = foodsNowDbContext;
         }
-        public List<Category> GetFranchiseBrands(Guid FranchiseId)
+
+        public List<Category> GetChildCategories(Guid categoryId)
         {
-            return _foodsNowDbContext.Categories.Where(b => b.FranchiseId == FranchiseId && b.IsActive && b.IsBrand).OrderBy(c => c.Sequence).ToList();
+            return _foodsNowDbContext.Categories.Where(b => b.ParentId == categoryId && b.IsActive).OrderBy(c => c.Sequence).ToList();
+        }
+
+        public List<Category> GetFranchiseBrands(Guid franchiseId)
+        {
+            return _foodsNowDbContext.Categories.Where(b => b.FranchiseId == franchiseId && b.IsActive && b.IsBrand).OrderBy(c => c.Sequence).ToList();
         }
     }
 }

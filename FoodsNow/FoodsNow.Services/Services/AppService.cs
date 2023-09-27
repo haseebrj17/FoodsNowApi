@@ -55,6 +55,7 @@ namespace FoodsNow.Services.Services
         {
             var productsData = new ProductsDataDto
             {
+                Categories = _mapper.Map<List<Category>, List<CategoryDto>>(_categoryRepository.GetChildCategories(categoryId)),
                 Products = _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsByCategoryId(categoryId)),
                 ProductExtraDippings = _mapper.Map<List<ProductExtraDipping>, List<ProductExtraDippingDto>>(await _productExtraDippingRepository.GetProductExtraDippings()),
                 ProductExtraTroppings = _mapper.Map<List<ProductExtraTopping>, List<ProductExtraToppingDto>>(await _productExtraToppingRepository.GetProductExtraToppings())
@@ -72,13 +73,13 @@ namespace FoodsNow.Services.Services
 
             if (productData.Product.showExtraDipping)
             {
-                productData.ProductExtraDippings = 
+                productData.ProductExtraDippings =
                     _mapper.Map<List<ProductExtraDipping>, List<ProductExtraDippingDto>>(await _productExtraDippingRepository.GetProductExtraDippings());
             }
 
             if (productData.Product.showExtraDipping)
             {
-                productData.ProductExtraTroppings = 
+                productData.ProductExtraTroppings =
                     _mapper.Map<List<ProductExtraTopping>, List<ProductExtraToppingDto>>(await _productExtraToppingRepository.GetProductExtraToppings());
             }
 
