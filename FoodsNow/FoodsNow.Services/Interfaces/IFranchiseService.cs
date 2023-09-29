@@ -8,6 +8,7 @@ namespace FoodsNow.Services.Interfaces
     {
         Task<LoginResponse> UserLogin(LoginRequestModel customer);
         Task<List<OrderDto>> GetAllFranchiseOrders(Guid franchiseId);
+        Task<List<OrderDto>> GetCustomerOrders(Guid customerId);
         Task<OrderDto> GetOrderDetail(Guid orderId, Guid franchiseId);
     }
 }

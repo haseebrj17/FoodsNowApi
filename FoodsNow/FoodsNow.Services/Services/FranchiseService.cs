@@ -30,6 +30,13 @@ namespace FoodsNow.Services.Services
             return _mapper.Map<List<Order>, List<OrderDto>>(orders);
         }
 
+        public async Task<List<OrderDto>> GetCustomerOrders(Guid customerId)
+        {
+            var orders = await _franchiseRepository.GetCustomerOrders(customerId);
+
+            return _mapper.Map<List<Order>, List<OrderDto>>(orders);
+        }
+
         public async Task<OrderDto> GetOrderDetail(Guid orderId, Guid franchiseId)
         {
             var order = await _franchiseRepository.GetOrderDetail(orderId,franchiseId);

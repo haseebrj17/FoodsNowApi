@@ -1,6 +1,7 @@
 ﻿using FoodsNow.Core.Dto;
 using FoodsNow.Services;
 using FoodsNow.Services.Interfaces;
+using FoodsNow.Services.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -14,12 +15,14 @@ namespace FoodsNow.Api
     {
         private readonly ILogger _logger;
         private readonly IOrderService _orderService;
+        private readonly IFranchiseService _franchiseService;
         private readonly IJwtTokenManager _jwtTokenManager;
-        public OrderApi(ILoggerFactory loggerFactory, IOrderService orderService, IJwtTokenManager jwtTokenManager)
+        public OrderApi(ILoggerFactory loggerFactory, IOrderService orderService, IJwtTokenManager jwtTokenManager, IFranchiseService franchiseService)
         {
             _logger = loggerFactory.CreateLogger<CustomerApi>();
             _orderService = orderService;
             _jwtTokenManager = jwtTokenManager;
+            _franchiseService = franchiseService;
         }
 
         [Function(nameof(PlaceOrder))]
@@ -61,6 +64,25 @@ namespace FoodsNow.Api
                 await response.WriteAsJsonAsync(new { isSuccess = true, data });
 
             }
+
+            return response;
+        }
+
+        [Function(nameof(GetCustomerOrders))]
+        public async Task<HttpResponseData> GetCustomerOrders([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+        {
+            _logger.LogInformation("Calling GetCustomerOrders funtion");
+
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, new List<UserRole> { UserRole.Customer });
+
+            if (loggedInUser == null)
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+
+            var data = await _franchiseService.GetCustomerOrders(loggedInUser.Id.Value);
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+
+            await response.WriteAsJsonAsync(data);
 
             return response;
         }

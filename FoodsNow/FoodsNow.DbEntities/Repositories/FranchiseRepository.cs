@@ -9,7 +9,7 @@ namespace FoodsNow.DbEntities.Repositories
         Task<Franchise> GetFranchiseDetail(decimal latidude, decimal longitude);
         Task<List<Franchise>> GetClientFranchises(Guid clientId);
         Task<List<Order>> GetAllFranchiseOrders(Guid franchiseId);
-        Task<List<Order>> GetAllCustomerOrders(Guid customerId);
+        Task<List<Order>> GetCustomerOrders(Guid customerId);
         Task<Order> GetOrderDetail(Guid orderId, Guid franchiseId);
         Task<bool> UpdateOrderStatus(Guid orderId, OrderStatus orderStatus);
         Task<User> UserLogin(string email, string password);
@@ -22,7 +22,7 @@ namespace FoodsNow.DbEntities.Repositories
             _foodsNowDbContext = foodsNowDbContext;
         }
 
-        public async Task<List<Order>> GetAllCustomerOrders(Guid customerId)
+        public async Task<List<Order>> GetCustomerOrders(Guid customerId)
         {
             return await _foodsNowDbContext.Orders.Include(o => o.OrderProducts)
                 .ThenInclude(p => p.OrderProductExtraDippings).Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings)
