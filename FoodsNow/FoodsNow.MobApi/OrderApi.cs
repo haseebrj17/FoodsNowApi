@@ -30,7 +30,7 @@ namespace FoodsNow.Api
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
 
-            var loggedInUser = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, new List<UserRole> { UserRole.Customer });
 
             if (loggedInUser == null)
                 return req.CreateResponse(HttpStatusCode.Unauthorized);

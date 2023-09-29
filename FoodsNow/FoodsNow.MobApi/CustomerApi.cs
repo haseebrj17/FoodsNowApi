@@ -123,7 +123,7 @@ namespace FoodsNow.Api
         {
             _logger.LogInformation("Calling Customer Add Address funtion");
 
-            var loggedInUser = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, new List<UserRole> { UserRole.Customer });
 
             if (loggedInUser == null)
                 return req.CreateResponse(HttpStatusCode.Unauthorized);
@@ -157,7 +157,7 @@ namespace FoodsNow.Api
         {
             _logger.LogInformation("Calling Register funtion");
 
-            var loggedInUser = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, new List<UserRole> { UserRole.Customer });
 
             if (loggedInUser == null)
                 return req.CreateResponse(HttpStatusCode.Unauthorized);
@@ -191,7 +191,7 @@ namespace FoodsNow.Api
         {
             _logger.LogInformation("Calling GetCustomerAddresses funtion");
 
-            var loggedInUser = _jwtTokenManager.ValidateToken(req, UserRole.Customer);
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, new List<UserRole> { UserRole.Customer });
 
             if (loggedInUser == null)
                 return req.CreateResponse(HttpStatusCode.Unauthorized);

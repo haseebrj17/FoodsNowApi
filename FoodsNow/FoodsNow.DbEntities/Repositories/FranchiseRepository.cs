@@ -10,7 +10,7 @@ namespace FoodsNow.DbEntities.Repositories
         Task<List<Franchise>> GetClientFranchises(Guid clientId);
         Task<List<Order>> GetAllFranchiseOrders(Guid franchiseId);
         Task<List<Order>> GetAllCustomerOrders(Guid customerId);
-        Task<Order> GetOrderDetail(Guid orderId);
+        Task<Order> GetOrderDetail(Guid orderId, Guid franchiseId);
         Task<bool> UpdateOrderStatus(Guid orderId, OrderStatus orderStatus);
         Task<User> UserLogin(string email, string password);
     }
@@ -46,10 +46,11 @@ namespace FoodsNow.DbEntities.Repositories
             return await _foodsNowDbContext.Franchises.FirstAsync();//.FindAsync(latidude, longitude);
         }
 
-        public async Task<Order> GetOrderDetail(Guid orderId)
+        public async Task<Order> GetOrderDetail(Guid orderId, Guid franchiseId)
         {
             return await _foodsNowDbContext.Orders.Include(o => o.OrderProducts)
-                .ThenInclude(p => p.OrderProductExtraDippings).Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings).FirstAsync(o => o.Id == orderId);
+                .ThenInclude(p => p.OrderProductExtraDippings).Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings)
+                .FirstAsync(o => o.Id == orderId && o.FranchiseId == franchiseId);
         }
 
         public async Task<bool> UpdateOrderStatus(Guid orderId, OrderStatus orderStatus)

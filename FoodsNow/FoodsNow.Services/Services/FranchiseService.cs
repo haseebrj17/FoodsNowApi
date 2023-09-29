@@ -23,16 +23,16 @@ namespace FoodsNow.Services.Services
             _jwtTokenManager = jwtTokenManager;
         }
 
-        public async Task<List<OrderDto>> GetAllOrders(Guid franchiseId)
+        public async Task<List<OrderDto>> GetAllFranchiseOrders(Guid franchiseId)
         {
             var orders = await _franchiseRepository.GetAllFranchiseOrders(franchiseId);
 
             return _mapper.Map<List<Order>, List<OrderDto>>(orders);
         }
 
-        public async Task<OrderDto> GetOrderDetail(Guid orderId)
+        public async Task<OrderDto> GetOrderDetail(Guid orderId, Guid franchiseId)
         {
-            var order = await _franchiseRepository.GetOrderDetail(orderId);
+            var order = await _franchiseRepository.GetOrderDetail(orderId,franchiseId);
 
             return _mapper.Map<Order, OrderDto>(order);
         }

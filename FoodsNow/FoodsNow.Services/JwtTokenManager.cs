@@ -12,7 +12,7 @@ namespace FoodsNow.Services
     public interface IJwtTokenManager
     {
         public string GenerateToken(CurrentAppUser user);
-        public CurrentAppUser? ValidateToken(HttpRequestData req, UserRole requiredRole);
+        public CurrentAppUser? ValidateToken(HttpRequestData req, List<UserRole> requiredRoles);
     }
     public class JwtTokenManager : IJwtTokenManager
     {
@@ -41,7 +41,7 @@ namespace FoodsNow.Services
             return new JwtSecurityTokenHandler().WriteToken(tokeOptions);
         }
 
-        public CurrentAppUser? ValidateToken(HttpRequestData req, UserRole requiredRole)
+        public CurrentAppUser? ValidateToken(HttpRequestData req, List<UserRole> requiredRoles)
         {
             var authorizationHeader = req.Headers.FirstOrDefault(h => h.Key == "Authorization");
 
@@ -87,6 +87,11 @@ namespace FoodsNow.Services
                     UserRole = Enum.Parse<UserRole>(jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.UserRole)).Value),
                     FullName = jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.FullName)).Value
                 };
+
+                if (requiredRoles.IndexOf(currentAppUser.UserRole.Value) < 0)
+                {
+                    return null;
+                }
 
                 return currentAppUser;
             }
