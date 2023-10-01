@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FoodsNow.Core;
 using FoodsNow.Core.Dto;
+using FoodsNow.Core.Enum;
 using FoodsNow.Core.RequestModels;
 using FoodsNow.Core.ResponseModels;
 using FoodsNow.DbEntities.Models;
@@ -42,6 +43,11 @@ namespace FoodsNow.Services.Services
             var order = await _franchiseRepository.GetOrderDetail(orderId, franchiseId);
 
             return _mapper.Map<Order, OrderDto>(order);
+        }
+
+        public async Task<bool> UpdateOrderStatus(Guid orderId, Enums.OrderStatus orderStatus, Guid loggedInUserId)
+        {
+            return await _franchiseRepository.UpdateOrderStatus(orderId, orderStatus, loggedInUserId);
         }
 
         public async Task<LoginResponse> UserLogin(LoginRequestModel loginRequest)

@@ -77,6 +77,44 @@ namespace FoodsNow.Api
             return response;
         }
 
+        [Function(nameof(UpdateOrderStatus))]
+        public async Task<HttpResponseData> UpdateOrderStatus([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+        {
+            _logger.LogInformation("Calling UpdateOrderStatus funtion");
+
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, new List<UserRole> { UserRole.FranchiseManager, UserRole.SuperAdmin, UserRole.Client, UserRole.FranchiseUser });
+
+            if (loggedInUser == null)
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+
+            if (loggedInUser.FranchiseId == null || loggedInUser.FranchiseId == Guid.Empty)
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+
+            var content = await new StreamReader(req.Body).ReadToEndAsync();
+
+            if (content == null)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            var request = JsonConvert.DeserializeObject<CommonRequest>(content);
+
+            if (request == null)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            if (request.OrderId == null || request.OrderId == Guid.Empty)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            if (request.OrderStatus == null)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            var data = await _franchiseService.UpdateOrderStatus(request.OrderId.Value, request.OrderStatus, loggedInUser.FranchiseId.Value);
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+
+            await response.WriteAsJsonAsync(data);
+
+            return response;
+        }
+
         [Function(nameof(GetOrderDetail))]
         public async Task<HttpResponseData> GetOrderDetail([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {

@@ -11,7 +11,7 @@ namespace FoodsNow.DbEntities.Repositories
         Task<List<Order>> GetAllFranchiseOrders(Guid franchiseId);
         Task<List<Order>> GetCustomerOrders(Guid customerId);
         Task<Order> GetOrderDetail(Guid orderId, Guid franchiseId);
-        Task<bool> UpdateOrderStatus(Guid orderId, OrderStatus orderStatus);
+        Task<bool> UpdateOrderStatus(Guid orderId, OrderStatus orderStatus, Guid loggedInUserId);
         Task<User> UserLogin(string email, string password);
     }
     public class FranchiseRepository : IFranchiseRepository
@@ -53,13 +53,15 @@ namespace FoodsNow.DbEntities.Repositories
                 .FirstAsync(o => o.Id == orderId && o.FranchiseId == franchiseId);
         }
 
-        public async Task<bool> UpdateOrderStatus(Guid orderId, OrderStatus orderStatus)
+        public async Task<bool> UpdateOrderStatus(Guid orderId, OrderStatus orderStatus, Guid loggedInUserId)
         {
             var order = await _foodsNowDbContext.Orders.FirstAsync(o => o.Id == orderId);
 
             if (order != null)
             {
                 order.OrderStatus = orderStatus;
+
+                order.UpdatedById = loggedInUserId;
 
                 _foodsNowDbContext.Orders.Update(order);
 
