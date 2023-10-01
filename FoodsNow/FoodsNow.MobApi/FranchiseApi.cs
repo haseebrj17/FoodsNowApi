@@ -106,7 +106,7 @@ namespace FoodsNow.Api
             if (request.OrderStatus == null)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            var data = await _franchiseService.UpdateOrderStatus(request.OrderId.Value, request.OrderStatus, loggedInUser.FranchiseId.Value);
+            var data = await _franchiseService.UpdateOrderStatus(request.OrderId.Value, Enum.Parse<OrderStatus>(request.OrderStatus.Value.ToString()), loggedInUser.FranchiseId.Value);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
