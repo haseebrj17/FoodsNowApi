@@ -33,7 +33,7 @@ namespace FoodsNow.Services.Services
 
                 newOrder.UpdatedById = newOrder.CustomerId;
 
-                newOrder.TotalItems = order.Products.Count;
+                newOrder.TotalItems = order.OrderProducts.Count;
 
                 newOrder.OrderStatus = Core.Enum.Enums.OrderStatus.OrderPlaced;
 
@@ -41,7 +41,7 @@ namespace FoodsNow.Services.Services
 
                 decimal orderTotal = 0;
 
-                foreach (var product in order.Products)
+                foreach (var product in order.OrderProducts)
                 {
                     product.OrderId = newOrder.Id;
 
@@ -61,9 +61,9 @@ namespace FoodsNow.Services.Services
 
                     newProduct = await _orderRepository.AddProduct(newProduct);
 
-                    if (product.ProductExtraDippings != null)
+                    if (product.OrderProductExtraDippings != null)
                     {
-                        foreach (var extraDipping in product.ProductExtraDippings)
+                        foreach (var extraDipping in product.OrderProductExtraDippings)
                         {
                             extraDipping.OrderProductId = newProduct.Id;
 
@@ -84,9 +84,9 @@ namespace FoodsNow.Services.Services
                             orderTotal += newExtraDipping.UnitPrice * newExtraDipping.Quantity;
                         }
                     }
-                    if (product.ProductExtraToppings != null)
+                    if (product.OrderProductExtraToppings != null)
                     {
-                        foreach (var extraTopping in product.ProductExtraToppings)
+                        foreach (var extraTopping in product.OrderProductExtraToppings)
                         {
                             extraTopping.OrderProductId = newProduct.Id;
 

@@ -31,7 +31,7 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<List<Order>> GetAllFranchiseOrders(Guid franchiseId)
         {
-            return await _foodsNowDbContext.Orders.Include(o => o.OrderProducts)
+            return await _foodsNowDbContext.Orders.Include(o => o.CustomerAdress).Include(o => o.OrderProducts)
                 .ThenInclude(p => p.OrderProductExtraDippings).Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings).ToListAsync();
         }
 
@@ -48,7 +48,7 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<Order> GetOrderDetail(Guid orderId, Guid franchiseId)
         {
-            return await _foodsNowDbContext.Orders.Include(o => o.OrderProducts)
+            return await _foodsNowDbContext.Orders.Include(o => o.Customer).Include(o => o.CustomerAdress).Include(o => o.OrderProducts)
                 .ThenInclude(p => p.OrderProductExtraDippings).Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings)
                 .FirstAsync(o => o.Id == orderId && o.FranchiseId == franchiseId);
         }

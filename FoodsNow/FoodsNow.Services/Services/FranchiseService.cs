@@ -39,7 +39,7 @@ namespace FoodsNow.Services.Services
 
         public async Task<OrderDto> GetOrderDetail(Guid orderId, Guid franchiseId)
         {
-            var order = await _franchiseRepository.GetOrderDetail(orderId,franchiseId);
+            var order = await _franchiseRepository.GetOrderDetail(orderId, franchiseId);
 
             return _mapper.Map<Order, OrderDto>(order);
         }
@@ -54,7 +54,9 @@ namespace FoodsNow.Services.Services
 
             currentAppUser.UserRole = userDetails.UserRole;
 
+            currentAppUser.ContactNumber = "";
             currentAppUser.FranchiseId = userDetails.FranchiseId;
+            currentAppUser.FullName = userDetails.FirstName + " " + userDetails.LastName;
 
             var token = _jwtTokenManager.GenerateToken(currentAppUser);
 

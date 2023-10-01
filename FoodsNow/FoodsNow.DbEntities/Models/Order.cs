@@ -1,4 +1,5 @@
-﻿using static FoodsNow.Core.Enum.Enums;
+﻿using FoodsNow.Core.Dto;
+using static FoodsNow.Core.Enum.Enums;
 
 namespace FoodsNow.DbEntities.Models
 {
@@ -14,7 +15,7 @@ namespace FoodsNow.DbEntities.Models
         public required CustomerAddress CustomerAdress { get; set; }
         public Guid FranchiseId { get; set; }
         public required Franchise Franchise { get; set; }
-        public OrderStatus OrderStatus { get; set; }
+        public OrderStatus OrderStatus { get; set; }        
         public List<OrderProduct>? OrderProducts { get; set; }
     }
 }

@@ -47,7 +47,7 @@ namespace FoodsNow.Api
             if (request == null)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            if (request.Products == null || !request.Products.Any())
+            if (request.OrderProducts == null || !request.OrderProducts.Any())
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
             request.CustomerId = loggedInUser.Id;

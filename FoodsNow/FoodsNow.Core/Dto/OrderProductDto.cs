@@ -7,7 +7,7 @@
         public Guid ProductId { get; set; }
         public Guid ProductPriceId { get; set; }
 
-        public List<OrderProductExtraDippingDto>? ProductExtraDippings { get; set; }
-        public List<OrderProductExtraToppingDto>? ProductExtraToppings { get; set; }
+        public List<OrderProductExtraDippingDto>? OrderProductExtraDippings { get; set; }
+        public List<OrderProductExtraToppingDto>? OrderProductExtraToppings { get; set; }
     }
 }
