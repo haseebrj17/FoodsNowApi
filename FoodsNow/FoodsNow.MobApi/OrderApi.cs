@@ -2,6 +2,7 @@
 using FoodsNow.Services;
 using FoodsNow.Services.Interfaces;
 using FoodsNow.Services.Services;
+using Grpc.Core;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
@@ -55,7 +56,7 @@ namespace FoodsNow.Api
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
-            if (data == Guid.Empty)
+            if (data == null || data == Guid.Empty)
             {
                 await response.WriteAsJsonAsync(new { isSuccess = false, ErrorMessage = "Order failed" });
             }
