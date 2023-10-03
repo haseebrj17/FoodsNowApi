@@ -31,11 +31,38 @@ namespace FoodsNow.Services.Services
             return _mapper.Map<List<Order>, List<OrderDto>>(orders);
         }
 
-        public async Task<List<OrderDto>> GetCustomerOrders(Guid customerId)
+        public async Task<List<OrderDetailDto>> GetCustomerOrders(Guid customerId)
         {
             var orders = await _franchiseRepository.GetCustomerOrders(customerId);
 
-            return _mapper.Map<List<Order>, List<OrderDto>>(orders);
+            var customerOrdrs = _mapper.Map<List<Order>, List<OrderDetailDto>>(orders);
+
+            foreach (var order in customerOrdrs)
+            {
+                order.Products = orders.First(o => o.Id == order.Id).OrderProducts
+                    .Select(p => new OrderDetailProductDto() { Name = p.Product.Name, Price = p.UnitPrice, Quanity = p.Quantity, Id = p.ProductId }).ToList();
+
+                foreach (var product in order.Products)
+                {
+                    product.ExtraDippingProducts = orders.First(o => o.Id == order.Id).OrderProducts.FirstOrDefault(p => p.ProductId == product.Id)
+                        .OrderProductExtraDippings.Select(p => new OrderDetailProductExtraDto
+                        {
+                            Name = p.OrderProduct.Product.Name,
+                            Quanity = p.Quantity,
+                            Price = p.UnitPrice
+                        }).ToList();
+
+                    product.ExtraToppingProducts = orders.First(o => o.Id == order.Id).OrderProducts.FirstOrDefault(p => p.ProductId == product.Id)
+                        .OrderProductExtraToppings.Select(p => new OrderDetailProductExtraDto
+                        {
+                            Name = p.OrderProduct.Product.Name,
+                            Quanity = p.Quantity,
+                            Price = p.UnitPrice
+                        }).ToList();
+                }
+            }
+
+            return customerOrdrs;
         }
 
         public async Task<OrderDto> GetOrderDetail(Guid orderId, Guid franchiseId)

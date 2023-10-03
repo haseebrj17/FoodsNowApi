@@ -52,6 +52,10 @@ namespace FoodsNow.Services.MappingConfigurations
 
             CreateMap<Order, OrderDto>();
 
+            CreateMap<OrderDetailDto, Order>();
+
+            CreateMap<Order, OrderDetailDto>();
+
             CreateMap<OrderProductExtraDippingDto, OrderProductExtraDipping>();
 
             CreateMap<OrderProductExtraDipping, OrderProductExtraDippingDto>();

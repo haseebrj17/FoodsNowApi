@@ -24,8 +24,9 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<List<Order>> GetCustomerOrders(Guid customerId)
         {
-            return await _foodsNowDbContext.Orders.Include(o => o.OrderProducts)
-                .ThenInclude(p => p.OrderProductExtraDippings).Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings)
+            return await _foodsNowDbContext.Orders.Include(o => o.OrderProducts).ThenInclude(p => p.Product)                
+                .Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraDippings)
+                .Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings)
                 .Where(o => o.CustomerId == customerId).ToListAsync();
         }
 
