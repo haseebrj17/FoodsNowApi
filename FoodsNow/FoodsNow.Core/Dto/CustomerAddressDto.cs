@@ -15,6 +15,8 @@
         public required decimal Latitude { get; set; }
         public required decimal Longitude { get; set; }
         public required string CityName { get; set; }
+        public string? CountryName { get; set; }
+        public string? StateName { get; set; }
         public Guid? CustomerId { get; set; }
         public required CityDto City { get; set; }
     }

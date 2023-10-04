@@ -51,7 +51,7 @@ namespace FoodsNow.Services.Services
 
             if (cityId == null || cityId == Guid.Empty)
             {
-                return null;
+                cityId = await _cityRepository.AddCity(addressDto.CityName, addressDto.StateName, addressDto.CountryName);
             }
 
             address.CityId = cityId.Value;
