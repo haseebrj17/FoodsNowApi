@@ -49,7 +49,7 @@ namespace FoodsNow.Services.Services
 
             var cityId = _cityRepository.GetCityIdByName(addressDto.CityName);
 
-            if (cityId == Guid.Empty)
+            if (cityId == null || cityId == Guid.Empty)
             {
                 return null;
             }
