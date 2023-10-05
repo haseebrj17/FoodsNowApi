@@ -31,7 +31,6 @@ namespace FoodsNow.Services
                     new Claim(nameof(user.FullName), user.FullName.ToString()),
                     new Claim(nameof(user.EmailAdress), user.EmailAdress.ToString()),
                     new Claim(nameof(user.ContactNumber), user.ContactNumber.ToString()),
-                    new Claim(nameof(user.ContactNumber), user.ContactNumber.ToString()),
                     new Claim(nameof(user.UserRole), (user.UserRole ?? UserRole.Customer).ToString()),
                     new Claim(nameof(user.FranchiseId), (user.FranchiseId ?? Guid.NewGuid()).ToString()),
                 },
