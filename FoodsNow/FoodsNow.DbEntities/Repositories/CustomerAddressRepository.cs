@@ -23,7 +23,7 @@ namespace FoodsNow.DbEntities.Repositories
                 return null;
 
             if (await _foodsNowDbContext.CustomerAdresses.AnyAsync(c => c.StreetAddress == customerAddress.StreetAddress && c.House == customerAddress.House
-                    && c.CityId == customerAddress.CityId))
+                    && c.CityId == customerAddress.CityId && c.CustomerId == customerAddress.CustomerId))
                 return null;
 
             customerAddress.CreatedDateTimeUtc = DateTime.UtcNow;
