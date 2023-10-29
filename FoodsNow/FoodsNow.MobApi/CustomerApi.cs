@@ -186,6 +186,25 @@ namespace FoodsNow.Api
             return response;
         }
 
+        [Function(nameof(DeleteMyAccount))]
+        public async Task<HttpResponseData> DeleteMyAccount([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+        {
+            _logger.LogInformation("Calling DeleteMyAccount funtion");
+
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, new List<UserRole> { UserRole.Customer });
+
+            if (loggedInUser == null)
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+
+            var data = await _customerService.DeleteMyAccount(loggedInUser.Id.Value);
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+
+            await response.WriteAsJsonAsync(data);
+
+            return response;
+        }
+
         [Function(nameof(GetCustomerAddresses))]
         public async Task<HttpResponseData> GetCustomerAddresses([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {

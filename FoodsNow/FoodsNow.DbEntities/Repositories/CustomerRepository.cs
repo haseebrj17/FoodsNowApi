@@ -8,6 +8,7 @@ namespace FoodsNow.DbEntities.Repositories
         Task<Customer?> Add(Customer customer);
         Task<Customer> GetById(Guid customerId);
         Task<bool> VerifyPin(string pin, Guid customerId);
+        Task<bool> DeleteMyAccount(Guid customerId);
         Task<Customer?> CustomerLogin(string emailAdress, string password);
     }
     public class CustomerRepository : ICustomerRepository
@@ -23,7 +24,7 @@ namespace FoodsNow.DbEntities.Repositories
             if (customer == null)
                 return null;
 
-            if (await _foodsNowDbContext.Customers.AnyAsync(c => c.ContactNumber == customer.ContactNumber))
+            if (await _foodsNowDbContext.Customers.AnyAsync(c => c.ContactNumber == customer.ContactNumber && !c.IsDeleted))
                 return null;
 
             customer.VerificationCode = GeneatePin();
@@ -41,11 +42,54 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<Customer?> CustomerLogin(string emailAdress, string password)
         {
-            var customer = await _foodsNowDbContext.Customers.FirstOrDefaultAsync(c => c.EmailAdress == emailAdress && c.Password == password);
+            var customer = await _foodsNowDbContext.Customers.FirstOrDefaultAsync(c => c.EmailAdress == emailAdress && c.Password == password && c.IsActive && !c.IsDeleted);
 
             if (customer == null) return null;
 
             return customer;
+        }
+
+        public async Task<bool> DeleteMyAccount(Guid customerId)
+        {
+            var customer = await _foodsNowDbContext.Customers.FirstAsync(c => c.Id == customerId);
+
+            customer.IsActive = false;
+
+            customer.ContactNumber = "User removed his/her account";
+
+            customer.IsDeleted = true;
+
+            customer.FullName = "User removed his/her account";
+
+            customer.EmailAdress = "User removed his/her account";
+
+            customer.Password = "User removed his/her account";
+
+            customer.UpdatedById = customer.Id;
+
+            customer.UpdatedDateTimeUtc = DateTime.UtcNow;
+
+            _foodsNowDbContext.Customers.Update(customer);
+
+            var addresses = await _foodsNowDbContext.CustomerAdresses.Where(c => c.CustomerId == customerId).ToListAsync();
+
+            foreach (var address in addresses)
+            {
+                address.StreetAddress = "User removed his/her account";
+                address.Notes = "User removed his/her account";
+                address.House = "User removed his/her account";
+                address.PostalCode = "User removed his/her account";
+                address.UnitNumber = "User removed his/her account";
+                address.FloorNumber = "User removed his/her account";
+                address.Latitude = 0;
+                address.Longitude = 0;
+
+                _foodsNowDbContext.CustomerAdresses.Update(address);
+            }
+
+            await _foodsNowDbContext.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<Customer> GetById(Guid customerId)
@@ -58,7 +102,7 @@ namespace FoodsNow.DbEntities.Repositories
         public async Task<bool> VerifyPin(string pin, Guid customerId)
         {
             var customer = await _foodsNowDbContext.Customers.FirstOrDefaultAsync(c => c.VerificationCode == pin && c.Id == customerId);
-            
+
             if (customer == null) return false;
 
             customer.IsNumberVerified = true;

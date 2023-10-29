@@ -12,6 +12,7 @@ namespace FoodsNow.Services.Interfaces
         Task<CustomerAddressDto?> AddAddress(CustomerAddressDto customer);
         Task<List<CustomerAddressDto>> GetAllAddresses(Guid customerId);
         Task<bool> UpdateAddress(CustomerAddressDto customer);
+        Task<bool> DeleteMyAccount(Guid customerId);
 
     }
 }

@@ -127,5 +127,10 @@ namespace FoodsNow.Services.Services
             }
             return addresses;
         }
+
+        public async Task<bool> DeleteMyAccount(Guid customerId)
+        {
+            return await _customerRepository.DeleteMyAccount(customerId);
+        }
     }
 }
