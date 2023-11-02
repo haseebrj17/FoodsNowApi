@@ -60,6 +60,10 @@ namespace FoodsNow.DbEntities
 
 
 
+            modelBuilder.Entity<Customer>().Property(x => x.IsActive).HasDefaultValue(true);
+
+            modelBuilder.Entity<Customer>().Property(x => x.IsDeleted).HasDefaultValue(false);
+
             modelBuilder.Entity<Category>()
             .HasOne(e => e.Franchise)
             .WithMany()
