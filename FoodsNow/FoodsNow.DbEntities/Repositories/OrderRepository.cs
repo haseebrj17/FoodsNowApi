@@ -8,9 +8,9 @@ namespace FoodsNow.DbEntities.Repositories
         public Task<Order> AddOrder(Order order);
         public Task<Order> UpdateOrder(Order order);
         public Task<OrderProduct> AddProduct(OrderProduct product);
-        public Task<Decimal> GetProductPrice(Guid id);
-        public Task<Decimal> GetProductExtraDippingPrice(Guid id);
-        public Task<Decimal> GetProductExtraToppingPrice(Guid id);
+        public Task<ProductPrice> GetProductPriceDetail(Guid id);
+        public Task<ProductExtraDippingPrice> GetProductExtraDippingPriceDetail(Guid id);
+        public Task<ProductExtraToppingPrice> GetProductExtraToppingPriceDetail(Guid id);
         public Task<OrderProductExtraDipping> AddProductExtraDipping(OrderProductExtraDipping product);
         public Task<OrderProductExtraTopping> AddProductExtraTopping(OrderProductExtraTopping product);
     }
@@ -58,22 +58,19 @@ namespace FoodsNow.DbEntities.Repositories
             return product;
         }
 
-        public async Task<decimal> GetProductExtraDippingPrice(Guid id)
+        public async Task<ProductExtraDippingPrice> GetProductExtraDippingPriceDetail(Guid id)
         {
-            var product = await _foodsNowDbContext.ProductExtraDippingPrices.FirstAsync(p => p.Id == id);
-            return product.Price;
+            return await _foodsNowDbContext.ProductExtraDippingPrices.FirstAsync(p => p.Id == id);
         }
 
-        public async Task<decimal> GetProductExtraToppingPrice(Guid id)
+        public async Task<ProductExtraToppingPrice> GetProductExtraToppingPriceDetail(Guid id)
         {
-            var product = await _foodsNowDbContext.ProductExtraToppingPrices.FirstAsync(p => p.Id == id);
-            return product.Price;
+            return await _foodsNowDbContext.ProductExtraToppingPrices.FirstAsync(p => p.Id == id);
         }
 
-        public async Task<decimal> GetProductPrice(Guid id)
+        public async Task<ProductPrice> GetProductPriceDetail(Guid id)
         {
-            var product = await _foodsNowDbContext.ProductPrices.FirstAsync(p => p.Id == id);
-            return product.Price;
+            return await _foodsNowDbContext.ProductPrices.FirstAsync(p => p.Id == id);
         }
 
         public async Task<Order> UpdateOrder(Order order)

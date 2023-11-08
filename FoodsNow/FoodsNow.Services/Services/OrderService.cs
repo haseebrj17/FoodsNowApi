@@ -63,7 +63,11 @@ namespace FoodsNow.Services.Services
 
                     newProduct.Name = productDetail.Name;
 
-                    newProduct.UnitPrice = await _orderRepository.GetProductPrice(product.ProductPriceId);
+                    var productPriceDetail = await _orderRepository.GetProductPriceDetail(product.ProductPriceId);
+
+                    newProduct.UnitPrice = productPriceDetail.Price;
+
+                    newProduct.PriceDetail = productPriceDetail.Description;
 
                     orderTotal += newProduct.UnitPrice * newProduct.Quantity;
 
@@ -90,7 +94,11 @@ namespace FoodsNow.Services.Services
 
                             newExtraDipping.Name = extraDippingDetail.Name;
 
-                            newExtraDipping.UnitPrice = await _orderRepository.GetProductExtraDippingPrice(extraDipping.ProductExtraDippingPriceId);
+                            var productDippingPriceDetail = await _orderRepository.GetProductExtraDippingPriceDetail(extraDipping.ProductExtraDippingPriceId);
+
+                            newExtraDipping.UnitPrice = productDippingPriceDetail.Price;
+
+                            newExtraDipping.PriceDetail = productDippingPriceDetail.Description;
 
                             newExtraDipping.CreatedDateTimeUtc = DateTime.UtcNow;
 
@@ -117,7 +125,11 @@ namespace FoodsNow.Services.Services
 
                             newExtraTopping.Name = extraToppingDetail.Name;
 
-                            newExtraTopping.UnitPrice = await _orderRepository.GetProductExtraToppingPrice(extraTopping.ProductExtraToppingPriceId);
+                            var productToppingPriceDetail = await _orderRepository.GetProductExtraToppingPriceDetail(extraTopping.ProductExtraToppingPriceId);
+
+                            newExtraTopping.UnitPrice = productToppingPriceDetail.Price;
+
+                            newExtraTopping.PriceDetail = productToppingPriceDetail.Description;
 
                             newExtraTopping.CreatedDateTimeUtc = DateTime.UtcNow;
 

@@ -4,6 +4,7 @@
     {
         public string? Name { get; set; }
         public decimal UnitPrice { get; set; }
+        public string? PriceDetail { get; set; }
         public int Quantity { get; set; }
         public Guid OrderId { get; set; }
         public required Order Order { get; set; }
