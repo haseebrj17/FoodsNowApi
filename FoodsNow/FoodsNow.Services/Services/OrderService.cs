@@ -28,23 +28,24 @@ namespace FoodsNow.Services.Services
         {
             try
             {
+                var orderDetail = _mapper.Map<OrderDto, Order>(order);
 
+                var newOrder = new Order()
+                {
+                    CustomerId = orderDetail.CustomerId,
+                    CustomerAddressId = orderDetail.CustomerAddressId,
+                    FranchiseId = orderDetail.FranchiseId,
+                    CreatedDateTimeUtc = DateTime.UtcNow,
+                    UpdatedDateTimeUtc = DateTime.UtcNow,
+                    CreatedById = orderDetail.CustomerId,
+                    UpdatedById = orderDetail.CustomerId,
+                    TotalItems = order.OrderProducts.Count,
+                    OrderStatus = Core.Enum.Enums.OrderStatus.OrderPlaced,
+                    Instructions = orderDetail.Instructions,
+                    
+                };
 
-                var newOrder = _mapper.Map<OrderDto, Order>(order);
-
-                newOrder.CreatedDateTimeUtc = DateTime.UtcNow;
-
-                newOrder.UpdatedDateTimeUtc = DateTime.UtcNow;
-
-                newOrder.CreatedById = newOrder.CustomerId;
-
-                newOrder.UpdatedById = newOrder.CustomerId;
-
-                newOrder.TotalItems = order.OrderProducts.Count;
-
-                newOrder.OrderStatus = Core.Enum.Enums.OrderStatus.OrderPlaced;
-
-                newOrder = await _orderRepository.AddOrder(newOrder);
+                orderDetail = await _orderRepository.AddOrder(newOrder);
 
                 decimal orderTotal = 0;
 
@@ -52,9 +53,13 @@ namespace FoodsNow.Services.Services
                 {
                     var productDetail = await _productRepository.GetProductById(product.ProductId);
 
-                    product.OrderId = newOrder.Id;
+                    product.OrderId = orderDetail.Id;
 
                     var newProduct = _mapper.Map<OrderProductDto, OrderProduct>(product);
+
+                    newProduct.OrderProductExtraDippings = null;
+
+                    newProduct.OrderProductExtraToppings = null;
 
                     newProduct.Name = productDetail.Name;
 
@@ -66,9 +71,9 @@ namespace FoodsNow.Services.Services
 
                     newProduct.UpdatedDateTimeUtc = DateTime.UtcNow;
 
-                    newProduct.CreatedById = newOrder.CustomerId;
+                    newProduct.CreatedById = orderDetail.CustomerId;
 
-                    newProduct.UpdatedById = newOrder.CustomerId;
+                    newProduct.UpdatedById = orderDetail.CustomerId;
 
                     newProduct = await _orderRepository.AddProduct(newProduct);
 
@@ -91,9 +96,9 @@ namespace FoodsNow.Services.Services
 
                             newExtraDipping.UpdatedDateTimeUtc = DateTime.UtcNow;
 
-                            newExtraDipping.CreatedById = newOrder.CustomerId;
+                            newExtraDipping.CreatedById = orderDetail.CustomerId;
 
-                            newExtraDipping.UpdatedById = newOrder.CustomerId;
+                            newExtraDipping.UpdatedById = orderDetail.CustomerId;
 
                             await _orderRepository.AddProductExtraDipping(newExtraDipping);
 
@@ -118,9 +123,9 @@ namespace FoodsNow.Services.Services
 
                             newExtraTopping.UpdatedDateTimeUtc = DateTime.UtcNow;
 
-                            newExtraTopping.CreatedById = newOrder.CustomerId;
+                            newExtraTopping.CreatedById = orderDetail.CustomerId;
 
-                            newExtraTopping.UpdatedById = newOrder.CustomerId;
+                            newExtraTopping.UpdatedById = orderDetail.CustomerId;
 
                             await _orderRepository.AddProductExtraTopping(newExtraTopping);
 
@@ -129,12 +134,12 @@ namespace FoodsNow.Services.Services
                     }
                 }
 
-                newOrder.TotalBill = orderTotal;
+                orderDetail.TotalBill = orderTotal;
 
-                newOrder = await _orderRepository.UpdateOrder(newOrder);
+                orderDetail = await _orderRepository.UpdateOrder(orderDetail);
 
 
-                return newOrder.Id;
+                return orderDetail.Id;
             }
             catch (Exception ex)
             {

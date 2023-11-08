@@ -1,5 +1,4 @@
-﻿using FoodsNow.Core.Dto;
-using static FoodsNow.Core.Enum.Enums;
+﻿using static FoodsNow.Core.Enum.Enums;
 
 namespace FoodsNow.DbEntities.Models
 {
@@ -10,11 +9,11 @@ namespace FoodsNow.DbEntities.Models
         public DateTime OrderDeliveryDateTime { get; set; }
         public string? Instructions { get; set; }
         public Guid CustomerId { get; set; }
-        public required Customer Customer { get; set; }
+        public Customer? Customer { get; set; }
         public Guid CustomerAddressId { get; set; }
-        public required CustomerAddress CustomerAdress { get; set; }
+        public CustomerAddress? CustomerAdress { get; set; }
         public Guid FranchiseId { get; set; }
-        public required Franchise Franchise { get; set; }
+        public Franchise? Franchise { get; set; }
         public OrderStatus OrderStatus { get; set; }        
         public List<OrderProduct>? OrderProducts { get; set; }
     }
