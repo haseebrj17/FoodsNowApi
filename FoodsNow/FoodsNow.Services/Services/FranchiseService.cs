@@ -37,31 +37,6 @@ namespace FoodsNow.Services.Services
 
             var customerOrdrs = _mapper.Map<List<Order>, List<OrderDetailDto>>(orders);
 
-            foreach (var order in customerOrdrs)
-            {
-                order.Products = orders.First(o => o.Id == order.Id).OrderProducts
-                    .Select(p => new OrderDetailProductDto() { Name = p.Product.Name, Price = p.UnitPrice, Quanity = p.Quantity, Id = p.ProductId }).ToList();
-
-                foreach (var product in order.Products)
-                {
-                    product.ExtraDippingProducts = orders.First(o => o.Id == order.Id).OrderProducts.FirstOrDefault(p => p.ProductId == product.Id)
-                        .OrderProductExtraDippings.Select(p => new OrderDetailProductExtraDto
-                        {
-                            Name = p.OrderProduct.Product.Name,
-                            Quanity = p.Quantity,
-                            Price = p.UnitPrice
-                        }).ToList();
-
-                    product.ExtraToppingProducts = orders.First(o => o.Id == order.Id).OrderProducts.FirstOrDefault(p => p.ProductId == product.Id)
-                        .OrderProductExtraToppings.Select(p => new OrderDetailProductExtraDto
-                        {
-                            Name = p.OrderProduct.Product.Name,
-                            Quanity = p.Quantity,
-                            Price = p.UnitPrice
-                        }).ToList();
-                }
-            }
-
             return customerOrdrs;
         }
 

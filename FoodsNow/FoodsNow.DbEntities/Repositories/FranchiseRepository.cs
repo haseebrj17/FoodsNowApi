@@ -24,7 +24,7 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<List<Order>> GetCustomerOrders(Guid customerId)
         {
-            return await _foodsNowDbContext.Orders.Include(o => o.OrderProducts).ThenInclude(p => p.Product)                
+            return await _foodsNowDbContext.Orders.Include(o => o.OrderProducts)
                 .Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraDippings)
                 .Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings)
                 .Where(o => o.CustomerId == customerId).ToListAsync();
@@ -32,8 +32,11 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<List<Order>> GetAllFranchiseOrders(Guid franchiseId)
         {
-            return await _foodsNowDbContext.Orders.Include(o => o.CustomerAdress).Include(o => o.OrderProducts)
-                .ThenInclude(p => p.OrderProductExtraDippings).Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings).ToListAsync();
+            return await _foodsNowDbContext.Orders.Include(o => o.OrderProducts)
+                .Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraDippings)
+                .Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings)
+                .Where(o => o.FranchiseId == franchiseId)
+                .OrderByDescending(o => o.CreatedDateTimeUtc).ToListAsync();
         }
 
         public async Task<List<Franchise>> GetClientFranchises(Guid clientId)
@@ -49,8 +52,9 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<Order> GetOrderDetail(Guid orderId, Guid franchiseId)
         {
-            return await _foodsNowDbContext.Orders.Include(o => o.Customer).Include(o => o.CustomerAdress).Include(o => o.OrderProducts)
-                .ThenInclude(p => p.OrderProductExtraDippings).Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings)
+            return await _foodsNowDbContext.Orders.Include(o => o.OrderProducts)
+                .Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraDippings)
+                .Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings)
                 .FirstAsync(o => o.Id == orderId && o.FranchiseId == franchiseId);
         }
 

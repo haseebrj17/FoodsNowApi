@@ -1,8 +1,6 @@
 ﻿using FoodsNow.Core.Dto;
 using FoodsNow.Services;
 using FoodsNow.Services.Interfaces;
-using FoodsNow.Services.Services;
-using Grpc.Core;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;

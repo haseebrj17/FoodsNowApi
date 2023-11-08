@@ -9,19 +9,26 @@ namespace FoodsNow.Services.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly IProductExtraDippingRepository _productExtraDippingRepository;
+        private readonly IProductExtraToppingRepository _productExtraToppingRepository;
         private readonly IMapper _mapper;
 
-        public OrderService(IMapper mapper, IOrderRepository orderRepository)
+        public OrderService(IMapper mapper, IOrderRepository orderRepository, IProductRepository productRepository, IProductExtraDippingRepository productExtraDippingRepository,
+            IProductExtraToppingRepository productExtraToppingRepository)
         {
             _mapper = mapper;
             _orderRepository = orderRepository;
+            _productRepository = productRepository;
+            _productExtraDippingRepository = productExtraDippingRepository;
+            _productExtraToppingRepository = productExtraToppingRepository;
         }
 
         public async Task<Guid?> PlaceOrder(OrderDto order)
         {
             try
             {
-                
+
 
                 var newOrder = _mapper.Map<OrderDto, Order>(order);
 
@@ -43,9 +50,13 @@ namespace FoodsNow.Services.Services
 
                 foreach (var product in order.OrderProducts)
                 {
+                    var productDetail = await _productRepository.GetProductById(product.ProductId);
+
                     product.OrderId = newOrder.Id;
 
                     var newProduct = _mapper.Map<OrderProductDto, OrderProduct>(product);
+
+                    newProduct.Name = productDetail.Name;
 
                     newProduct.UnitPrice = await _orderRepository.GetProductPrice(product.ProductPriceId);
 
@@ -65,9 +76,14 @@ namespace FoodsNow.Services.Services
                     {
                         foreach (var extraDipping in product.OrderProductExtraDippings)
                         {
+
+                            var extraDippingDetail = await _productExtraDippingRepository.GetProductExtraDippingById(extraDipping.ProductExtraDippingId);
+
                             extraDipping.OrderProductId = newProduct.Id;
 
                             var newExtraDipping = _mapper.Map<OrderProductExtraDippingDto, OrderProductExtraDipping>(extraDipping);
+
+                            newExtraDipping.Name = extraDippingDetail.Name;
 
                             newExtraDipping.UnitPrice = await _orderRepository.GetProductExtraDippingPrice(extraDipping.ProductExtraDippingPriceId);
 
@@ -88,9 +104,13 @@ namespace FoodsNow.Services.Services
                     {
                         foreach (var extraTopping in product.OrderProductExtraToppings)
                         {
+                            var extraToppingDetail = await _productExtraToppingRepository.GetProductExtraToppingById(extraTopping.ProductExtraToppingId);
+
                             extraTopping.OrderProductId = newProduct.Id;
 
                             var newExtraTopping = _mapper.Map<OrderProductExtraToppingDto, OrderProductExtraTopping>(extraTopping);
+
+                            newExtraTopping.Name = extraToppingDetail.Name;
 
                             newExtraTopping.UnitPrice = await _orderRepository.GetProductExtraToppingPrice(extraTopping.ProductExtraToppingPriceId);
 

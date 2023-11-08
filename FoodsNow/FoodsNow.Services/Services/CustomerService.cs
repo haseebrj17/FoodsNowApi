@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Azure;
+using Azure.Communication.Sms;
 using FoodsNow.Core;
 using FoodsNow.Core.Dto;
 using FoodsNow.Core.RequestModels;
@@ -6,6 +8,7 @@ using FoodsNow.Core.ResponseModels;
 using FoodsNow.DbEntities.Models;
 using FoodsNow.DbEntities.Repositories;
 using FoodsNow.Services.Interfaces;
+using System.Net.Mail;
 using static FoodsNow.Core.Enum.Enums;
 
 namespace FoodsNow.Services.Services
@@ -38,7 +41,20 @@ namespace FoodsNow.Services.Services
 
             if (newCustomer == null) { return null; }
 
-            return _mapper.Map<Customer, CustomerDto>(newCustomer);
+            var response = _mapper.Map<Customer, CustomerDto>(newCustomer);
+
+            return response;
+        }
+
+        private async Task SendSms(Customer customer)
+        {
+            var connectionString = "endpoint=https://foodsnow-communication-service.germany.communication.azure.com/;accesskey=LEcrgqBVfxG+wF4faUI+r8z/0j9MrK+LaR93onm+le5ZlTDO8y5PbeVyeJIEtCBD1fgYih59zwFGZ1i/vPdBng==";
+            var smsClient = new SmsClient(connectionString);
+            var sendResult = await smsClient.SendAsync(
+                from: "<from-phone-number>", // Your E.164 formatted from phone number used to send SMS
+                to: customer.ContactNumber,
+                message: customer.VerificationCode);
+            //Console.WriteLine($"Sms id: {sendResult.}");
         }
 
         public async Task<CustomerAddressDto> AddAddress(CustomerAddressDto addressDto)

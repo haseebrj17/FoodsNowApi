@@ -20,6 +20,7 @@ namespace FoodsNow.Core.Dto
             get { return OrderStatus.ToString(); }
             set { _Status = value; }
         }
+        public CustomerDto? Customer { get; set; }
         public CustomerAddressDto? CustomerAdress { get; set; }
         public List<OrderProductDto>? OrderProducts { get; set; }
     }
