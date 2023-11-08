@@ -33,6 +33,8 @@ namespace FoodsNow.DbEntities.Repositories
         public async Task<List<Order>> GetAllFranchiseOrders(Guid franchiseId)
         {
             return await _foodsNowDbContext.Orders.Include(o => o.OrderProducts)
+                .Include(o => o.Customer)
+                .Include(o => o.CustomerAdress)
                 .Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraDippings)
                 .Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings)
                 .Where(o => o.FranchiseId == franchiseId)
