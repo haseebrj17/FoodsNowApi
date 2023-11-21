@@ -20,7 +20,7 @@ namespace FoodsNow.DbEntities.Repositories
         public async Task<List<Product>> GetProductsById(List<Guid> productIds)
         {
             var products = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.Allergies).ThenInclude(a => a.Allergy)
-                    .Where(p => productIds.Contains(p.Id)).ToListAsync();
+                    .Where(p => productIds.Contains(p.Id) && p.IsActive).ToListAsync();
 
             return products;
         }
@@ -30,7 +30,7 @@ namespace FoodsNow.DbEntities.Repositories
             var products = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.Allergies).ThenInclude(a => a.Allergy)
                     .Join(_foodsNowDbContext.ProductCategories,
                 p => p.Id, c => c.ProductId, (p, c) =>
-                    new { Products = p, Category = c }).Where(p => p.Category.CategoryId == categoryId).Select(p => p.Products).OrderBy(p => p.Sequence).ToListAsync();
+                    new { Products = p, Category = c }).Where(p => p.Category.CategoryId == categoryId && p.Products.IsActive).Select(p => p.Products).OrderBy(p => p.Sequence).ToListAsync();
 
             return products;
         }
@@ -38,7 +38,7 @@ namespace FoodsNow.DbEntities.Repositories
         public async Task<Product> GetProductById(Guid productId)
         {
             var product = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.Allergies).ThenInclude(a => a.Allergy)
-                    .Where(p => p.Id == productId).OrderBy(p => p.Sequence).FirstAsync();
+                    .Where(p => p.Id == productId && p.IsActive).OrderBy(p => p.Sequence).FirstAsync();
             return product;
         }
     }

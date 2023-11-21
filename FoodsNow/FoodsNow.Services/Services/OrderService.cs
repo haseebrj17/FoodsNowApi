@@ -42,7 +42,7 @@ namespace FoodsNow.Services.Services
                     TotalItems = order.OrderProducts.Count,
                     OrderStatus = Core.Enum.Enums.OrderStatus.OrderPlaced,
                     Instructions = orderDetail.Instructions,
-                    
+                    OrderDeliveryDateTime = orderDetail.OrderDeliveryDateTime
                 };
 
                 orderDetail = await _orderRepository.AddOrder(newOrder);
