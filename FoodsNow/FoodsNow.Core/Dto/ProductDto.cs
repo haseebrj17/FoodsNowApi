@@ -14,6 +14,7 @@
         public bool showExtraDipping { get; set; }
         public List<ProductPriceDto> Prices { get; set; } = new List<ProductPriceDto>();
         public List<ProductAllergyDto> Allergies { get; set; } = new List<ProductAllergyDto>();
+        public List<ProductCategoryDto>? ProductCategories { get; set; } = new List<ProductCategoryDto>();
     }
 
     public class ProductPriceDto
@@ -28,5 +29,10 @@
     public class ProductAllergyDto
     {
         public required AllergyDto Allergy { get; set; }
+    }
+
+    public class ProductCategoryDto
+    {
+        public required Guid Id { get; set; }
     }
 }

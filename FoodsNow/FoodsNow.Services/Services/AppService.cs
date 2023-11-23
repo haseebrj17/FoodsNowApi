@@ -53,10 +53,16 @@ namespace FoodsNow.Services.Services
 
         public async Task<ProductsDataDto> GetProducts(Guid categoryId)
         {
+            var categories = _categoryRepository.GetChildCategories(categoryId);
+
+            var categoriesIds = categories.Select(c => c.Id).ToList();
+
+            categoriesIds.Add(categoryId);
+
             var productsData = new ProductsDataDto
             {
-                Categories = _mapper.Map<List<Category>, List<CategoryDto>>(_categoryRepository.GetChildCategories(categoryId)),
-                Products = _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsByCategoryId(categoryId)),
+                Categories = _mapper.Map<List<Category>, List<CategoryDto>>(categories),
+                Products = _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsByCategoryIds(categoriesIds)),
                 ProductExtraDippings = _mapper.Map<List<ProductExtraDipping>, List<ProductExtraDippingDto>>(await _productExtraDippingRepository.GetProductExtraDippings()),
                 ProductExtraTroppings = _mapper.Map<List<ProductExtraTopping>, List<ProductExtraToppingDto>>(await _productExtraToppingRepository.GetProductExtraToppings())
             };

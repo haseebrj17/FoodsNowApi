@@ -30,6 +30,10 @@ namespace FoodsNow.Services.MappingConfigurations
 
             CreateMap<Allergy, AllergyDto>();
 
+            CreateMap<ProductCategory, ProductCategoryDto>();
+
+            CreateMap<ProductCategoryDto, ProductCategory>();
+
             CreateMap<ProductAllergy, ProductAllergyDto>();
 
             CreateMap<ProductExtraDippingAllergy, ProductAllergyDto>();

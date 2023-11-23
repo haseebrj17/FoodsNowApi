@@ -150,6 +150,33 @@ namespace FoodsNow.Api
             return response;
         }
 
+        [Function(nameof(GetAllCategories))]
+        public async Task<HttpResponseData> GetAllCategories([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+        {
+            _logger.LogInformation("Calling GetAllCategories funtion");
+
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, new List<UserRole> { UserRole.FranchiseManager, UserRole.SuperAdmin, UserRole.Client, UserRole.FranchiseUser });
+
+            if (loggedInUser == null)
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+
+            if (loggedInUser.FranchiseId == null || loggedInUser.FranchiseId == Guid.Empty)
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+
+            var content = await new StreamReader(req.Body).ReadToEndAsync();
+
+            if (content == null)
+                return req.CreateResponse(HttpStatusCode.BadRequest);
+
+            //var data = await _franchiseService.GetOrderDetail(request.Id.Value, loggedInUser.FranchiseId.Value);
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+
+            //await response.WriteAsJsonAsync(data);
+
+            return response;
+        }
+
 
     }
 }

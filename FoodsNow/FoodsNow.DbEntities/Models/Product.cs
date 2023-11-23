@@ -15,6 +15,7 @@
         public bool showExtraDipping { get; set; }
         public List<ProductAllergy>? Allergies { get; set; }        
         public List<ProductPrice>? Prices { get; set; }
+        public List<ProductCategory>? ProductCategories { get; set; }
 
     }
 }
