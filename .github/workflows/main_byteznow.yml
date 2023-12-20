@@ -13,7 +13,6 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # Set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '7.0.x' # Set this to the dotnet version to use
 
 jobs:
@@ -31,9 +30,9 @@ jobs:
       - name: 'Resolve Project Dependencies Using Dotnet'
         shell: pwsh
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pushd './FoodsNow'
           dotnet restore
-          dotnet build --configuration Release --no-restore --output ./output
+          dotnet build --configuration Release --no-restore --output ../output
           popd
 
       - name: 'Run Azure Functions Action'
@@ -41,7 +40,7 @@ jobs:
         with:
           app-name: 'byteznow'
           slot-name: 'Production'
-          package: './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+          package: './output'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7EA44EC2B6024B4D8E48153D67DA0D91 }}
 
       - name: 'Error Handling'
