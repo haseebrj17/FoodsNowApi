@@ -9,8 +9,8 @@ var config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-var connectionString = config.GetValue<string>("FoodsNowDb") ?? 
-    "Server=tcp:foods-now-db-server.database.windows.net,1433;Initial Catalog=FoodsNowDb;Persist Security Info=False;User ID=FoodsUser;Password=Haseeb@1949;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+var connectionString = config.GetValue<string>("FoodsNowDb") ??
+    "Server=tcp:bytez-now-db-server.database.windows.net,1433;Initial Catalog=BytezNowDb;Persist Security Info=False;User ID=byteznow;Password=Sibling@2023!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
 var host = new HostBuilder()
     .ConfigureServices(services =>
