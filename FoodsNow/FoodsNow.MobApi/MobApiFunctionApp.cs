@@ -92,7 +92,7 @@ namespace FoodsNow.MobApi
             if (request.Id == Guid.Empty)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            var data = await _appService.GetProducts(request.Id.Value);
+            var data = await _appService.GetProducts(request.Id.Value, request.AddSides.Value);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 

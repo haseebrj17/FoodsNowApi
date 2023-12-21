@@ -53,13 +53,23 @@ namespace FoodsNow.Services.Services
             return homeData;
         }
 
-        public async Task<ProductsDataDto> GetProducts(Guid categoryId)
+        public async Task<ProductsDataDto> GetProducts(Guid categoryId, bool AddSides)
         {
             var categories = _categoryRepository.GetChildCategories(categoryId);
-
             var categoriesIds = categories.Select(c => c.Id).ToList();
-
             categoriesIds.Add(categoryId);
+
+            if (AddSides)
+            {
+                var sides = _categoryRepository.GetCategoryByName("Sides");
+                if (sides != null)
+                {
+                    var sidesCategories = _categoryRepository.GetChildCategories(sides.Id);
+                    var sidesCategoriesIds = sidesCategories.Select(c => c.Id).ToList();
+                    categoriesIds.AddRange(sidesCategoriesIds);
+                    categories.AddRange(sidesCategories);
+                }
+            }
 
             var productsData = new ProductsDataDto
             {

@@ -10,5 +10,6 @@ namespace FoodsNow.Core.Dto
         public required string ContactNumber { get; set; }
         public string? Code { get; set; }
         public UserRole? UserRole { get; set; }
+        public required string DeviceToken { get; set; }
     }
 }

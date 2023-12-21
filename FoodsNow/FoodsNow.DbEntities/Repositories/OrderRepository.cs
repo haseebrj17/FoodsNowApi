@@ -13,6 +13,7 @@ namespace FoodsNow.DbEntities.Repositories
         public Task<ProductExtraToppingPrice> GetProductExtraToppingPriceDetail(Guid id);
         public Task<OrderProductExtraDipping> AddProductExtraDipping(OrderProductExtraDipping product);
         public Task<OrderProductExtraTopping> AddProductExtraTopping(OrderProductExtraTopping product);
+        public Task<Order> GetOrderById(Guid orderId);
     }
     public class OrderRepository : IOrderRepository
     {
@@ -80,6 +81,11 @@ namespace FoodsNow.DbEntities.Repositories
             await _foodsNowDbContext.SaveChangesAsync();
 
             return order;
+        }
+
+        public async Task<Order> GetOrderById(Guid orderId)
+        {
+            return await _foodsNowDbContext.Orders.FirstAsync(o => o.Id == orderId);
         }
     }
 }

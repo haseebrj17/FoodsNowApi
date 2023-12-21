@@ -11,5 +11,6 @@
         public bool IsDeleted { get; set; }
         public bool IsNumberVerified { get; set; }
         public bool IsEmailVerified { get; set; }
+        public required string DeviceToken { get; set; }
     }
 }

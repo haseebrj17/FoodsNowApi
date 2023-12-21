@@ -8,6 +8,7 @@ using FoodsNow.Core.ResponseModels;
 using FoodsNow.DbEntities.Models;
 using FoodsNow.DbEntities.Repositories;
 using FoodsNow.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using System.Net.Mail;
 using static FoodsNow.Core.Enum.Enums;
 
@@ -20,15 +21,17 @@ namespace FoodsNow.Services.Services
         private readonly IMapper _mapper;
         private readonly ICityRepository _cityRepository;
         private readonly IJwtTokenManager _jwtTokenManager;
+        private readonly ILogger _logger;
 
         public CustomerService(IMapper mapper, ICustomerRepository customerRepository, ICustomerAddressRepository customerAddressRepository,
-                ICityRepository cityRepository, IJwtTokenManager jwtTokenManager)
+                ICityRepository cityRepository, IJwtTokenManager jwtTokenManager, ILoggerFactory loggerFactory)
         {
             _mapper = mapper;
             _customerRepository = customerRepository;
             _customerAddressRepository = customerAddressRepository;
             _cityRepository = cityRepository;
             _jwtTokenManager = jwtTokenManager;
+            _logger = loggerFactory.CreateLogger<CustomerService>();
         }
 
         public async Task<CustomerDto> AddCustomer(CustomerDto customerDto)
@@ -41,6 +44,8 @@ namespace FoodsNow.Services.Services
 
             if (newCustomer == null) { return null; }
 
+            await SendSms(newCustomer);
+
             var response = _mapper.Map<Customer, CustomerDto>(newCustomer);
 
             return response;
@@ -48,13 +53,46 @@ namespace FoodsNow.Services.Services
 
         private async Task SendSms(Customer customer)
         {
-            var connectionString = "endpoint=https://foodsnow-communication-service.germany.communication.azure.com/;accesskey=LEcrgqBVfxG+wF4faUI+r8z/0j9MrK+LaR93onm+le5ZlTDO8y5PbeVyeJIEtCBD1fgYih59zwFGZ1i/vPdBng==";
+            var connectionString = "endpoint=https://foodsnowcs.switzerland.communication.azure.com/;accesskey=I0YaWzdEMfzRNEqHdEyL3JFxDvEmg67/jllqoz1OEI1SelvCL1PkV/VO6jXk2Cfka3WZKhPsypfpOxpBNEBGAw==";
             var smsClient = new SmsClient(connectionString);
-            var sendResult = await smsClient.SendAsync(
-                from: "<from-phone-number>", // Your E.164 formatted from phone number used to send SMS
-                to: customer.ContactNumber,
-                message: customer.VerificationCode);
-            //Console.WriteLine($"Sms id: {sendResult.}");
+            bool isSent = false;
+            int retryCount = 0;
+
+            while (!isSent && retryCount < 2)
+            {
+                try
+                {
+                    var sendResult = await smsClient.SendAsync(
+                        from: "BytezNow",
+                        to: customer.ContactNumber,
+                        message: customer.VerificationCode);
+
+                    if (sendResult.Value.Successful)
+                    {
+                        _logger.LogInformation($"SMS sent successfully. Sms id: {sendResult.Value.MessageId}");
+                        isSent = true;
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"Failed to send SMS. Error: {sendResult.Value.ErrorMessage}");
+                    }
+                }
+                catch (RequestFailedException ex)
+                {
+                    _logger.LogError($"Request failed: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Unexpected error: {ex.Message}");
+                }
+
+                retryCount++;
+            }
+
+            if (!isSent)
+            {
+                _logger.LogError("Failed to send SMS after retrying.");
+            }
         }
 
         public async Task<CustomerAddressDto> AddAddress(CustomerAddressDto addressDto)

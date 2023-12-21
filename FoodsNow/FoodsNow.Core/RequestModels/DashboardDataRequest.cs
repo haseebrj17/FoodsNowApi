@@ -5,6 +5,7 @@ namespace FoodsNow.Core.RequestModels
     public class CommonRequest
     {
         public Guid? Id { get; set; }
+        public bool? AddSides { get; set; }
         public List<Guid>? Ids { get; set; }
         public Guid? OrderId { get; set; }
         public OrderStatus? OrderStatus { get; set; }
