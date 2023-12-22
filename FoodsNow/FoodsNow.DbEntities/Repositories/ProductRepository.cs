@@ -38,8 +38,12 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<List<Product>> GetProductsByCategoryIds(List<Guid> categoryIds)
         {
-            var products = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.Allergies).ThenInclude(a => a.Allergy)
-                    .Include(p => p.ProductCategories).Where(p => p.ProductCategories.Where(c => categoryIds.Contains(c.CategoryId)).Any()).ToListAsync();
+            var products = await _foodsNowDbContext.Products
+                            .Include(p => p.Prices)
+                            .Include(p => p.Allergies).ThenInclude(a => a.Allergy)
+                            .Include(p => p.ProductCategories)
+                            .Where(p => p.ProductCategories.Any(pc => categoryIds.Contains(pc.CategoryId)) && p.IsActive)
+                            .ToListAsync();
 
             return products;
         }
