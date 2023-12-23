@@ -73,6 +73,8 @@ namespace FoodsNow.DbEntities.Repositories
                 _foodsNowDbContext.Orders.Update(order);
 
                 await _foodsNowDbContext.SaveChangesAsync();
+
+                return true;
             }
 
             return false;

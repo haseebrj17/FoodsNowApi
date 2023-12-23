@@ -85,7 +85,9 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<Order> GetOrderById(Guid orderId)
         {
-            return await _foodsNowDbContext.Orders.FirstAsync(o => o.Id == orderId);
+            return await _foodsNowDbContext.Orders
+                .Include(o => o.Customer)
+                .FirstAsync(o => o.Id == orderId);
         }
     }
 }
