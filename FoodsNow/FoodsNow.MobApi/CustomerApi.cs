@@ -73,13 +73,13 @@ namespace FoodsNow.Api
             if (request == null)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            if (string.IsNullOrWhiteSpace(request.Code))
+            if (string.IsNullOrWhiteSpace(request.VerificationCode))
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
             if (request.Id == Guid.Empty)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            var data = await _customerService.VerifyPin(request.Code, request.Id.Value);
+            var data = await _customerService.VerifyPin(request.VerificationCode, request.Id.Value);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
