@@ -12,6 +12,7 @@ using Expo.Server.Models;
 using Azure;
 using Azure.Communication.Sms;
 using Microsoft.Extensions.Logging;
+using static FoodsNow.Core.Enum.Enums;
 
 namespace FoodsNow.Services.Services
 {
@@ -169,6 +170,27 @@ namespace FoodsNow.Services.Services
             var token = _jwtTokenManager.GenerateToken(currentAppUser);
 
             return new LoginResponse() { IsLoggedIn = true, Token = token };
+        }
+
+        public async Task<bool> UpdateDishStatus(Guid Id, Enums.Status status, Guid loggedInUserId)
+        {
+            var updateSuccess = await _franchiseRepository.UpdateDishStatus(Id, status, loggedInUserId);
+
+            return updateSuccess;
+        }
+
+        public async Task<bool> UpdateBrandStatus(Guid Id, Enums.Status status, Guid loggedInUserId)
+        {
+            var updateSuccess = await _franchiseRepository.UpdateBrandStatus(Id, status, loggedInUserId);
+
+            return updateSuccess;
+        }
+
+        public async Task<bool> UpdateFranchiseStatus(Guid Id, Enums.Status status, Guid loggedInUserId)
+        {
+            var updateSuccess = await _franchiseRepository.UpdateFranchiseStatus(Id, status, loggedInUserId);
+
+            return updateSuccess;
         }
     }
 }

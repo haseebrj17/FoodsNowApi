@@ -12,6 +12,9 @@ namespace FoodsNow.DbEntities.Repositories
         Task<List<Order>> GetCustomerOrders(Guid customerId);
         Task<Order> GetOrderDetail(Guid orderId, Guid franchiseId);
         Task<bool> UpdateOrderStatus(Guid orderId, OrderStatus orderStatus, Guid loggedInUserId);
+        Task<bool> UpdateDishStatus(Guid id, Status status, Guid loggedInUserId);
+        Task<bool> UpdateBrandStatus(Guid id, Status status, Guid loggedInUserId);
+        Task<bool> UpdateFranchiseStatus(Guid id, Status status, Guid loggedInUserId);
         Task<User> UserLogin(string email, string password);
     }
     public class FranchiseRepository : IFranchiseRepository
@@ -24,10 +27,15 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<List<Order>> GetCustomerOrders(Guid customerId)
         {
-            return await _foodsNowDbContext.Orders.Include(o => o.OrderProducts)
-                .Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraDippings)
-                .Include(o => o.OrderProducts).ThenInclude(p => p.OrderProductExtraToppings)
-                .Where(o => o.CustomerId == customerId).ToListAsync();
+            return await _foodsNowDbContext.Orders
+                .Include(o => o.OrderProducts)
+                    .ThenInclude(op => op.OrderProductExtraDippings)
+                .Include(o => o.OrderProducts)
+                    .ThenInclude(p => p.OrderProductExtraToppings)
+                .AsSplitQuery()
+                .Where(o => o.CustomerId == customerId)
+                .OrderByDescending(o => o.CreatedDateTimeUtc)
+                .ToListAsync();
         }
 
         public async Task<List<Order>> GetAllFranchiseOrders(Guid franchiseId)
@@ -87,6 +95,66 @@ namespace FoodsNow.DbEntities.Repositories
             if (user == null) return null;
 
             return user;
+        }
+
+        public async Task<bool> UpdateDishStatus(Guid Id, Status status, Guid loggedInUserId)
+        {
+            var dish = await _foodsNowDbContext.Products.FirstAsync(p => p.Id == Id);
+
+            if (dish != null)
+            {
+                dish.IsActive = status == Status.Active;
+
+                dish.UpdatedById = loggedInUserId;
+
+                _foodsNowDbContext.Products.Update(dish);
+
+                await _foodsNowDbContext.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UpdateBrandStatus(Guid Id, Status status, Guid loggedInUserId)
+        {
+            var brand = await _foodsNowDbContext.Categories.FirstAsync(p => p.Id == Id);
+
+            if (brand != null)
+            {
+                brand.IsActive = status == Status.Active;
+
+                brand.UpdatedById = loggedInUserId;
+
+                _foodsNowDbContext.Categories.Update(brand);
+
+                await _foodsNowDbContext.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UpdateFranchiseStatus(Guid Id, Status status, Guid loggedInUserId)
+        {
+            var franchise = await _foodsNowDbContext.Franchises.FirstAsync(p => p.Id == Id);
+
+            if (franchise != null)
+            {
+                franchise.IsActive = status == Status.Active;
+
+                franchise.UpdatedById = loggedInUserId;
+
+                _foodsNowDbContext.Franchises.Update(franchise);
+
+                await _foodsNowDbContext.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

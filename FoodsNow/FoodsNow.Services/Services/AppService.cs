@@ -55,19 +55,21 @@ namespace FoodsNow.Services.Services
 
         public async Task<ProductsDataDto> GetProducts(Guid categoryId, bool AddSides)
         {
-            var categories = _categoryRepository.GetChildCategories(categoryId);
+            var categories = _categoryRepository.GetChildCategories(categoryId).ToList();
             var categoriesIds = categories.Select(c => c.Id).ToList();
             categoriesIds.Add(categoryId);
+
+            List<Category> sidesCategories = new List<Category>();
 
             if (AddSides)
             {
                 var sides = _categoryRepository.GetCategoryByName("Sides");
                 if (sides != null)
                 {
-                    var sidesCategories = _categoryRepository.GetChildCategories(sides.Id);
+                    sidesCategories = _categoryRepository.GetChildCategories(sides.Id);
                     var sidesCategoriesIds = sidesCategories.Select(c => c.Id).ToList();
+                    sidesCategoriesIds = sidesCategoriesIds.Except(categoriesIds).ToList();
                     categoriesIds.AddRange(sidesCategoriesIds);
-                    categories.AddRange(sidesCategories);
                 }
             }
 
@@ -78,6 +80,11 @@ namespace FoodsNow.Services.Services
                 ProductExtraDippings = _mapper.Map<List<ProductExtraDipping>, List<ProductExtraDippingDto>>(await _productExtraDippingRepository.GetProductExtraDippings()),
                 ProductExtraTroppings = _mapper.Map<List<ProductExtraTopping>, List<ProductExtraToppingDto>>(await _productExtraToppingRepository.GetProductExtraToppings())
             };
+
+            if (AddSides && sidesCategories.Any())
+            {
+                productsData.Categories.AddRange(_mapper.Map<List<Category>, List<CategoryDto>>(sidesCategories));
+            }
 
             return productsData;
         }

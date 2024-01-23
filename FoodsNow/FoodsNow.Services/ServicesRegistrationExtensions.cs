@@ -1,4 +1,6 @@
-﻿using FoodsNow.Services.Interfaces;
+﻿using FoodsNow.Services.BlobStorage.Interfaces;
+using FoodsNow.Services.BlobStorage.Services;
+using FoodsNow.Services.Interfaces;
 using FoodsNow.Services.MappingConfigurations;
 using FoodsNow.Services.Services;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +20,10 @@ namespace FoodsNow.Services
             serviceCollection.AddTransient<IOrderService, OrderService>();
             serviceCollection.AddTransient<IFranchiseService, FranchiseService>();
             serviceCollection.AddTransient<IJwtTokenManager, JwtTokenManager>();
+
+            var blobConnectionString = configuration.GetValue<string>("AzureBlobStorageConnectionString");
+            serviceCollection.AddTransient<IBlobStorageService>(provider =>
+                new BlobStorageService(blobConnectionString));
 
             serviceCollection.AddAutoMapper(typeof(AutoMapperProfiles));
 

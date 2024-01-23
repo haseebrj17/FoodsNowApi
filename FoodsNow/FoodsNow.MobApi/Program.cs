@@ -4,6 +4,9 @@ using Microsoft.Extensions.Hosting;
 using FoodsNow.DbEntities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using System;
+using FoodsNow.Services.BlobStorage.Interfaces;
+using FoodsNow.Services.BlobStorage.Services;
 
 var config = new ConfigurationBuilder()
     .AddEnvironmentVariables()

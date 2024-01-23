@@ -6,7 +6,8 @@ namespace FoodsNow.DbEntities.Repositories
     public interface ICustomerRepository
     {
         Task<Customer?> Add(Customer customer);
-        Task<Customer> GetById(Guid customerId);
+        Task<Customer?> GetById(Guid customerId);
+        Task<bool> UpdateDeviceToken(Guid customerId, string deviceToken);
         Task<bool> VerifyPin(string pin, Guid customerId);
         Task<bool> DeleteMyAccount(Guid customerId);
         Task<Customer?> CustomerLogin(string emailAdress, string password);
@@ -92,7 +93,7 @@ namespace FoodsNow.DbEntities.Repositories
             return true;
         }
 
-        public async Task<Customer> GetById(Guid customerId)
+        public async Task<Customer?> GetById(Guid customerId)
         {
             var customer = await _foodsNowDbContext.Customers.FirstAsync(c => c.Id == customerId);
 
@@ -111,6 +112,22 @@ namespace FoodsNow.DbEntities.Repositories
 
             _foodsNowDbContext.Customers.Update(customer);
 
+            await _foodsNowDbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> UpdateDeviceToken(Guid customerId, string deviceToken)
+        {
+            if (customerId == Guid.Empty || string.IsNullOrEmpty(deviceToken)) return false;
+
+            var customer = await _foodsNowDbContext.Customers.FirstOrDefaultAsync(c => c.Id == customerId);
+
+            if (customer == null) return false;
+
+            customer.DeviceToken = deviceToken;
+
+            _foodsNowDbContext.Customers.Update(customer);
             await _foodsNowDbContext.SaveChangesAsync();
 
             return true;

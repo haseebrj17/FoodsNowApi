@@ -123,6 +123,11 @@ namespace FoodsNow.Services.Services
 
             if (customerDetails == null) { return new LoginResponse() { IsLoggedIn = false }; }
 
+            if (loginRequest.DeviceToken != null)
+            {
+                await _customerRepository.UpdateDeviceToken(customerDetails.Id, loginRequest.DeviceToken);
+            }
+
             var currentAppUser = _mapper.Map<Customer, CurrentAppUser>(customerDetails);
 
             currentAppUser.UserRole = UserRole.Customer;

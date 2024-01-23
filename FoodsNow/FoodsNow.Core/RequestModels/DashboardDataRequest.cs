@@ -9,5 +9,6 @@ namespace FoodsNow.Core.RequestModels
         public List<Guid>? Ids { get; set; }
         public Guid? OrderId { get; set; }
         public OrderStatus? OrderStatus { get; set; }
+        public Status? Status { get; set; }
     }
 }

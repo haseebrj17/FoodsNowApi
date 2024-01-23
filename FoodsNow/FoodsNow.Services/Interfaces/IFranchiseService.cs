@@ -12,5 +12,8 @@ namespace FoodsNow.Services.Interfaces
         Task<List<OrderDetailDto>> GetCustomerOrders(Guid customerId);
         Task<OrderDto> GetOrderDetail(Guid orderId, Guid franchiseId);
         Task<bool> UpdateOrderStatus(Guid orderId, OrderStatus orderStatus,Guid loggedInUserId);
+        Task<bool> UpdateDishStatus(Guid Id, Status status,Guid loggedInUserId);
+        Task<bool> UpdateBrandStatus(Guid Id, Status status,Guid loggedInUserId);
+        Task<bool> UpdateFranchiseStatus(Guid Id, Status status,Guid loggedInUserId);
     }
 }

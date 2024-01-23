@@ -34,7 +34,7 @@ namespace FoodsNow.DbEntities.Repositories
 
         public Category? GetCategoryByName(string name)
         {
-            return _foodsNowDbContext.Categories.FirstOrDefault(c => c.Name == name && c.IsActive);
+            return _foodsNowDbContext.Categories.FirstOrDefault(c => c.Name == name);
         }
     }
 }

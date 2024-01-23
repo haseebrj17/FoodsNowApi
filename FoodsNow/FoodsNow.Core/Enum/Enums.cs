@@ -19,5 +19,11 @@
             FranchiseUser = 3,
             Customer = 4
         }
+
+        public enum Status
+        {
+            Active = 1,
+            InActive = 0
+        }
     }
 }
