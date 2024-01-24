@@ -73,13 +73,13 @@ namespace FoodsNow.Api
             if (request == null)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            if (string.IsNullOrWhiteSpace(request.VerificationCode))
+            if (string.IsNullOrWhiteSpace(request.Code))
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
             if (request.Id == Guid.Empty)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            var data = await _customerService.VerifyPin(request.VerificationCode, request.Id.Value);
+            var data = await _customerService.VerifyPin(request.Code, request.Id.Value);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 
@@ -103,7 +103,7 @@ namespace FoodsNow.Api
             if (request == null)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            if (string.IsNullOrWhiteSpace(request.EmailAdress))
+            if (string.IsNullOrWhiteSpace(request.EmailAddress))
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
             if (string.IsNullOrWhiteSpace(request.Password))
@@ -141,7 +141,15 @@ namespace FoodsNow.Api
             if (string.IsNullOrWhiteSpace(request.CityName))
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            request.CustomerId = loggedInUser.Id;
+            if (loggedInUser.Id.HasValue)
+            {
+                request.CustomerId = loggedInUser.Id.Value;
+            }
+            else
+            {
+                _logger.LogError("Logged in user ID is null.");
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+            }
 
             var data = await _customerService.AddAddress(request);
 
@@ -175,7 +183,15 @@ namespace FoodsNow.Api
             if (string.IsNullOrWhiteSpace(request.CityName))
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            request.CustomerId = loggedInUser.Id;
+            if (loggedInUser.Id.HasValue)
+            {
+                request.CustomerId = loggedInUser.Id.Value;
+            }
+            else
+            {
+                _logger.LogError("Logged in user ID is null.");
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+            }
 
             var data = await _customerService.UpdateAddress(request);
 

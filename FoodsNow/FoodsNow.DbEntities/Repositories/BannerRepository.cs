@@ -1,22 +1,31 @@
-﻿using FoodsNow.DbEntities.Models;
+﻿using System;
+using FoodsNow.DbEntities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodsNow.DbEntities.Repositories
 {
     public interface IBannerRepository
     {
-        List<Banner> GetFranchiseBanners(Guid FranchiseId);
+        public Task<List<Banner>> GetFranchiseBanners(Guid franchiseId);
     }
 
     public class BannerRepository : IBannerRepository
     {
         private readonly FoodsNowDbContext _foodsNowDbContext;
+
         public BannerRepository(FoodsNowDbContext foodsNowDbContext)
         {
             _foodsNowDbContext = foodsNowDbContext;
         }
-        public List<Banner> GetFranchiseBanners(Guid FranchiseId)
+
+        public async Task<List<Banner>> GetFranchiseBanners(Guid franchiseId)
         {
-            return _foodsNowDbContext.Banners.Where(b => b.FranchiseId == FranchiseId && b.IsActive).ToList();
+            var franchise = await _foodsNowDbContext.Franchises
+                .Include(f => f.Banner)
+                .FirstOrDefaultAsync(f => f.Id == franchiseId && f.IsActive);
+
+            return franchise?.Banner.Where(b => b.IsActive).ToList() ?? new List<Banner>();
         }
     }
 }
+

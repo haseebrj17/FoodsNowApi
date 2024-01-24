@@ -41,7 +41,7 @@ namespace FoodsNow.Api
             if (request == null)
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            if (string.IsNullOrWhiteSpace(request.EmailAdress))
+            if (string.IsNullOrWhiteSpace(request.EmailAddress))
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
             if (string.IsNullOrWhiteSpace(request.Password))
@@ -78,6 +78,29 @@ namespace FoodsNow.Api
             return response;
         }
 
+        [Function(nameof(GetFranchiseById))]
+        public async Task<HttpResponseData> GetFranchiseById([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
+        {
+            _logger.LogInformation("Calling GetFranchiseById function");
+
+            var loggedInUser = _jwtTokenManager.ValidateToken(req, new List<UserRole> { UserRole.FranchiseManager, UserRole.SuperAdmin, UserRole.Client, UserRole.FranchiseUser });
+
+            if (loggedInUser == null)
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+
+            if (loggedInUser.FranchiseId == null || loggedInUser.FranchiseId == Guid.Empty)
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+
+            var data = await _franchiseService.GetFranchiseById(loggedInUser.FranchiseId.Value);
+
+            var response = req.CreateResponse(HttpStatusCode.OK);
+
+            await response.WriteAsJsonAsync(data);
+
+            return response;
+        }
+
+
         [Function(nameof(UpdateOrderStatus))]
         public async Task<HttpResponseData> UpdateOrderStatus([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
         {
@@ -108,41 +131,6 @@ namespace FoodsNow.Api
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
             var data = await _franchiseService.UpdateOrderStatus(request.OrderId.Value, Enum.Parse<OrderStatus>(request.OrderStatus.Value.ToString()), loggedInUser.FranchiseId.Value);
-
-            var response = req.CreateResponse(HttpStatusCode.OK);
-
-            await response.WriteAsJsonAsync(data);
-
-            return response;
-        }
-
-        [Function(nameof(GetOrderDetail))]
-        public async Task<HttpResponseData> GetOrderDetail([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req)
-        {
-            _logger.LogInformation("Calling GetOrderDetail function");
-
-            var loggedInUser = _jwtTokenManager.ValidateToken(req, new List<UserRole> { UserRole.FranchiseManager, UserRole.SuperAdmin, UserRole.Client, UserRole.FranchiseUser });
-
-            if (loggedInUser == null)
-                return req.CreateResponse(HttpStatusCode.Unauthorized);
-
-            if (loggedInUser.FranchiseId == null || loggedInUser.FranchiseId == Guid.Empty)
-                return req.CreateResponse(HttpStatusCode.Unauthorized);
-
-            var content = await new StreamReader(req.Body).ReadToEndAsync();
-
-            if (content == null)
-                return req.CreateResponse(HttpStatusCode.BadRequest);
-
-            var request = JsonConvert.DeserializeObject<CommonRequest>(content);
-
-            if (request == null)
-                return req.CreateResponse(HttpStatusCode.BadRequest);
-
-            if (request.Id == null || request.Id == Guid.Empty)
-                return req.CreateResponse(HttpStatusCode.BadRequest);
-
-            var data = await _franchiseService.GetOrderDetail(request.Id.Value, loggedInUser.FranchiseId.Value);
 
             var response = req.CreateResponse(HttpStatusCode.OK);
 

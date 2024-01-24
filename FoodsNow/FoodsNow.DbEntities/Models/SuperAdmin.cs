@@ -1,10 +1,26 @@
-﻿namespace FoodsNow.DbEntities.Models
+﻿using System;
+using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+
+namespace FoodsNow.DbEntities.Models
 {
     public class SuperAdmin : BaseEntity
     {
-        public required string FirstName { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string FirstName { get; set; } = "";
+
+        [Required]
+        [StringLength(100)]
         public required string LastName { get; set; }
-        public required string EmailAdress { get; set; }
-        public required string Password { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string EmailAddress { get; set; } = null!;
+
+        [Required]
+        [StringLength(100, MinimumLength = 6)]
+        public string Password { get; set; } = null!;
     }
 }
+

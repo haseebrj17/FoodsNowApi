@@ -7,25 +7,46 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using FoodsNow.Services.BlobStorage.Interfaces;
 using FoodsNow.Services.BlobStorage.Services;
+using Microsoft.Extensions.Logging;
 
-var config = new ConfigurationBuilder()
-    .AddEnvironmentVariables()
-    .Build();
+using var loggerFactory = LoggerFactory.Create(builder =>
+{
+    builder.AddConsole();
+});
 
-var connectionString = config.GetValue<string>("FoodsNowDb") ??
-    "Server=tcp:foods-now-db-server.database.windows.net,1433;Initial Catalog=FoodsNowDb;Persist Security Info=False;User ID=FoodsUser;Password=Haseeb@1949;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+var logger = loggerFactory.CreateLogger<Program>();
 
-var host = new HostBuilder()
-    .ConfigureServices(services =>
-    {
-        services.AddDbContext<FoodsNowDbContext>(options =>
-    options.UseSqlServer(connectionString));
+try
+{
+    var config = new ConfigurationBuilder()
+        .AddJsonFile("local.settings.json", optional: true)
+        .AddEnvironmentVariables()
+        .Build();
 
-        services.AddRepositories(config);
-        services.AddServices(config);
-        services.AddAutoMapper(typeof(Program));
+    var cosmosDbConString = config.GetValue<string>("CosmosDb:ConnectionString") ??
+        "AccountEndpoint=https://byteznowcdb.documents.azure.com:443/;AccountKey=9NHhOaOq21tUSGfjtnyWIItejTUwQ5bI6nPdOuhIwrmFLnmJz3WaRYWKp0CqcsxcrxJVedO4d4t2ACDb3Ueg8A==;";
+    var cosmosDbDatabaseName = config.GetValue<string>("CosmosDb:DatabaseName") ??
+        "BytezNowDB";
 
-    }).ConfigureFunctionsWorkerDefaults()
-    .Build();
+    var host = new HostBuilder()
+        .ConfigureServices((context, services) =>
+        {
+            services.AddDbContext<FoodsNowDbContext>(options =>
+                options.UseCosmos(
+                    cosmosDbConString,
+                    databaseName: cosmosDbDatabaseName
+                ));
 
-host.Run();
+            services.AddRepositories(config);
+            services.AddServices(config);
+            services.AddAutoMapper(typeof(Program));
+
+        }).ConfigureFunctionsWorkerDefaults()
+        .Build();
+
+    await host.RunAsync();
+}
+catch (Exception ex)
+{
+    logger.LogCritical("JW: " + ex.Message);
+}

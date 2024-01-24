@@ -1,16 +1,23 @@
 ﻿using FoodsNow.DbEntities.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FoodsNow.DbEntities.Repositories
 {
     public interface ICityRepository
     {
-        public Guid? GetCityIdByName(string name);
+        public Task<Guid?> GetCityIdByName(string cityName, string stateName, string countryName);
         public Task<Guid> AddCity(string cityName, string stateName, string countryName);
+        Task<CityName?> GetCityById(Guid cityId);
+
     }
+
     public class CityRepository : ICityRepository
     {
         private readonly FoodsNowDbContext _foodsNowDbContext;
+
         public CityRepository(FoodsNowDbContext foodsNowDbContext)
         {
             _foodsNowDbContext = foodsNowDbContext;
@@ -18,40 +25,60 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<Guid> AddCity(string cityName, string stateName, string countryName)
         {
-            var country = await _foodsNowDbContext.Countries.FirstOrDefaultAsync(c => c.Name.ToLower() == countryName.ToLower());
+            var country = await _foodsNowDbContext.Country
+                           .Include(c => c.States)
+                               .ThenInclude(s => s.Cities)
+                           .FirstOrDefaultAsync(c => c.Name.ToLower() == countryName.ToLower())
+                       ?? new Country { Name = countryName };
 
-            if (country == null)
+            if (country.Id == Guid.Empty)
             {
-                country = new Country() { Name = countryName, CreatedById = Guid.NewGuid(), CreatedDateTimeUtc = DateTime.UtcNow };
-
-                await _foodsNowDbContext.Countries.AddAsync(country);
-
-                await _foodsNowDbContext.SaveChangesAsync();
+                _foodsNowDbContext.Country.Add(country);
             }
 
-            var state = await _foodsNowDbContext.States.FirstOrDefaultAsync(c => c.Name.ToLower() == stateName.ToLower());
+            var state = country.States.FirstOrDefault(s => s.Name.ToLower() == stateName.ToLower())
+                       ?? new State { Name = stateName };
 
-            if (state == null)
+            if (state.Id == Guid.Empty)
             {
-                state = new State() { Name = stateName, CreatedById = Guid.NewGuid(), CreatedDateTimeUtc = DateTime.UtcNow, CountryId = country.Id, Country = country };
-
-                await _foodsNowDbContext.States.AddAsync(state);
-
-                await _foodsNowDbContext.SaveChangesAsync();
+                country.States.Add(state);
             }
 
-            var city = new City() { Name = cityName, CreatedById = Guid.NewGuid(), CreatedDateTimeUtc = DateTime.UtcNow, StateId = state.Id, State = state };
+            var city = state.Cities.FirstOrDefault(c => c.Name.ToLower() == cityName.ToLower())
+                      ?? new CityName { Name = cityName };
 
-            await _foodsNowDbContext.Cities.AddAsync(city);
+            if (city.Id == Guid.Empty)
+            {
+                state.Cities.Add(city);
+            }
 
             await _foodsNowDbContext.SaveChangesAsync();
-
             return city.Id;
         }
 
-        public Guid? GetCityIdByName(string name)
+        public async Task<Guid?> GetCityIdByName(string cityName, string stateName, string countryName)
         {
-            return _foodsNowDbContext.Cities.FirstOrDefault(c => c.Name.ToLower() == name.ToLower())?.Id;
+            var countriesData = await _foodsNowDbContext.Country
+                .Include(c => c.States)
+                    .ThenInclude(state => state.Cities)
+                .FirstOrDefaultAsync(c => c.Name.ToLower() == countryName.ToLower());
+
+            var state = countriesData?.States.FirstOrDefault(s => s.Name.ToLower() == stateName.ToLower());
+            var city = state?.Cities.FirstOrDefault(c => c.Name.ToLower() == cityName.ToLower());
+
+            return city?.Id;
+        }
+
+        public async Task<CityName?> GetCityById(Guid cityId)
+        {
+            var city = await _foodsNowDbContext.Country
+                        .Include(c => c.States)
+                                .ThenInclude(state => state.Cities)
+                            .SelectMany(country => country.States)
+                                .SelectMany(state => state.Cities)
+                        .FirstOrDefaultAsync(city => city.Id == cityId);
+
+            return city;
         }
     }
 }

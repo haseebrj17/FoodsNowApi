@@ -29,7 +29,7 @@ namespace FoodsNow.Services
                 claims: new List<Claim>() {
                     new Claim(nameof(user.Id), (user.Id ?? Guid.NewGuid()).ToString()),
                     new Claim(nameof(user.FullName), user.FullName.ToString()),
-                    new Claim(nameof(user.EmailAdress), user.EmailAdress.ToString()),
+                    new Claim(nameof(user.EmailAddress), user.EmailAddress.ToString()),
                     new Claim(nameof(user.ContactNumber), user.ContactNumber.ToString()),
                     new Claim(nameof(user.UserRole), (user.UserRole ?? UserRole.Customer).ToString()),
                     new Claim(nameof(user.FranchiseId), (user.FranchiseId ?? Guid.NewGuid()).ToString()),
@@ -71,7 +71,6 @@ namespace FoodsNow.Services
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
 
@@ -82,7 +81,7 @@ namespace FoodsNow.Services
                     Id = new Guid(jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.Id)).Value),
                     FranchiseId = new Guid(jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.FranchiseId)).Value),
                     ContactNumber = jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.ContactNumber)).Value,
-                    EmailAdress = jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.EmailAdress)).Value,
+                    EmailAddress = jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.EmailAddress)).Value,
                     UserRole = Enum.Parse<UserRole>(jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.UserRole)).Value),
                     FullName = jwtToken.Claims.First(x => x.Type == nameof(CurrentAppUser.FullName)).Value
                 };
@@ -96,7 +95,6 @@ namespace FoodsNow.Services
             }
             catch
             {
-                // return null if validation fails
                 return null;
             }
         }

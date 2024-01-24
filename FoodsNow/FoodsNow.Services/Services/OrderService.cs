@@ -9,154 +9,134 @@ namespace FoodsNow.Services.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IProductRepository _productRepository;
-        private readonly IProductExtraDippingRepository _productExtraDippingRepository;
-        private readonly IProductExtraToppingRepository _productExtraToppingRepository;
+
+        private readonly ICustomerAddressRepository _customerAddressRepository;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly IFranchiseRepository _franchiseRepository;
         private readonly IMapper _mapper;
 
-        public OrderService(IMapper mapper, IOrderRepository orderRepository, IProductRepository productRepository, IProductExtraDippingRepository productExtraDippingRepository,
-            IProductExtraToppingRepository productExtraToppingRepository)
+        public OrderService(IMapper mapper, IOrderRepository orderRepository, ICustomerAddressRepository customerAddressRepository,
+            ICustomerRepository customerRepository, IFranchiseRepository franchiseRepository)
         {
             _mapper = mapper;
             _orderRepository = orderRepository;
-            _productRepository = productRepository;
-            _productExtraDippingRepository = productExtraDippingRepository;
-            _productExtraToppingRepository = productExtraToppingRepository;
+            _customerAddressRepository = customerAddressRepository;
+            _customerRepository = customerRepository;
+            _franchiseRepository = franchiseRepository;
         }
 
-        public async Task<Guid?> PlaceOrder(OrderDto order)
+        public async Task<Guid?> PlaceOrder(OrderDto orderDto)
         {
             try
             {
-                var orderDetail = _mapper.Map<OrderDto, Order>(order);
+                var order = _mapper.Map<OrderDto, Order>(orderDto);
 
-                var newOrder = new Order()
+                var customer = await _customerRepository.GetById(orderDto.CustomerId) ?? throw new InvalidOperationException("Customer not found.");
+
+                var customerAddress = await _customerAddressRepository.GetAddressById(orderDto.CustomerAddressId, orderDto.CustomerId) ?? throw new InvalidOperationException("Customer address not found.");
+
+                var franchiseSettings = await _franchiseRepository.GetFranchiseSettingById(orderDto.FranchiseId) ?? throw new InvalidOperationException("Franchise not found.");
+
+                decimal totalBill = 0;
+
+                order.TotalItems = orderDto.CustomerOrderedPackage.TotalNumberOfMeals;
+                order.OrderDeliveryDateTime = orderDto.OrderDeliveryDateTime;
+                order.Instructions = orderDto.Instructions;
+                order.CustomerId = customer.Id;
+                order.CustomerAddressId = customerAddress.Id;
+                order.FranchiseId = orderDto.FranchiseId;
+                order.CreatedDateTimeUtc = DateTime.UtcNow;
+                order.UpdatedDateTimeUtc = DateTime.UtcNow;
+                order.OrderStatus = FoodsNow.Core.Enum.Enums.OrderStatus.OrderPlaced;
+                order.CustomerDetails = new CustomerDetails
                 {
-                    CustomerId = orderDetail.CustomerId,
-                    CustomerAddressId = orderDetail.CustomerAddressId,
-                    FranchiseId = orderDetail.FranchiseId,
-                    CreatedDateTimeUtc = DateTime.UtcNow,
-                    UpdatedDateTimeUtc = DateTime.UtcNow,
-                    CreatedById = orderDetail.CustomerId,
-                    UpdatedById = orderDetail.CustomerId,
-                    TotalItems = order.OrderProducts.Count,
-                    OrderStatus = Core.Enum.Enums.OrderStatus.OrderPlaced,
-                    Instructions = orderDetail.Instructions,
-                    OrderDeliveryDateTime = orderDetail.OrderDeliveryDateTime
+                    CustomerFullName = customer.FullName,
+                    CustomerEmailAddress = customer.EmailAddress,
+                    CustomerContactNumber = customer.ContactNumber,
+                    CustomerAddressDetail = new CustomerAddressDetail
+                    {
+                        StreetAddress = customerAddress.StreetAddress,
+                        House = customerAddress.House,
+                        PostalCode = customerAddress.PostalCode,
+                        CityName = customerAddress.CityName,
+                        District = customerAddress.District,
+                        UnitNumber = customerAddress.UnitNumber,
+                        FloorNumber = customerAddress.FloorNumber,
+                        StateName = customerAddress.StateName,
+                        CountryName = customerAddress.CountryName,
+                        Notes = customerAddress.Notes,
+                        Latitude = customerAddress.Latitude,
+                        Longitude = customerAddress.Longitude,
+                        CityId = customerAddress.CityId
+                    }
                 };
 
-                orderDetail = await _orderRepository.AddOrder(newOrder);
-
-                decimal orderTotal = 0;
-
-                foreach (var product in order.OrderProducts)
+                order.CustomerOrderPromo = new CustomerOrderPromo
                 {
-                    var productDetail = await _productRepository.GetProductById(product.ProductId);
+                    Type = orderDto.CustomerOrderPromo.Type,
+                    Name = orderDto.CustomerOrderPromo.Name,
+                    Percent = orderDto.CustomerOrderPromo.Percent
+                };
 
-                    product.OrderId = orderDetail.Id;
+                order.CustomerOrderPayment = new CustomerOrderPayment
+                {
+                    PaymentType = orderDto.CustomerOrderPayment.PaymentType,
+                    OrderType = orderDto.CustomerOrderPayment.OrderType
+                };
 
-                    var newProduct = _mapper.Map<OrderProductDto, OrderProduct>(product);
-
-                    newProduct.OrderProductExtraDippings = null;
-
-                    newProduct.OrderProductExtraToppings = null;
-
-                    newProduct.Name = productDetail.Name;
-
-                    var productPriceDetail = await _orderRepository.GetProductPriceDetail(product.ProductPriceId);
-
-                    newProduct.UnitPrice = productPriceDetail.Price;
-
-                    newProduct.PriceDetail = productPriceDetail.Description;
-
-                    orderTotal += newProduct.UnitPrice * newProduct.Quantity;
-
-                    newProduct.CreatedDateTimeUtc = DateTime.UtcNow;
-
-                    newProduct.UpdatedDateTimeUtc = DateTime.UtcNow;
-
-                    newProduct.CreatedById = orderDetail.CustomerId;
-
-                    newProduct.UpdatedById = orderDetail.CustomerId;
-
-                    newProduct = await _orderRepository.AddProduct(newProduct);
-
-                    if (product.OrderProductExtraDippings != null)
+                foreach (var customerDeviceDto in customer.CustomerDevice)
+                {
+                    var customerDevices = new CustomerDevice
                     {
-                        foreach (var extraDipping in product.OrderProductExtraDippings)
-                        {
-
-                            var extraDippingDetail = await _productExtraDippingRepository.GetProductExtraDippingById(extraDipping.ProductExtraDippingId);
-
-                            extraDipping.OrderProductId = newProduct.Id;
-
-                            var newExtraDipping = _mapper.Map<OrderProductExtraDippingDto, OrderProductExtraDipping>(extraDipping);
-
-                            newExtraDipping.Name = extraDippingDetail.Name;
-
-                            var productDippingPriceDetail = await _orderRepository.GetProductExtraDippingPriceDetail(extraDipping.ProductExtraDippingPriceId);
-
-                            newExtraDipping.UnitPrice = productDippingPriceDetail.Price;
-
-                            newExtraDipping.PriceDetail = productDippingPriceDetail.Description;
-
-                            newExtraDipping.CreatedDateTimeUtc = DateTime.UtcNow;
-
-                            newExtraDipping.UpdatedDateTimeUtc = DateTime.UtcNow;
-
-                            newExtraDipping.CreatedById = orderDetail.CustomerId;
-
-                            newExtraDipping.UpdatedById = orderDetail.CustomerId;
-
-                            await _orderRepository.AddProductExtraDipping(newExtraDipping);
-
-                            orderTotal += newExtraDipping.UnitPrice * newExtraDipping.Quantity;
-                        }
-                    }
-                    if (product.OrderProductExtraToppings != null)
-                    {
-                        foreach (var extraTopping in product.OrderProductExtraToppings)
-                        {
-                            var extraToppingDetail = await _productExtraToppingRepository.GetProductExtraToppingById(extraTopping.ProductExtraToppingId);
-
-                            extraTopping.OrderProductId = newProduct.Id;
-
-                            var newExtraTopping = _mapper.Map<OrderProductExtraToppingDto, OrderProductExtraTopping>(extraTopping);
-
-                            newExtraTopping.Name = extraToppingDetail.Name;
-
-                            var productToppingPriceDetail = await _orderRepository.GetProductExtraToppingPriceDetail(extraTopping.ProductExtraToppingPriceId);
-
-                            newExtraTopping.UnitPrice = productToppingPriceDetail.Price;
-
-                            newExtraTopping.PriceDetail = productToppingPriceDetail.Description;
-
-                            newExtraTopping.CreatedDateTimeUtc = DateTime.UtcNow;
-
-                            newExtraTopping.UpdatedDateTimeUtc = DateTime.UtcNow;
-
-                            newExtraTopping.CreatedById = orderDetail.CustomerId;
-
-                            newExtraTopping.UpdatedById = orderDetail.CustomerId;
-
-                            await _orderRepository.AddProductExtraTopping(newExtraTopping);
-
-                            orderTotal += newExtraTopping.UnitPrice * newExtraTopping.Quantity;
-                        }
-                    }
+                        DeviceId = customerDeviceDto.DeviceId,
+                        IsActive = customerDeviceDto.IsActive
+                    };
+                    order.CustomerDevice.Add(customerDevices);
                 }
 
-                orderDetail.TotalBill = orderTotal;
+                foreach (var orderPorductDto in orderDto.OrderProducts)
+                {
+                    var orderProduct = new OrderProducts
+                    {
+                        Name = orderPorductDto.Name,
+                        Detail = orderPorductDto.Detail,
+                        EstimatedDeliveryTime = orderPorductDto.EstimatedDeliveryTime,
+                        SpiceLevel = orderPorductDto.SpiceLevel,
+                        IngredientSummary = orderPorductDto.IngredientSummary,
+                        Image = orderPorductDto.Image,
+                        Price = orderPorductDto.Price,
+                        OrderedProductExtraDipping = orderPorductDto.OrderedProductExtraDipping.Select(dip => new OrderedProductExtraDipping
+                        {
+                            Name = dip.Name,
+                            Price = dip.Price
+                        }).ToList(),
 
-                orderDetail = await _orderRepository.UpdateOrder(orderDetail);
+                        OrderedProductExtraTopping = orderPorductDto.OrderedProductExtraTopping.Select(top => new OrderedProductExtraTopping
+                        {
+                            Name = top.Name,
+                            Price = top.Price
+                        }).ToList(),
+                    };
 
+                    totalBill += orderProduct.Price;
+                    if (orderProduct.OrderedProductExtraDipping != null) totalBill += orderProduct.OrderedProductExtraDipping.Sum(dip => dip.Price);
+                    if (orderProduct.OrderedProductExtraTopping != null) totalBill += orderProduct.OrderedProductExtraTopping.Sum(top => top.Price);
 
-                return orderDetail.Id;
+                    order?.OrderProducts?.Add(orderProduct);
+                }
+
+                order.TotalBill = totalBill;
+
+                await _orderRepository.AddOrder(order);
+
+                return order.Id;
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return null;
             }
         }
+
     }
 }

@@ -41,20 +41,13 @@ namespace FoodsNow.Services.Services
             return _mapper.Map<List<Order>, List<OrderDto>>(orders);
         }
 
-        public async Task<List<OrderDetailDto>> GetCustomerOrders(Guid customerId)
+        public async Task<List<OrderDto>> GetCustomerOrders(Guid customerId)
         {
             var orders = await _franchiseRepository.GetCustomerOrders(customerId);
 
-            var customerOrdrs = _mapper.Map<List<Order>, List<OrderDetailDto>>(orders);
+            var customerOrdrs = _mapper.Map<List<Order>, List<OrderDto>>(orders);
 
             return customerOrdrs;
-        }
-
-        public async Task<OrderDto> GetOrderDetail(Guid orderId, Guid franchiseId)
-        {
-            var order = await _franchiseRepository.GetOrderDetail(orderId, franchiseId);
-
-            return _mapper.Map<Order, OrderDto>(order);
         }
 
         public async Task<bool> UpdateOrderStatus(Guid orderId, Enums.OrderStatus orderStatus, Guid loggedInUserId)
@@ -64,18 +57,20 @@ namespace FoodsNow.Services.Services
             if (updateSuccess)
             {
                 var order = await _orderRepository.GetOrderById(orderId);
-                if (order != null && order.Customer != null)
+                if (order != null && order.CustomerId.ToString() != null)
                 {
                     string message = GetStatusMessage(orderStatus);
 
-                    if (!string.IsNullOrEmpty(order.Customer.ContactNumber))
+                    if (!string.IsNullOrEmpty(order.CustomerDetails.CustomerContactNumber))
                     {
-                        await SendSms(order.Customer.ContactNumber, message);
+                        await SendSms(order.CustomerDetails.CustomerContactNumber, message);
                     }
 
-                    if (!string.IsNullOrEmpty(order.Customer.DeviceToken))
+                    var activeDevice = order?.CustomerDevice?.Find(d => d.IsActive);
+
+                    if (!string.IsNullOrEmpty(activeDevice?.DeviceId))
                     {
-                        await SendExpoPushNotification(order.Customer.DeviceToken, message);
+                        await SendExpoPushNotification(activeDevice.DeviceId, message);
                     }
                 }
             }
@@ -155,11 +150,11 @@ namespace FoodsNow.Services.Services
 
         public async Task<LoginResponse> UserLogin(LoginRequestModel loginRequest)
         {
-            var userDetails = await _franchiseRepository.UserLogin(loginRequest.EmailAdress, loginRequest.Password);
+            var userDetails = await _franchiseRepository.UserLogin(loginRequest.EmailAddress, loginRequest.Password);
 
             if (userDetails == null) { return new LoginResponse() { IsLoggedIn = false }; }
 
-            var currentAppUser = _mapper.Map<User, CurrentAppUser>(userDetails);
+            var currentAppUser = _mapper.Map<FranchiseUser, CurrentAppUser>(userDetails);
 
             currentAppUser.UserRole = userDetails.UserRole;
 
@@ -170,6 +165,18 @@ namespace FoodsNow.Services.Services
             var token = _jwtTokenManager.GenerateToken(currentAppUser);
 
             return new LoginResponse() { IsLoggedIn = true, Token = token };
+        }
+
+        public async Task<FranchiseDto> GetFranchiseById(Guid franchiseId)
+        {
+            var franchise = await _franchiseRepository.GetFranchisById(franchiseId);
+
+            if (franchise == null)
+            {
+                return null;
+            }
+
+            return _mapper.Map<Franchise, FranchiseDto>(franchise);
         }
 
         public async Task<bool> UpdateDishStatus(Guid Id, Enums.Status status, Guid loggedInUserId)
@@ -189,6 +196,34 @@ namespace FoodsNow.Services.Services
         public async Task<bool> UpdateFranchiseStatus(Guid Id, Enums.Status status, Guid loggedInUserId)
         {
             var updateSuccess = await _franchiseRepository.UpdateFranchiseStatus(Id, status, loggedInUserId);
+
+            return updateSuccess;
+        }
+
+        public async Task<bool> UpdateSubCategoryStatus(Guid Id, Guid BrandId, Enums.Status status, Guid loggedInUserId)
+        {
+            var updateSuccess = await _franchiseRepository.UpdateSubCategoryStatus(Id, BrandId, status, loggedInUserId);
+
+            return updateSuccess;
+        }
+
+        public async Task<bool> UpdateCategoryStatus(Guid Id, Enums.Status status, Guid loggedInUserId)
+        {
+            var updateSuccess = await _franchiseRepository.UpdateCategoryStatus(Id, status, loggedInUserId);
+
+            return updateSuccess;
+        }
+
+        public async Task<bool> UpdateToppingStatus(Guid Id, Guid DishId, Enums.Status status, Guid loggedInUserId)
+        {
+            var updateSuccess = await _franchiseRepository.UpdateToppingStatus(Id, DishId, status, loggedInUserId);
+
+            return updateSuccess;
+        }
+
+        public async Task<bool> UpdateDippingStatus(Guid Id, Guid DishId, Enums.Status status, Guid loggedInUserId)
+        {
+            var updateSuccess = await _franchiseRepository.UpdateDippingStatus(Id, DishId, status, loggedInUserId);
 
             return updateSuccess;
         }

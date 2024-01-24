@@ -5,74 +5,82 @@ namespace FoodsNow.DbEntities.Repositories
 {
     public interface ICustomerAddressRepository
     {
-        Task<CustomerAddress?> AddAddress(CustomerAddress customer);
-        Task<bool> UpdateAddress(CustomerAddress customer);
-        Task<List<CustomerAddress>> GetAllAddresses(Guid customerId);
+        Task<Customer> AddAddress(Guid customerId, CustomerAddresses newAddress);
+        Task<bool> UpdateAddress(Guid customerId, CustomerAddresses updatedAddress);
+        Task<List<CustomerAddresses>> GetAllAddresses(Guid customerId);
+        Task<CustomerAddresses> GetAddressById(Guid addressId, Guid customerId);
     }
     public class CustomerAddressRepository : ICustomerAddressRepository
     {
         private readonly FoodsNowDbContext _foodsNowDbContext;
+
         public CustomerAddressRepository(FoodsNowDbContext foodsNowDbContext)
         {
             _foodsNowDbContext = foodsNowDbContext;
         }
 
-        public async Task<CustomerAddress?> AddAddress(CustomerAddress customerAddress)
+        public async Task<Customer> AddAddress(Guid customerId, CustomerAddresses newAddress)
         {
-            if (customerAddress == null)
-                return null;
+            if (newAddress == null)
+                throw new ArgumentNullException(nameof(newAddress));
 
-            if (await _foodsNowDbContext.CustomerAdresses.AnyAsync(c => c.StreetAddress == customerAddress.StreetAddress && c.House == customerAddress.House
-                    && c.CityId == customerAddress.CityId && c.CustomerId == customerAddress.CustomerId))
-                return null;
+            var customer = await _foodsNowDbContext.Customers
+                               .Include(c => c.CustomerAddresses)
+                               .FirstOrDefaultAsync(c => c.Id == customerId);
 
-            customerAddress.CreatedDateTimeUtc = DateTime.UtcNow;
-            customerAddress.UpdatedDateTimeUtc = DateTime.UtcNow;
-            customerAddress.CreatedById = customerAddress.CustomerId;
-            customerAddress.UpdatedById = customerAddress.CustomerId;
+            if (customer == null)
+                throw new InvalidOperationException("Customer not found.");
 
-            await _foodsNowDbContext.CustomerAdresses.AddAsync(customerAddress);
+            newAddress.CreatedDateTimeUtc = DateTime.UtcNow;
+            newAddress.UpdatedDateTimeUtc = DateTime.UtcNow;
+            newAddress.CreatedById = customerId;
+            newAddress.UpdatedById = customerId;
+
+            customer.CustomerAddresses.Add(newAddress);
 
             await _foodsNowDbContext.SaveChangesAsync();
 
-            return customerAddress;
+            return customer;
         }
 
-        public async Task<List<CustomerAddress>> GetAllAddresses(Guid customerId)
+        public async Task<List<CustomerAddresses>> GetAllAddresses(Guid customerId)
         {
-            return await _foodsNowDbContext.CustomerAdresses.Include(c => c.City).Where(a => a.CustomerId == customerId).ToListAsync();
+            var customer = await _foodsNowDbContext.Customers
+                                .FirstOrDefaultAsync(c => c.Id == customerId);
+
+            return customer?.CustomerAddresses ?? new List<CustomerAddresses>();
         }
 
-        public async Task<bool> UpdateAddress(CustomerAddress customerAddress)
+        public async Task<bool> UpdateAddress(Guid customerId, CustomerAddresses updatedAddress)
         {
-            if (customerAddress == null)
+            if (updatedAddress == null)
+                throw new ArgumentNullException(nameof(updatedAddress));
+
+            var customer = await _foodsNowDbContext.Customers
+                                .Include(c => c.CustomerAddresses)
+                                .FirstOrDefaultAsync(c => c.Id == customerId);
+
+            if (customer == null)
                 return false;
 
-            var currentAddress = await _foodsNowDbContext.CustomerAdresses.FirstOrDefaultAsync(c => c.Id == customerAddress.Id);
-
-            if (currentAddress == null)
+            var existingAddress = customer.CustomerAddresses.FirstOrDefault(a => a.Id == updatedAddress.Id);
+            if (existingAddress == null)
                 return false;
 
-            customerAddress.StreetAddress = currentAddress.StreetAddress;
-            customerAddress.House = currentAddress.House;
-            customerAddress.CityId = currentAddress.CityId;
-            customerAddress.District = currentAddress.District;
-            customerAddress.UnitNumber = currentAddress.UnitNumber;
-            customerAddress.FloorNumber = currentAddress.FloorNumber;
-            customerAddress.Notes = currentAddress.Notes;
-            customerAddress.Tag = currentAddress.Tag;
-            customerAddress.Latitude = currentAddress.Latitude;
-            customerAddress.Longitude = currentAddress.Longitude;
-            customerAddress.UpdatedDateTimeUtc = DateTime.UtcNow;
-            customerAddress.UpdatedById = customerAddress.CustomerId;
-
-
-            _foodsNowDbContext.CustomerAdresses.Update(customerAddress);
-
+            _foodsNowDbContext.Entry(existingAddress).CurrentValues.SetValues(updatedAddress);
             await _foodsNowDbContext.SaveChangesAsync();
-
             return true;
         }
 
+        public async Task<CustomerAddresses> GetAddressById(Guid addressId, Guid customerId)
+        {
+            var customer = await _foodsNowDbContext.Customers
+                            .Include(c => c.CustomerAddresses)
+                            .FirstOrDefaultAsync(c => c.Id == customerId);
+
+            var address = customer?.CustomerAddresses.Find(c => c.Id == addressId);
+
+            return address;
+        }
     }
 }

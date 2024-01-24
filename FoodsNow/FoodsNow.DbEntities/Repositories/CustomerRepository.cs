@@ -6,11 +6,10 @@ namespace FoodsNow.DbEntities.Repositories
     public interface ICustomerRepository
     {
         Task<Customer?> Add(Customer customer);
-        Task<Customer?> GetById(Guid customerId);
-        Task<bool> UpdateDeviceToken(Guid customerId, string deviceToken);
+        Task<Customer> GetById(Guid customerId);
         Task<bool> VerifyPin(string pin, Guid customerId);
         Task<bool> DeleteMyAccount(Guid customerId);
-        Task<Customer?> CustomerLogin(string emailAdress, string password);
+        Task<Customer?> CustomerLogin(string emailAddress, string password);
     }
     public class CustomerRepository : ICustomerRepository
     {
@@ -25,7 +24,11 @@ namespace FoodsNow.DbEntities.Repositories
             if (customer == null)
                 return null;
 
-            if (await _foodsNowDbContext.Customers.AnyAsync(c => c.ContactNumber == customer.ContactNumber && !c.IsDeleted))
+            var existingCustomers = await _foodsNowDbContext.Customers
+                                          .Where(c => c.ContactNumber == customer.ContactNumber)
+                                          .ToListAsync();
+
+            if (existingCustomers.Any(c => !c.IsDeleted))
                 return null;
 
             customer.VerificationCode = GeneatePin();
@@ -41,9 +44,9 @@ namespace FoodsNow.DbEntities.Repositories
             return customer;
         }
 
-        public async Task<Customer?> CustomerLogin(string emailAdress, string password)
+        public async Task<Customer?> CustomerLogin(string emailAddress, string password)
         {
-            var customer = await _foodsNowDbContext.Customers.FirstOrDefaultAsync(c => c.EmailAdress == emailAdress && c.Password == password && c.IsActive && !c.IsDeleted);
+            var customer = await _foodsNowDbContext.Customers.FirstOrDefaultAsync(c => c.EmailAddress == emailAddress && c.Password == password && c.IsActive && !c.IsDeleted);
 
             if (customer == null) return null;
 
@@ -62,7 +65,7 @@ namespace FoodsNow.DbEntities.Repositories
 
             customer.FullName = "User removed his/her account";
 
-            customer.EmailAdress = "User removed his/her account";
+            customer.EmailAddress = "User removed his/her account";
 
             customer.Password = "User removed his/her account";
 
@@ -70,11 +73,7 @@ namespace FoodsNow.DbEntities.Repositories
 
             customer.UpdatedDateTimeUtc = DateTime.UtcNow;
 
-            _foodsNowDbContext.Customers.Update(customer);
-
-            var addresses = await _foodsNowDbContext.CustomerAdresses.Where(c => c.CustomerId == customerId).ToListAsync();
-
-            foreach (var address in addresses)
+            foreach (var address in customer.CustomerAddresses)
             {
                 address.StreetAddress = "User removed his/her account";
                 address.Notes = "User removed his/her account";
@@ -85,7 +84,7 @@ namespace FoodsNow.DbEntities.Repositories
                 address.Latitude = 0;
                 address.Longitude = 0;
 
-                _foodsNowDbContext.CustomerAdresses.Update(address);
+                _foodsNowDbContext.Customers.Update(customer);
             }
 
             await _foodsNowDbContext.SaveChangesAsync();
@@ -93,7 +92,7 @@ namespace FoodsNow.DbEntities.Repositories
             return true;
         }
 
-        public async Task<Customer?> GetById(Guid customerId)
+        public async Task<Customer> GetById(Guid customerId)
         {
             var customer = await _foodsNowDbContext.Customers.FirstAsync(c => c.Id == customerId);
 
@@ -112,22 +111,6 @@ namespace FoodsNow.DbEntities.Repositories
 
             _foodsNowDbContext.Customers.Update(customer);
 
-            await _foodsNowDbContext.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<bool> UpdateDeviceToken(Guid customerId, string deviceToken)
-        {
-            if (customerId == Guid.Empty || string.IsNullOrEmpty(deviceToken)) return false;
-
-            var customer = await _foodsNowDbContext.Customers.FirstOrDefaultAsync(c => c.Id == customerId);
-
-            if (customer == null) return false;
-
-            customer.DeviceToken = deviceToken;
-
-            _foodsNowDbContext.Customers.Update(customer);
             await _foodsNowDbContext.SaveChangesAsync();
 
             return true;

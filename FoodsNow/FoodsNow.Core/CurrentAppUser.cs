@@ -7,7 +7,7 @@ namespace FoodsNow.Core
         public Guid? Id { get; set; }
         public Guid? FranchiseId { get; set; }
         public required string FullName { get; set; }
-        public required string EmailAdress { get; set; }
+        public required string EmailAddress { get; set; }
         public string? Password { get; set; }
         public required string ContactNumber { get; set; }
         public string? VerificationCode { get; set; }

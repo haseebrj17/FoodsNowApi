@@ -48,7 +48,15 @@ namespace FoodsNow.Api
             if (request.OrderProducts == null || !request.OrderProducts.Any())
                 return req.CreateResponse(HttpStatusCode.BadRequest);
 
-            request.CustomerId = loggedInUser.Id;
+            if (loggedInUser.Id.HasValue)
+            {
+                request.CustomerId = loggedInUser.Id.Value;
+            }
+            else
+            {
+                _logger.LogError("Logged in user ID is null.");
+                return req.CreateResponse(HttpStatusCode.Unauthorized);
+            }
 
             var data = await _orderService.PlaceOrder(request);
 

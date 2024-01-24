@@ -12,21 +12,16 @@ namespace FoodsNow.Services.Services
         private readonly IProductRepository _productRepository;
         private readonly IBannerRepository _bannerRepository;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IProductExtraToppingRepository _productExtraToppingRepository;
-        private readonly IProductExtraDippingRepository _productExtraDippingRepository;
-
         private readonly IMapper _mapper;
 
         public AppService(IFranchiseRepository franchiseRepository, IBannerRepository bannerRepository, IMapper mapper,
-            ICategoryRepository categoryRepository, IProductRepository productRepository, IProductExtraToppingRepository productExtraToppingRepository, IProductExtraDippingRepository productExtraDippingRepository)
+            ICategoryRepository categoryRepository, IProductRepository productRepository)
         {
             _mapper = mapper;
             _franchiseRepository = franchiseRepository;
             _bannerRepository = bannerRepository;
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
-            _productExtraToppingRepository = productExtraToppingRepository;
-            _productExtraDippingRepository = productExtraDippingRepository;
         }
         public async Task<List<FranchiseDto>> GetClientFranchises(Guid clientId)
         {
@@ -43,11 +38,11 @@ namespace FoodsNow.Services.Services
             {
                 homeData.FranchiseId = franchiseId;
 
-                homeData.Banners = _mapper.Map<List<Banner>, List<BannerDto>>(_bannerRepository.GetFranchiseBanners(franchiseId));
+                homeData.Banners = _mapper.Map<List<Banner>, List<BannerDto>>(await _bannerRepository.GetFranchiseBanners(franchiseId));
 
                 homeData.Brands = _mapper.Map<List<Category>, List<CategoryDto>>(_categoryRepository.GetFranchiseBrands(franchiseId));
 
-                homeData.Categories = _mapper.Map<List<Category>, List<CategoryDto>>(_categoryRepository.GetCategories(franchiseId));
+                homeData.Categories = _mapper.Map<List<Category>, List<CategoryDto>>(_categoryRepository.GetFranchiseCategories(franchiseId));
             }
 
             return homeData;
@@ -59,7 +54,7 @@ namespace FoodsNow.Services.Services
             var categoriesIds = categories.Select(c => c.Id).ToList();
             categoriesIds.Add(categoryId);
 
-            List<Category> sidesCategories = new List<Category>();
+            List<SubCategory> sidesCategories = new List<SubCategory>();
 
             if (AddSides)
             {
@@ -75,40 +70,29 @@ namespace FoodsNow.Services.Services
 
             var productsData = new ProductsDataDto
             {
-                Categories = _mapper.Map<List<Category>, List<CategoryDto>>(categories),
+                Categories = _mapper.Map<List<SubCategory>, List<SubCategoryDto>>(categories),
                 Products = _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsByCategoryIds(categoriesIds)),
-                ProductExtraDippings = _mapper.Map<List<ProductExtraDipping>, List<ProductExtraDippingDto>>(await _productExtraDippingRepository.GetProductExtraDippings()),
-                ProductExtraTroppings = _mapper.Map<List<ProductExtraTopping>, List<ProductExtraToppingDto>>(await _productExtraToppingRepository.GetProductExtraToppings())
             };
 
             if (AddSides && sidesCategories.Any())
             {
-                productsData.Categories.AddRange(_mapper.Map<List<Category>, List<CategoryDto>>(sidesCategories));
+                productsData.Categories.AddRange(_mapper.Map<List<SubCategory>, List<SubCategoryDto>>(sidesCategories));
             }
 
             return productsData;
         }
 
-        public async Task<ProductDataDto> GetProductById(Guid productId)
+        public async Task<ProductsDataDto> GetProductById(Guid productId)
         {
-            var productData = new ProductDataDto
+            var product = await _productRepository.GetProductById(productId);
+            var productDto = _mapper.Map<ProductDto>(product);
+
+            var productsData = new ProductsDataDto
             {
-                Product = _mapper.Map<Product, ProductDto>(await _productRepository.GetProductById(productId))
+                Products = new List<ProductDto> { productDto }
             };
 
-            if (productData.Product.showExtraDipping)
-            {
-                productData.ProductExtraDippings =
-                    _mapper.Map<List<ProductExtraDipping>, List<ProductExtraDippingDto>>(await _productExtraDippingRepository.GetProductExtraDippings());
-            }
-
-            if (productData.Product.showExtraDipping)
-            {
-                productData.ProductExtraTroppings =
-                    _mapper.Map<List<ProductExtraTopping>, List<ProductExtraToppingDto>>(await _productExtraToppingRepository.GetProductExtraToppings());
-            }
-
-            return productData;
+            return productsData;
         }
 
         public async Task<ProductsDataDto> GetProductsById(List<Guid> productIds)
@@ -116,8 +100,6 @@ namespace FoodsNow.Services.Services
             var productsData = new ProductsDataDto
             {
                 Products = _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsById(productIds)),
-                ProductExtraDippings = _mapper.Map<List<ProductExtraDipping>, List<ProductExtraDippingDto>>(await _productExtraDippingRepository.GetProductExtraDippings()),
-                ProductExtraTroppings = _mapper.Map<List<ProductExtraTopping>, List<ProductExtraToppingDto>>(await _productExtraToppingRepository.GetProductExtraToppings())
             };
 
             return productsData;

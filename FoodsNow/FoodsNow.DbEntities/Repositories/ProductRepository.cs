@@ -8,6 +8,7 @@ namespace FoodsNow.DbEntities.Repositories
         Task<List<Product>> GetProductsByCategoryId(Guid categoryId);
         Task<List<Product>> GetProductsByCategoryIds(List<Guid> categoryIds);
         Task<List<Product>> GetProductsById(List<Guid> productIds);
+        Task<List<Product>> GetAllProducts(Guid franchiseId);
         Task<Product> GetProductById(Guid productId);
     }
     public class ProductRepository : IProductRepository
@@ -20,18 +21,30 @@ namespace FoodsNow.DbEntities.Repositories
 
         public async Task<List<Product>> GetProductsById(List<Guid> productIds)
         {
-            var products = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.Allergies).ThenInclude(a => a.Allergy)
-                    .Where(p => productIds.Contains(p.Id) && p.IsActive).OrderBy(p => p.Sequence).ToListAsync();
+            var products = await _foodsNowDbContext.Products
+                .Include(p => p.ProductAllergy)
+                .Include(p => p.ProductPrice)
+                .Include(p => p.ProductCategory)
+                .Include(p => p.ProductExtraDipping)
+                .Include(p => p.ProductExtraTopping)
+                .Include(p => p.ProductChoices)
+                .Where(p => productIds
+                .Contains(p.Id) && p.IsActive).ToListAsync();
 
             return products;
         }
 
         public async Task<List<Product>> GetProductsByCategoryId(Guid categoryId)
         {
-            var products = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.Allergies).ThenInclude(a => a.Allergy)
-                    .Join(_foodsNowDbContext.ProductCategories,
-                p => p.Id, c => c.ProductId, (p, c) =>
-                    new { Products = p, Category = c }).Where(p => p.Category.CategoryId == categoryId && p.Products.IsActive).Select(p => p.Products).ToListAsync();
+            var products = await _foodsNowDbContext.Products
+                .Include(p => p.ProductAllergy)
+                .Include(p => p.ProductPrice)
+                .Include(p => p.ProductCategory)
+                .Include(p => p.ProductExtraDipping)
+                .Include(p => p.ProductExtraTopping)
+                .Include(p => p.ProductChoices)
+                .Where(p => p.CategoryId == categoryId && p.IsActive)
+                .OrderBy(p => p.Sequence).ToListAsync();
 
             return products;
         }
@@ -39,19 +52,46 @@ namespace FoodsNow.DbEntities.Repositories
         public async Task<List<Product>> GetProductsByCategoryIds(List<Guid> categoryIds)
         {
             var products = await _foodsNowDbContext.Products
-                            .Include(p => p.Prices)
-                            .Include(p => p.Allergies).ThenInclude(a => a.Allergy)
-                            .Include(p => p.ProductCategories)
-                            .Where(p => p.ProductCategories.Any(pc => categoryIds.Contains(pc.CategoryId)) && p.IsActive)
-                            .ToListAsync();
+                .Include(p => p.ProductPrice)
+                .Include(p => p.ProductAllergy)
+                .Include(p => p.ProductExtraDipping)
+                .Include(p => p.ProductExtraTopping)
+                .Include(p => p.ProductChoices)
+                .Where(p => p.ProductCategory.Any(c => categoryIds.Contains(c.CategoryId)) && p.IsActive)
+                .ToListAsync();
+
+            return products;
+        }
+
+        public async Task<List<Product>> GetAllProducts(Guid franchiseId)
+        {
+            var products = await _foodsNowDbContext.Products
+                .Include(p => p.ProductPrice)
+                .Include(p => p.ProductAllergy)
+                .Include(p => p.ProductExtraDipping)
+                .Include(p => p.ProductExtraTopping)
+                .Include(p => p.ProductChoices)
+                .Include(p => p.ProductCategory)
+                .Where(p => p.FranchiseId == franchiseId && p.IsActive)
+                .OrderBy(p => p.CategoryId)
+                .ThenBy(p => p.Sequence)
+                .ToListAsync();
 
             return products;
         }
 
         public async Task<Product> GetProductById(Guid productId)
         {
-            var product = await _foodsNowDbContext.Products.Include(p => p.Prices).Include(p => p.Allergies).ThenInclude(a => a.Allergy)
-                    .Where(p => p.Id == productId && p.IsActive).FirstAsync();
+            var product = await _foodsNowDbContext.Products
+                .Include(p => p.ProductPrice)
+                .Include(p => p.ProductAllergy)
+                .Include(p => p.ProductExtraDipping)
+                .Include(p => p.ProductExtraTopping)
+                .Include(p => p.ProductChoices)
+                .Include(p => p.ProductCategory)
+                .Where(p => p.Id == productId && p.IsActive)
+                .FirstAsync();
+
             return product;
         }
     }

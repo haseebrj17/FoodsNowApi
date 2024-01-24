@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FoodsNow.DbEntities.Repositories
@@ -10,7 +9,7 @@ namespace FoodsNow.DbEntities.Repositories
     {
 
     }
-    public class ClientRepository: IClientRepository
+    partial class ClientRepository : IClientRepository
     {
 
     }

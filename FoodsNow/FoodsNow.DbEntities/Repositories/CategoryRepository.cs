@@ -1,12 +1,15 @@
-﻿using FoodsNow.DbEntities.Models;
+﻿using FoodsNow.Core.Dto;
+using FoodsNow.DbEntities.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodsNow.DbEntities.Repositories
 {
     public interface ICategoryRepository
     {
         List<Category> GetFranchiseBrands(Guid franchiseId);
-        List<Category> GetChildCategories(Guid categoryId);
-        List<Category> GetCategories(Guid franchiseId);
+        List<SubCategory> GetChildCategories(Guid categoryId);
+        Task<List<SubCategory>> GetAllSubCategories(Guid franchiseId);
+        List<Category> GetFranchiseCategories(Guid franchiseId);
         Category? GetCategoryByName(string name);
     }
     public class CategoryRepository : ICategoryRepository
@@ -17,9 +20,13 @@ namespace FoodsNow.DbEntities.Repositories
             _foodsNowDbContext = foodsNowDbContext;
         }
 
-        public List<Category> GetChildCategories(Guid categoryId)
+        public List<SubCategory> GetChildCategories(Guid categoryId)
         {
-            return _foodsNowDbContext.Categories.Where(b => b.ParentId == categoryId && b.IsActive).OrderBy(c => c.Sequence).ToList();
+            var parentCategory = _foodsNowDbContext.Categories
+                .Include(c => c.SubCategory)
+                .FirstOrDefault(c => c.Id == categoryId && c.IsActive);
+
+            return parentCategory?.SubCategory.Where(b => b.IsActive).OrderBy(c => c.Sequence).ToList() ?? new List<SubCategory>();
         }
 
         public List<Category> GetFranchiseBrands(Guid franchiseId)
@@ -27,14 +34,33 @@ namespace FoodsNow.DbEntities.Repositories
             return _foodsNowDbContext.Categories.Where(b => b.FranchiseId == franchiseId && b.IsActive && b.IsBrand).OrderBy(c => c.Sequence).ToList();
         }
 
-        public List<Category> GetCategories(Guid franchiseId)
+        public async Task<List<SubCategory>> GetAllSubCategories(Guid franchiseId)
         {
-            return _foodsNowDbContext.Categories.Where(b => b.FranchiseId == franchiseId && b.IsActive && !b.IsBrand && b.ParentId == null).OrderBy(c => c.Sequence).ToList();
+            var categories = await _foodsNowDbContext.Categories
+                .Include(c => c.SubCategory)
+                .Where(c => c.FranchiseId == franchiseId && c.IsActive)
+                .OrderBy(c => c.Sequence)
+                .ToListAsync();
+
+            var allSubCategories = new List<SubCategory>();
+            foreach (var category in categories)
+            {
+                allSubCategories.AddRange(category.SubCategory
+                    .Where(sc => sc.IsActive)
+                    .OrderBy(sc => sc.Sequence));
+            }
+
+            return allSubCategories;
+        }
+
+        public List<Category> GetFranchiseCategories(Guid franchiseId)
+        {
+            return _foodsNowDbContext.Categories.Where(c => c.FranchiseId == franchiseId && c.IsBrand == false).OrderBy(c => c.Sequence).ToList();
         }
 
         public Category? GetCategoryByName(string name)
         {
-            return _foodsNowDbContext.Categories.FirstOrDefault(c => c.Name == name);
+            return _foodsNowDbContext.Categories.FirstOrDefault(c => c.Name == name && c.IsActive);
         }
     }
 }

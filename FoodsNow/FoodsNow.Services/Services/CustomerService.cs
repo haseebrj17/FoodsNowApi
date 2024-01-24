@@ -95,38 +95,26 @@ namespace FoodsNow.Services.Services
             }
         }
 
-        public async Task<CustomerAddressDto> AddAddress(CustomerAddressDto addressDto)
+        public async Task<CustomerAddressDto?> AddAddress(CustomerAddressDto addressDto)
         {
-            var address = _mapper.Map<CustomerAddressDto, CustomerAddress>(addressDto);
+            var address = _mapper.Map<CustomerAddressDto, CustomerAddresses>(addressDto);
 
-            if (address == null) { return null; }
+            if (address == null) { return null; };
 
-            var cityId = _cityRepository.GetCityIdByName(addressDto.CityName);
+            var customer = await _customerAddressRepository.AddAddress(addressDto.CustomerId, address);
 
-            if (cityId == null || cityId == Guid.Empty)
-            {
-                cityId = await _cityRepository.AddCity(addressDto.CityName, addressDto.StateName, addressDto.CountryName);
-            }
+            if (customer == null) { return null; }
 
-            address.CityId = cityId.Value;
+            var newAddress = customer.CustomerAddresses.LastOrDefault();
 
-            var newAddress = await _customerAddressRepository.AddAddress(address);
-
-            if (newAddress == null) { return null; }
-
-            return _mapper.Map<CustomerAddress, CustomerAddressDto>(newAddress);
+            return _mapper.Map<CustomerAddresses, CustomerAddressDto>(newAddress);
         }
 
         public async Task<LoginResponse> CustomerLogin(LoginRequestModel loginRequest)
         {
-            var customerDetails = await _customerRepository.CustomerLogin(loginRequest.EmailAdress, loginRequest.Password);
+            var customerDetails = await _customerRepository.CustomerLogin(loginRequest.EmailAddress, loginRequest.Password);
 
             if (customerDetails == null) { return new LoginResponse() { IsLoggedIn = false }; }
-
-            if (loginRequest.DeviceToken != null)
-            {
-                await _customerRepository.UpdateDeviceToken(customerDetails.Id, loginRequest.DeviceToken);
-            }
 
             var currentAppUser = _mapper.Map<Customer, CurrentAppUser>(customerDetails);
 
@@ -140,11 +128,11 @@ namespace FoodsNow.Services.Services
 
         public async Task<bool> UpdateAddress(CustomerAddressDto addressDto)
         {
-            var address = _mapper.Map<CustomerAddressDto, CustomerAddress>(addressDto);
+            var address = _mapper.Map<CustomerAddressDto, CustomerAddresses>(addressDto);
 
-            var cityId = _cityRepository.GetCityIdByName(addressDto.CityName);
+            var cityId = await _cityRepository.GetCityIdByName(addressDto.CityName, addressDto.StateName, addressDto.CountryName);
 
-            if (cityId == Guid.Empty)
+            if (cityId == null || cityId == Guid.Empty)
             {
                 return false;
             }
@@ -153,7 +141,7 @@ namespace FoodsNow.Services.Services
 
             if (address == null) { return false; }
 
-            return await _customerAddressRepository.UpdateAddress(address);
+            return await _customerAddressRepository.UpdateAddress(addressDto.CustomerId, address);
         }
 
         public async Task<LoginResponse> VerifyPin(string pin, Guid customerId)
@@ -178,12 +166,15 @@ namespace FoodsNow.Services.Services
 
         public async Task<List<CustomerAddressDto>> GetAllAddresses(Guid customerId)
         {
-            var addresses = _mapper.Map<List<CustomerAddress>, List<CustomerAddressDto>>(await _customerAddressRepository.GetAllAddresses(customerId));
+            var customerAddresses = await _customerAddressRepository.GetAllAddresses(customerId);
 
-            foreach (var address in addresses)
+            if (customerAddresses == null)
             {
-                address.CityName = address.City.Name;
+                return new List<CustomerAddressDto>();
             }
+
+            var addresses = _mapper.Map<List<CustomerAddresses>, List<CustomerAddressDto>>(customerAddresses);
+
             return addresses;
         }
 
