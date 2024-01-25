@@ -168,13 +168,7 @@ namespace FoodsNow.DbEntities.Repositories
             var franchise = await _foodsNowDbContext.Franchises
                                 .Include(f => f.FranchiseSetting)
                                 .Include(f => f.FranchiseTimings)
-                                .FirstOrDefaultAsync(f => f.Id == franchiseId);
-
-            if (franchise == null)
-            {
-                throw new InvalidOperationException("Franchise not found.");
-            }
-
+                                .FirstOrDefaultAsync(f => f.Id == franchiseId) ?? throw new InvalidOperationException("Franchise not found.");
             return franchise;
         }
 

@@ -23,6 +23,7 @@ namespace FoodsNow.Services.Services
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
         }
+
         public async Task<List<FranchiseDto>> GetClientFranchises(Guid clientId)
         {
             return _mapper.Map<List<Franchise>, List<FranchiseDto>>(await _franchiseRepository.GetClientFranchises(clientId));
