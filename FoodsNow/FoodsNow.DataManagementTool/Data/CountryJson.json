@@ -1,0 +1,30 @@
+[
+  {
+    "id": "8ea10262-96a5-4a82-ae8f-219efb3d4e4d",
+    "createdDateTimeUtc": "2023-12-11T12:30:59.290375Z",
+    "updatedDateTimeUtc": null,
+    "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+    "updatedById": "00000000-0000-0000-0000-000000000000",
+    "name": "Germany",
+    "states": [
+      {
+        "id": "a887cb72-d1a2-45a4-9c7d-ea1bf3bd6afb",
+        "createdDateTimeUtc": "2023-12-11T12:30:59.290375Z",
+        "updatedDateTimeUtc": null,
+        "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+        "updatedById": "00000000-0000-0000-0000-000000000000",
+        "name": "Bavaria",
+        "cities": [
+          {
+            "id": "7f58506f-4e01-44a2-9bb7-b78a3c780aa3",
+            "createdDateTimeUtc": "2023-12-11T12:30:59.290375Z",
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Passau"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,4 +1,5 @@
 using FoodsNow.DbEntities;
+using FoodsNow.DataManagementTool.Seeder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -16,8 +17,27 @@ options.UseCosmos(
     databaseName: cosmosDbDatabaseName
 ));
 
+
+builder.Services.AddScoped<DataSeeder>();
+
 var app = builder.Build();
+
+await InitializeDatabase(app);
+
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<DataSeeder>();
+    await seeder.SeedDataAsync();
+}
 
 app.MapGet("/", () => "Hello World!");
 
 app.Run();
+
+async Task InitializeDatabase(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var services = scope.ServiceProvider;
+    var dbContext = services.GetRequiredService<FoodsNowDbContext>();
+    await dbContext.Database.EnsureCreatedAsync();
+}

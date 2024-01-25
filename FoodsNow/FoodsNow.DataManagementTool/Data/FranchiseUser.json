@@ -1,0 +1,17 @@
+[
+	{
+		"id": "29c74574-eda1-4f05-86c7-600ee6d6969e",
+		"createdDateTimeUtc": "2023-12-11T12:30:59.290375Z",
+		"updatedDateTimeUtc": null,
+		"createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+		"updatedById": "00000000-0000-0000-0000-000000000000",
+		"firstName": "Haseeb",
+		"lastName": "Rajpoot",
+		"emailAddress": "muhamadhaseeb2001@gmail.com",
+		"password": "strongpassword",
+		"userRole": "FranchiseManager",
+		"isActive": true,
+		"franchiseId": "8bcb9afe-b707-4a8c-b6b6-06160d4cfa09",
+		"franchiseName": "Passau Spago"
+	}
+]

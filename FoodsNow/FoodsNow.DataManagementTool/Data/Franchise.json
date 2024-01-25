@@ -1,0 +1,756 @@
+﻿[
+  {
+    "title": "Passau Spago",
+    "address": "Spitalhofstraße 79, 94032 Passau, Germany",
+    "zipCode": "94032",
+    "contactNumber": "+4985198859986",
+    "openingTime": "10:30",
+    "closingTime": "21:00",
+    "latitude": 48.56995816797261,
+    "longitude": 13.427104782504125,
+    "coverageAreaInMeters": 10000,
+    "isActive": true,
+    "id": "8bcb9afe-b707-4a8c-b6b6-06160d4cfa09",
+    "clientId": "c8fbb748-7a15-4d9a-911e-00ef51716956",
+    "cityId": "7f58506f-4e01-44a2-9bb7-b78a3c780aa3",
+    "cityName": "Passau",
+    "stateId": "a887cb72-d1a2-45a4-9c7d-ea1bf3bd6afb",
+    "stateName": "Bavaria",
+    "discounts": [],
+    "franchiseTimings": [
+      {
+        "updatedDateTimeUtc": null,
+        "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+        "updatedById": "00000000-0000-0000-0000-000000000000",
+        "day": "Monday",
+        "openingTime": "11:00",
+        "closingTime": "21:00",
+        "open": true,
+        "servingTimings": [
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Lunch",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "11:00",
+                "slotEnd": "12:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "12:00",
+                "slotEnd": "13:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "13:00",
+                "slotEnd": "14:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "14:00",
+                "slotEnd": "15:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "15:00",
+                "slotEnd": "16:00"
+              }
+            ]
+          },
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Dinner",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "16:00",
+                "slotEnd": "17:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "17:00",
+                "slotEnd": "18:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "18:00",
+                "slotEnd": "19:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "19:00",
+                "slotEnd": "20:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "20:00",
+                "slotEnd": "21:00"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "updatedDateTimeUtc": null,
+        "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+        "updatedById": "00000000-0000-0000-0000-000000000000",
+        "day": "Tuesday",
+        "openingTime": "00:00",
+        "closingTime": "00:00",
+        "open": false,
+        "servingTimings": [
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Lunch",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "11:00",
+                "slotEnd": "12:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "12:00",
+                "slotEnd": "13:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "13:00",
+                "slotEnd": "14:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "14:00",
+                "slotEnd": "15:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "15:00",
+                "slotEnd": "16:00"
+              }
+            ]
+          },
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Dinner",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "16:00",
+                "slotEnd": "17:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "17:00",
+                "slotEnd": "18:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "18:00",
+                "slotEnd": "19:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "19:00",
+                "slotEnd": "20:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "20:00",
+                "slotEnd": "21:00"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "updatedDateTimeUtc": null,
+        "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+        "updatedById": "00000000-0000-0000-0000-000000000000",
+        "day": "Wednesday",
+        "openingTime": "11:00",
+        "closingTime": "21:00",
+        "open": true,
+        "servingTimings": [
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Lunch",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "11:00",
+                "slotEnd": "12:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "12:00",
+                "slotEnd": "13:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "13:00",
+                "slotEnd": "14:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "14:00",
+                "slotEnd": "15:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "15:00",
+                "slotEnd": "16:00"
+              }
+            ]
+          },
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Dinner",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "16:00",
+                "slotEnd": "17:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "17:00",
+                "slotEnd": "18:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "18:00",
+                "slotEnd": "19:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "19:00",
+                "slotEnd": "20:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "20:00",
+                "slotEnd": "21:00"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "updatedDateTimeUtc": null,
+        "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+        "updatedById": "00000000-0000-0000-0000-000000000000",
+        "day": "Thursday",
+        "openingTime": "11:00",
+        "closingTime": "21:00",
+        "open": true,
+        "servingTimings": [
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Lunch",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "11:00",
+                "slotEnd": "12:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "12:00",
+                "slotEnd": "13:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "13:00",
+                "slotEnd": "14:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "14:00",
+                "slotEnd": "15:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "15:00",
+                "slotEnd": "16:00"
+              }
+            ]
+          },
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Dinner",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "16:00",
+                "slotEnd": "17:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "17:00",
+                "slotEnd": "18:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "18:00",
+                "slotEnd": "19:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "19:00",
+                "slotEnd": "20:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "20:00",
+                "slotEnd": "21:00"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "updatedDateTimeUtc": null,
+        "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+        "updatedById": "00000000-0000-0000-0000-000000000000",
+        "day": "Friday",
+        "openingTime": "16:00",
+        "closingTime": "00:00",
+        "open": true,
+        "servingTimings": [
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Lunch",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "11:00",
+                "slotEnd": "12:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "12:00",
+                "slotEnd": "13:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "13:00",
+                "slotEnd": "14:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "14:00",
+                "slotEnd": "15:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "15:00",
+                "slotEnd": "16:00"
+              }
+            ]
+          },
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Dinner",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "16:00",
+                "slotEnd": "17:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "17:00",
+                "slotEnd": "18:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "18:00",
+                "slotEnd": "19:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "19:00",
+                "slotEnd": "20:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "20:00",
+                "slotEnd": "21:00"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "updatedDateTimeUtc": null,
+        "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+        "updatedById": "00000000-0000-0000-0000-000000000000",
+        "day": "Saturday",
+        "openingTime": "16:00",
+        "closingTime": "00:00",
+        "open": true,
+        "servingTimings": [
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Lunch",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "11:00",
+                "slotEnd": "12:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "12:00",
+                "slotEnd": "13:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "13:00",
+                "slotEnd": "14:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "14:00",
+                "slotEnd": "15:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "15:00",
+                "slotEnd": "16:00"
+              }
+            ]
+          },
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Dinner",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "16:00",
+                "slotEnd": "17:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "17:00",
+                "slotEnd": "18:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "18:00",
+                "slotEnd": "19:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "19:00",
+                "slotEnd": "20:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "20:00",
+                "slotEnd": "21:00"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "updatedDateTimeUtc": null,
+        "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+        "updatedById": "00000000-0000-0000-0000-000000000000",
+        "day": "Sunday",
+        "openingTime": "12:00",
+        "closingTime": "21:00",
+        "open": true,
+        "servingTimings": [
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Lunch",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "11:00",
+                "slotEnd": "12:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "12:00",
+                "slotEnd": "13:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "13:00",
+                "slotEnd": "14:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "14:00",
+                "slotEnd": "15:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "15:00",
+                "slotEnd": "16:00"
+              }
+            ]
+          },
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Dinner",
+            "servingTime": [
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "16:00",
+                "slotEnd": "17:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "17:00",
+                "slotEnd": "18:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "18:00",
+                "slotEnd": "19:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "19:00",
+                "slotEnd": "20:00"
+              },
+              {
+                "updatedDateTimeUtc": null,
+                "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+                "updatedById": "00000000-0000-0000-0000-000000000000",
+                "slotStart": "20:00",
+                "slotEnd": "21:00"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "franchiseHolidays": [],
+    "dishOfDay": [],
+    "banner": [],
+    "franchiseSetting": [
+      {
+        "servingDays": [
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Monday"
+          },
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Wednesday"
+          },
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Thursday"
+          },
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Friday"
+          },
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Saturday"
+          },
+          {
+            "updatedDateTimeUtc": null,
+            "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+            "updatedById": "00000000-0000-0000-0000-000000000000",
+            "name": "Sunday"
+          }
+        ]
+      }
+    ],
+    "createdDateTimeUtc": "2023-12-11T12:30:59.290375Z",
+    "updatedDateTimeUtc": null,
+    "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+    "updatedById": "00000000-0000-0000-0000-000000000000",
+    "_rid": "3HJbAOoJIHYBAAAAAAAAAA==",
+    "_self": "dbs/3HJbAA==/colls/3HJbAOoJIHY=/docs/3HJbAOoJIHYBAAAAAAAAAA==/",
+    "_etag": "\"6a023e33-0000-1600-0000-6589a6c90000\"",
+    "_attachments": "attachments/",
+    "_ts": 1703519945
+  }
+]

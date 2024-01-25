@@ -1,0 +1,36 @@
+[
+  {
+    "id": "c8fbb748-7a15-4d9a-911e-00ef51716956",
+    "createdDateTimeUtc": "2023-12-11T12:30:59.290375Z",
+    "updatedDateTimeUtc": null,
+    "createdById": "8446a68c-8287-450a-b727-7646365b62d8",
+    "updatedById": "00000000-0000-0000-0000-000000000000",
+    "firstName": "Mealz",
+    "lastName": "Now",
+    "emailAddress": "mealznowinfo@mealznow.com",
+    "password": "Mygift22",
+    "address": "Spitalhofstraße 79, 94032 Passau, Germany",
+    "appLogo": "",
+    "websiteLogo": "",
+    "slogon": "",
+    "zipCode": "94032",
+    "contactNumber": "+4985198859986",
+    "isActive": true,
+    "membershipValidityDate": "2050-01-01T00:00:00+00:00",
+    "numberOfFranchisesAllowed": 10,
+    "clientFranchises": [
+      {
+        "title": "Passau Spago",
+        "address": "Spitalhofstraße 79, 94032 Passau, Germany",
+        "zipCode": "94032",
+        "contactNumber": "+4985198859986",
+        "openingTime": "10:30 Am",
+        "closingTime": "10:30 Pm",
+        "latitude": 48.56995816797261,
+        "longitude": 13.427104782504125,
+        "coverageAreaInMeters": 10000,
+        "isActive": true
+      }
+    ]
+  }
+]
