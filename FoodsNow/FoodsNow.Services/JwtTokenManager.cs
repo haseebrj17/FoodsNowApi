@@ -18,7 +18,7 @@ namespace FoodsNow.Services
     {
         private readonly string JwtValidIssuer = "https://foodsnowdevapi.azurewebsites.net";
         private readonly string JwtValidAudience = "https://foodsnowdevapi.azurewebsites.net";
-        private readonly string JwtSecret = "2B757F3F930742D88A220";
+        private readonly string JwtSecret = "7XI9DGNXF36N31ATQXUL7D2M9ILH22KL";
         public string GenerateToken(CurrentAppUser user)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtSecret));

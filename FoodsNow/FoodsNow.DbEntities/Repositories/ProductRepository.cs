@@ -57,7 +57,7 @@ namespace FoodsNow.DbEntities.Repositories
                 .Include(p => p.ProductExtraDipping)
                 .Include(p => p.ProductExtraTopping)
                 .Include(p => p.ProductChoices)
-                .Where(p => p.ProductCategory.Any(c => categoryIds.Contains(c.CategoryId)) && p.IsActive)
+                .Where(p => categoryIds.Contains(p.CategoryId) && p.IsActive)
                 .ToListAsync();
 
             return products;

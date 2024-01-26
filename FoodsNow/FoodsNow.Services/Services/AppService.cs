@@ -57,6 +57,8 @@ namespace FoodsNow.Services.Services
 
             List<SubCategory> sidesCategories = new List<SubCategory>();
 
+            var brandIds = new List<Guid> { categoryId };
+
             if (AddSides)
             {
                 var sides = _categoryRepository.GetCategoryByName("Sides");
@@ -66,13 +68,14 @@ namespace FoodsNow.Services.Services
                     var sidesCategoriesIds = sidesCategories.Select(c => c.Id).ToList();
                     sidesCategoriesIds = sidesCategoriesIds.Except(categoriesIds).ToList();
                     categoriesIds.AddRange(sidesCategoriesIds);
+                    brandIds.Add(sides.Id);
                 }
             }
 
             var productsData = new ProductsDataDto
             {
                 Categories = _mapper.Map<List<SubCategory>, List<SubCategoryDto>>(categories),
-                Products = _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsByCategoryIds(categoriesIds)),
+                Products = _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsByCategoryIds(brandIds)),
             };
 
             if (AddSides && sidesCategories.Any())
