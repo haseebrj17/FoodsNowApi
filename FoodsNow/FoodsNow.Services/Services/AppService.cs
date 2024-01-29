@@ -55,32 +55,41 @@ namespace FoodsNow.Services.Services
 
         public async Task<ProductsDataDto> GetProducts(Guid categoryId, bool AddSides)
         {
-            var categories = _categoryRepository.GetChildCategories(categoryId);
-            var categoriesIds = categories.Select(c => c.Id).ToList();
-            categoriesIds.Add(categoryId);
+            var mainCategories = _categoryRepository.GetChildCategories(categoryId);
+            var mainCategoriesIds = mainCategories.Select(c => c.Id).ToList();
+            mainCategoriesIds.Add(categoryId);
+
+            List<Category> sidesCategories = new List<Category>();
+            List<Guid> sidesCategoriesIds = new List<Guid>();
 
             if (AddSides)
             {
                 var sides = _categoryRepository.GetCategoryByName("Sides");
                 if (sides != null)
                 {
-                    var sidesCategories = _categoryRepository.GetChildCategories(sides.Id);
-                    var sidesCategoriesIds = sidesCategories.Select(c => c.Id).ToList();
-                    categoriesIds.AddRange(sidesCategoriesIds);
-                    categories.AddRange(sidesCategories);
+                    sidesCategories = _categoryRepository.GetChildCategories(sides.Id);
+                    sidesCategoriesIds = sidesCategories.Select(c => c.Id).ToList();
                 }
+            }
+
+            var mainProducts = await _productRepository.GetProductsByCategoryIds(mainCategoriesIds);
+            var sidesProducts = new List<Product>();
+            if (AddSides)
+            {
+                sidesProducts = await _productRepository.GetProductsByCategoryIds(sidesCategoriesIds);
             }
 
             var productsData = new ProductsDataDto
             {
-                Categories = _mapper.Map<List<Category>, List<CategoryDto>>(categories),
-                Products = _mapper.Map<List<Product>, List<ProductDto>>(await _productRepository.GetProductsByCategoryIds(categoriesIds)),
+                Categories = _mapper.Map<List<Category>, List<CategoryDto>>(mainCategories.Concat(sidesCategories).ToList()),
+                Products = _mapper.Map<List<Product>, List<ProductDto>>(mainProducts.Concat(sidesProducts).ToList()),
                 ProductExtraDippings = _mapper.Map<List<ProductExtraDipping>, List<ProductExtraDippingDto>>(await _productExtraDippingRepository.GetProductExtraDippings()),
                 ProductExtraTroppings = _mapper.Map<List<ProductExtraTopping>, List<ProductExtraToppingDto>>(await _productExtraToppingRepository.GetProductExtraToppings())
             };
 
             return productsData;
         }
+
 
         public async Task<ProductDataDto> GetProductById(Guid productId)
         {
